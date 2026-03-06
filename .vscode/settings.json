@@ -1,0 +1,17 @@
+{
+  // 使用 Biome 作为默认 formatter
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  // 针对特定文件类型
+  "[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+  "[json]": { "editor.defaultFormatter": "biomejs.biome" },
+  // 关闭内置 TS 校验（Biome 已覆盖）
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
