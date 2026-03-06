@@ -2,28 +2,28 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 const guideSections = [
   {
-    title: "Quick start",
+    title: "Getting started",
     points: [
-      "`pnpm install` 安装依赖",
-      "`pnpm dev` 启动本地开发环境",
-      "`pnpm build` 生成常规生产部署产物到 `dist/`",
-      "`pnpm build:pages` 生成 GitHub Pages 可发布产物到 `dist-pages/`",
+      "Install dependencies with `pnpm install`.",
+      "Start the local development environment with `pnpm dev`.",
+      "Use `pnpm build` for the standard production bundle.",
+      "Use `pnpm build:pages` when preparing the public showcase site.",
     ],
   },
   {
-    title: "What is included",
+    title: "Included stack",
     points: [
       "React 19 + TypeScript + Vite 5",
-      "TanStack Router 文件路由与生成的 route tree",
-      "TanStack Query、Biome、Vitest、Playwright",
+      "TanStack Router file-based routing and generated route tree support",
+      "TanStack Query, Biome, Vitest, and Playwright",
     ],
   },
   {
-    title: "GitHub Pages",
+    title: "Open-source workflow",
     points: [
-      "Vite 构建时自动使用 `/TanVite/` 作为 base",
-      "构建结果输出到 `dist-pages/`，由 GitHub Actions 官方 Pages 工作流自动部署",
-      "自动生成 `404.html` 和 `.nojekyll`，为 SPA 路由提供静态托管兜底",
+      "Use the repository as a GitHub template or clone it directly to start a new project",
+      "Keep product code on top of the existing routing, testing, styling, and CI baseline",
+      "Use GitHub Pages for the public showcase and GitHub Issues for discussion and feedback",
     ],
   },
 ];
@@ -65,8 +65,9 @@ function GuidePage() {
           <div className="rounded-[2rem] border border-foreground/10 bg-white/70 p-6 backdrop-blur panel-shadow md:p-8">
             <p className="text-xs uppercase tracking-[0.32em] text-foreground/45">Overview</p>
             <p className="mt-4 text-lg leading-8 text-foreground/68">
-              这个页面不是重型文档站，而是和落地页配套的轻文档层。它负责把使用方式、
-              构建产物、以及 GitHub Pages 的部署约定解释清楚，避免访客只看到视觉展示页却不知道怎么用这个项目。
+              Use this page as the fast path into TanVite. It gives new visitors enough
+              structure to evaluate the starter, understand what ships in the box, and jump
+              into the repository without turning the showcase into a heavy documentation site.
             </p>
 
             <div className="mt-8 grid gap-4">
@@ -90,7 +91,7 @@ function GuidePage() {
             <section className="rounded-[2rem] border border-foreground/10 bg-foreground p-6 text-background panel-shadow md:p-8">
               <p className="text-xs uppercase tracking-[0.32em] text-background/55">Commands</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">
-                Local workflow and Pages preview
+                Starter commands
               </h2>
 
               <div className="mt-8 grid gap-3">
@@ -109,14 +110,40 @@ function GuidePage() {
             </section>
 
             <section className="rounded-[2rem] border border-foreground/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.82),rgba(247,232,214,0.92))] p-6 panel-shadow md:p-8">
-              <p className="text-xs uppercase tracking-[0.32em] text-foreground/45">Publish target</p>
+              <p className="text-xs uppercase tracking-[0.32em] text-foreground/45">Project links</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-foreground">
-                `https://yangsonhung.github.io/TanVite`
+                Open the project, the code, or the issue tracker
               </h2>
               <p className="mt-4 text-sm leading-7 text-foreground/62">
-                GitHub Actions 会直接构建并部署 `dist-pages/` artifact，因此仓库不需要再提交
-                `docs/` 构建产物。业务部署与展示站部署现在已经彻底拆开。
+                Start with the public site for the polished overview, then move to the repository
+                when you want source code, template usage, contribution details, or issue tracking.
               </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <a
+                  className="rounded-full border border-foreground/15 bg-white/70 px-4 py-2 text-sm font-medium text-foreground transition hover:-translate-y-0.5 hover:bg-white/90"
+                  href="https://yangsonhung.github.io/TanVite"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Open site
+                </a>
+                <a
+                  className="rounded-full border border-foreground/15 bg-white/70 px-4 py-2 text-sm font-medium text-foreground transition hover:-translate-y-0.5 hover:bg-white/90"
+                  href="https://github.com/YangsonHung/TanVite"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Open repository
+                </a>
+                <a
+                  className="rounded-full border border-foreground/15 bg-white/70 px-4 py-2 text-sm font-medium text-foreground transition hover:-translate-y-0.5 hover:bg-white/90"
+                  href="https://github.com/YangsonHung/TanVite/issues"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Report an issue
+                </a>
+              </div>
             </section>
           </div>
         </section>

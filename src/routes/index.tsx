@@ -1,4 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { Github } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -71,8 +72,19 @@ function HomePage() {
               TanVite
             </h1>
           </div>
-          <div className="rounded-full border border-foreground/15 bg-white/60 px-4 py-2 text-xs uppercase tracking-[0.28em] text-foreground/65 backdrop-blur">
-            Ready to Ship
+          <div className="flex items-center gap-3">
+            <a
+              aria-label="Open GitHub repository"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-foreground/15 bg-white/60 text-foreground/75 backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/80 hover:text-foreground"
+              href="https://github.com/YangsonHung/TanVite"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <Github className="h-5 w-5" />
+            </a>
+            <div className="rounded-full border border-foreground/15 bg-white/60 px-4 py-2 text-xs uppercase tracking-[0.28em] text-foreground/65 backdrop-blur">
+              Ready to Ship
+            </div>
           </div>
         </header>
 

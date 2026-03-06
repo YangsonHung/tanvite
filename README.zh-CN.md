@@ -1,24 +1,27 @@
 # ▲ TanVite
 
 [![React 19](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)](#-技术栈)
-[![Vite 5](https://img.shields.io/badge/Vite-5-7c3aed?logo=vite&logoColor=white)](#-技术栈)
+[![TanStack Router](https://img.shields.io/badge/TanStack-Router-0f766e?logo=reactrouter&logoColor=white)](#-技术栈)
+[![TanStack Query](https://img.shields.io/badge/TanStack-Query-b91c1c?logo=reactquery&logoColor=white)](#-技术栈)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](#-技术栈)
 [![MIT License](https://img.shields.io/badge/License-MIT-16a34a)](#-许可证)
-[![Pages](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml/badge.svg)](#-github-pages)
-[![CI](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml/badge.svg)](#-贡献指南)
+[![Pages Deploy](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml)
+[![CI Status](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml/badge.svg)](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml)
+[![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-222222?logo=githubpages&logoColor=white)](https://yangsonhung.github.io/TanVite/)
 
 [English](README.md) | **中文**
 
-TanVite 是一个面向生产环境的 React 19 工程化脚手架，定位为可复用的高标准前端工程基线，适合严肃的产品研发场景。它将 Vite、TypeScript、TanStack Router、TanStack Query、Tailwind CSS、自动化测试、代码质量约束以及 GitHub Pages 展示能力整合为一套打磨完整、符合现代前端最佳实践的技术组合。
+TanVite 是一个面向生产环境的 React 19 模板仓库，定位为可复用的高标准前端工程基线，适合严肃的产品研发场景。它将 Vite、TypeScript、TanStack Router、TanStack Query、Tailwind CSS、自动化测试、代码质量约束以及 GitHub Pages 展示能力整合为一套打磨完整、适合新项目直接起步的现代前端最佳实践组合。
 
 ![TanVite Screenshot](assets/screenshots/tanvite-home.png)
 
 ## ✨ Why TanVite
 
-- 直接从现代 React 19 基线开始，而不是手动拼装工程体系
+- 直接从现代 React 19 模板仓库开始，而不是手动拼装工程体系
 - 从第一条提交开始统一路由、数据层、样式、测试和 CI 约定
 - 将业务部署产物 `dist/` 与 GitHub Pages 展示产物 `dist-pages/` 明确拆分
 - 复用已经完成的落地页和 guide 页面作为公开项目展示入口
+- 可直接作为 GitHub 模板仓库，用于新项目起步
 
 ## 🚀 快速开始
 
@@ -67,7 +70,7 @@ pnpm dev
 
 ## ✨ 特性
 
-- React 19 + TypeScript + Vite 5 脚手架
+- React 19 + TypeScript + Vite 5 模板仓库基线
 - TanStack Router 文件路由
 - TanStack Query 数据层
 - Tailwind CSS 与 shadcn/ui 兼容工具链

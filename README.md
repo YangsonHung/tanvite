@@ -1,24 +1,27 @@
 # ▲ TanVite
 
 [![React 19](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)](#-tech-stack)
-[![Vite 5](https://img.shields.io/badge/Vite-5-7c3aed?logo=vite&logoColor=white)](#-tech-stack)
+[![TanStack Router](https://img.shields.io/badge/TanStack-Router-0f766e?logo=reactrouter&logoColor=white)](#-tech-stack)
+[![TanStack Query](https://img.shields.io/badge/TanStack-Query-b91c1c?logo=reactquery&logoColor=white)](#-tech-stack)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](#-tech-stack)
 [![MIT License](https://img.shields.io/badge/License-MIT-16a34a)](#-license)
-[![Pages](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml/badge.svg)](#-github-pages)
-[![CI](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml/badge.svg)](#-contributing)
+[![Pages Deploy](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml)
+[![CI Status](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml/badge.svg)](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml)
+[![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-222222?logo=githubpages&logoColor=white)](https://yangsonhung.github.io/TanVite/)
 
 **English** | [中文](README.zh-CN.md)
 
-TanVite is a production-grade React 19 starter designed as a reusable frontend engineering foundation for serious product teams. It brings together Vite, TypeScript, TanStack Router, TanStack Query, Tailwind CSS, automated testing, code-quality enforcement, and GitHub Pages-ready delivery into a polished, high-standard stack that reflects modern frontend best practices.
+TanVite is a production-grade React 19 template repository designed as a reusable frontend engineering foundation for serious product teams. It combines Vite, TypeScript, TanStack Router, TanStack Query, Tailwind CSS, automated testing, code-quality enforcement, and GitHub Pages-ready delivery into a polished, high-standard stack for launching new products with modern frontend best practices already in place.
 
 ![TanVite Screenshot](assets/screenshots/tanvite-home.png)
 
 ## ✨ Why TanVite
 
-- Start from a modern React 19 baseline instead of assembling tooling by hand
+- Start from a modern React 19 template repository instead of assembling tooling by hand
 - Keep routing, data fetching, styling, testing, and CI aligned from the first commit
 - Separate app deployment (`dist/`) from GitHub Pages showcase deployment (`dist-pages/`)
 - Reuse a polished landing page and guide page for public project presentation
+- Use the repository directly as a GitHub template for new product work
 
 ## 🚀 Quick Start
 
@@ -67,7 +70,7 @@ pnpm dev
 
 ## ✨ Features
 
-- React 19 + TypeScript + Vite 5 starter
+- React 19 + TypeScript + Vite 5 template repository baseline
 - TanStack Router file-based routing
 - TanStack Query data layer
 - Tailwind CSS and shadcn/ui-ready utilities
