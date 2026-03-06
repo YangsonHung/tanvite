@@ -9,7 +9,7 @@
 
 **English** | [中文](README.zh-CN.md)
 
-TanVite is a production-oriented React 19 starter that packages modern frontend best practices into a single, reusable engineering baseline. Use it to start product work on top of Vite, TypeScript, TanStack Router, TanStack Query, Tailwind CSS, testing, linting, and GitHub Pages-ready deployment.
+TanVite is a production-grade React 19 starter designed as a reusable frontend engineering foundation for serious product teams. It brings together Vite, TypeScript, TanStack Router, TanStack Query, Tailwind CSS, automated testing, code-quality enforcement, and GitHub Pages-ready delivery into a polished, high-standard stack that reflects modern frontend best practices.
 
 ![TanVite Screenshot](assets/screenshots/tanvite-home.png)
 

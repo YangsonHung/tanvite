@@ -9,7 +9,7 @@
 
 [English](README.md) | **中文**
 
-TanVite 是一个面向生产环境的 React 19 工程化脚手架，用一套统一的现代前端最佳实践作为项目起点。使用它可以直接在 Vite、TypeScript、TanStack Router、TanStack Query、Tailwind CSS、测试体系、代码规范和 GitHub Pages 展示能力之上开始产品开发。
+TanVite 是一个面向生产环境的 React 19 工程化脚手架，定位为可复用的高标准前端工程基线，适合严肃的产品研发场景。它将 Vite、TypeScript、TanStack Router、TanStack Query、Tailwind CSS、自动化测试、代码质量约束以及 GitHub Pages 展示能力整合为一套打磨完整、符合现代前端最佳实践的技术组合。
 
 ![TanVite Screenshot](assets/screenshots/tanvite-home.png)
 
