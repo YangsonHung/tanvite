@@ -1,4 +1,4 @@
-# ▲ TanVite
+# ⚡ TanVite
 
 [![React 19](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)](#-tech-stack)
 [![TanStack Router](https://img.shields.io/badge/TanStack-Router-0f766e?logo=reactrouter&logoColor=white)](#-tech-stack)
@@ -15,7 +15,7 @@ TanVite is a production-grade React 19 template repository designed as a reusabl
 
 ![TanVite Screenshot](assets/screenshots/tanvite-home.png)
 
-## ✨ Why TanVite
+## 🛰️ Why TanVite
 
 - Start from a modern React 19 template repository instead of assembling tooling by hand
 - Keep routing, data fetching, styling, testing, and CI aligned from the first commit
@@ -36,9 +36,9 @@ pnpm dev
 
 Open `http://localhost:4319`.
 
-## 🛠 Use This Template
+## 🧬 Use This Template
 
-### Option 1: Use GitHub Template
+### 🛸 Option 1: Use GitHub Template
 
 1. Open the repository on GitHub.
 2. Click `Use this template`.
@@ -52,7 +52,7 @@ pnpm install
 pnpm dev
 ```
 
-### Option 2: Clone Directly
+### 🧲 Option 2: Clone Directly
 
 ```bash
 git clone https://github.com/YangsonHung/TanVite.git <your-project>
@@ -61,14 +61,14 @@ pnpm install
 pnpm dev
 ```
 
-### Next Steps
+### 🧭 Next Steps
 
 1. Replace the landing copy and branding.
 2. Add or remove routes under `src/routes`.
 3. Move product-specific logic into `src/lib`, `src/hooks`, and your feature folders.
 4. Keep the existing testing and CI setup as the project baseline.
 
-## ✨ Features
+## 💠 Features
 
 - React 19 + TypeScript + Vite 5 template repository baseline
 - TanStack Router file-based routing
@@ -79,7 +79,7 @@ pnpm dev
 - Playwright for end-to-end tests
 - Husky + lint-staged + commitlint for commit workflow enforcement
 
-## 🧱 Tech Stack
+## 🧩 Tech Stack
 
 | Category | Technology |
 | --- | --- |
@@ -96,12 +96,12 @@ pnpm dev
 | E2E Testing | Playwright |
 | Git Hooks | Husky, lint-staged |
 
-## 📋 Requirements
+## 🖥️ Requirements
 
 - Node.js 20+
 - pnpm 10+
 
-## ⌨️ Scripts
+## 💻 Scripts
 
 ```bash
 pnpm routes:generate   # Generate the TanStack Router route tree
@@ -135,7 +135,7 @@ pnpm preview:pages
 
 Open `http://localhost:4419/TanVite/`.
 
-## 🗂 Project Structure
+## 🗺️ Project Structure
 
 ```text
 src/
@@ -161,7 +161,7 @@ tests/
 └── setup.ts
 ```
 
-## 🧭 Routing
+## 🛣️ Routing
 
 Generate the route tree with:
 
@@ -171,7 +171,7 @@ pnpm routes:generate
 
 `pnpm build` and `pnpm build:pages` run route generation automatically before bundling.
 
-## 📦 GitHub Pages
+## ☁️ GitHub Pages
 
 Use the official GitHub Actions Pages deployment flow.
 
@@ -189,7 +189,7 @@ For GitHub Pages:
 
 For regular production deployment, use `pnpm build`.
 
-## ⚙️ Development Defaults
+## 🧰 Development Defaults
 
 - Enable React Query Devtools and TanStack Router Devtools only in development
 - Keep shared query defaults in `src/lib/query-client.ts`
@@ -199,10 +199,10 @@ For regular production deployment, use `pnpm build`.
 
 Read [CONTRIBUTING.md](/Users/yangsonhung/Projects/personal/TanVite/CONTRIBUTING.md) before opening a pull request.
 
-## 🗒 Changelog
+## 🌀 Changelog
 
 Track project history in [CHANGELOG.md](/Users/yangsonhung/Projects/personal/TanVite/CHANGELOG.md).
 
-## 📄 License
+## 🪪 License
 
 MIT
