@@ -73,10 +73,12 @@ pnpm dev
 - React 19 + TypeScript + Vite 5 模板仓库基线
 - TanStack Router 文件路由
 - TanStack Query 数据层
+- 通过 Orval 生成基于 OpenAPI 的 client、hooks 和 mock
 - Tailwind CSS 与 shadcn/ui 兼容工具链
 - 使用 Biome 进行 lint 和格式化
 - 使用 Vitest + Testing Library 进行单元测试
 - 使用 Playwright 进行 E2E 测试
+- 使用 MSW 与 Prism 提供浏览器 mock 和独立 mock server 工作流
 - 使用 Husky + lint-staged + commitlint 约束提交流程
 
 ## 🧩 技术栈
@@ -89,6 +91,8 @@ pnpm dev
 | 包管理器 | pnpm |
 | 路由 | TanStack Router |
 | 数据获取 | TanStack Query |
+| API 契约 | Orval、OpenAPI |
+| Mock | MSW、Prism |
 | 样式 | Tailwind CSS |
 | UI 工具 | shadcn/ui、class-variance-authority、tailwind-merge |
 | 代码质量 | Biome |
@@ -105,7 +109,11 @@ pnpm dev
 
 ```bash
 pnpm routes:generate   # 生成 TanStack Router 路由树
+pnpm openapi:check     # 校验远端 OpenAPI 文档
+pnpm openapi:generate  # 生成 API client、React Query hooks 与 MSW mocks
+pnpm openapi:mock      # 启动独立 Prism mock server
 pnpm dev               # 启动 Vite 开发服务器
+pnpm dev:mock          # 以启用 MSW 浏览器 mock 的方式启动 Vite
 pnpm build             # 构建应用到 dist/
 pnpm build:pages       # 构建 GitHub Pages 站点到 dist-pages/
 pnpm preview           # 在 http://localhost:4419 预览 dist/
@@ -135,6 +143,22 @@ pnpm preview:pages
 
 打开 `http://localhost:4419/TanVite/`。
 
+## 🧠 OpenAPI 工作流
+
+1. 将 `.env.example` 复制为 `.env.local`。
+2. 把 `OPENAPI_SCHEMA_URL` 改成你的后端 Swagger/OpenAPI 地址。
+3. 先校验契约，再生成 API 层代码。
+4. 根据需要选择 MSW 或独立 Prism mock server 进行开发。
+
+```bash
+cp .env.example .env.local
+pnpm openapi:check
+pnpm openapi:generate
+pnpm dev:mock
+```
+
+如果你需要单独的 mock 服务，使用 `pnpm openapi:mock`，默认地址是 `http://127.0.0.1:4010`。
+
 ## 🗺️ 项目结构
 
 ```text
@@ -143,8 +167,11 @@ src/
 ├── main.tsx
 ├── routeTree.gen.ts
 ├── lib/
+│   ├── api/
 │   ├── query-client.ts
 │   └── utils.ts
+├── mocks/
+│   └── browser.ts
 ├── routes/
 │   ├── __root.tsx
 │   ├── guide.tsx
@@ -192,6 +219,8 @@ pnpm routes:generate
 ## 🧰 开发默认约定
 
 - React Query Devtools 和 TanStack Router Devtools 仅在开发环境启用
+- 运行 `pnpm openapi:generate` 之前，先把 `OPENAPI_SCHEMA_URL` 指向你的后端契约地址
+- 生成的 API 产物位于 `src/lib/api/generated`
 - 在 `src/lib/query-client.ts` 中维护共享 Query 默认配置
 - 在 `src/lib/utils.ts` 中使用 `cn()` 工具函数
 

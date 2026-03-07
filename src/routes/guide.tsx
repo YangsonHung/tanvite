@@ -5,6 +5,8 @@ const guideSections = [
     title: "Getting started",
     points: [
       "Install dependencies with `pnpm install`.",
+      "Copy `.env.example` to `.env.local` and replace `OPENAPI_SCHEMA_URL` with your backend Swagger/OpenAPI URL.",
+      "Validate the contract with `pnpm openapi:check` and generate clients with `pnpm openapi:generate`.",
       "Start the local development environment with `pnpm dev`.",
       "Use `pnpm build` for the standard production bundle.",
       "Use `pnpm build:pages` when preparing the public showcase site.",
@@ -15,24 +17,26 @@ const guideSections = [
     points: [
       "React 19 + TypeScript + Vite 5",
       "TanStack Router file-based routing and generated route tree support",
-      "TanStack Query, Biome, Vitest, and Playwright",
+      "TanStack Query, Orval, MSW, Prism, Biome, Vitest, and Playwright",
     ],
   },
   {
-    title: "Open-source workflow",
+    title: "API workflow",
     points: [
-      "Use the repository as a GitHub template or clone it directly to start a new project",
-      "Keep product code on top of the existing routing, testing, styling, and CI baseline",
-      "Use GitHub Pages for the public showcase and GitHub Issues for discussion and feedback",
+      "Point the starter at a remote Swagger/OpenAPI document and regenerate client code on demand",
+      "Use generated React Query hooks for app code, MSW for in-app mocks, and Prism for a standalone mock server",
+      "Keep product code on top of the existing routing, styling, testing, and CI baseline instead of hand-writing protocol code",
     ],
   },
 ];
 
 const commandCards = [
   ["Install", "pnpm install"],
+  ["Check schema", "pnpm openapi:check"],
+  ["Generate API", "pnpm openapi:generate"],
+  ["Mock server", "pnpm openapi:mock"],
   ["Develop", "pnpm dev"],
-  ["Build Pages", "pnpm build:pages"],
-  ["Preview Pages", "pnpm preview:pages"],
+  ["Mock in app", "pnpm dev:mock"],
 ];
 
 export const Route = createFileRoute("/guide")({
@@ -66,8 +70,9 @@ function GuidePage() {
             <p className="text-xs uppercase tracking-[0.32em] text-foreground/45">Overview</p>
             <p className="mt-4 text-lg leading-8 text-foreground/68">
               Use this page as the fast path into TanVite. It gives new visitors enough
-              structure to evaluate the starter, understand what ships in the box, and jump
-              into the repository without turning the showcase into a heavy documentation site.
+              structure to evaluate the starter, understand what ships in the box, wire a
+              backend contract into it, and jump into the repository without turning the
+              showcase into a heavy documentation site.
             </p>
 
             <div className="mt-8 grid gap-4">

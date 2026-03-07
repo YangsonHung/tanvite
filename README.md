@@ -73,10 +73,12 @@ pnpm dev
 - React 19 + TypeScript + Vite 5 template repository baseline
 - TanStack Router file-based routing
 - TanStack Query data layer
+- OpenAPI-driven client, hook, and mock generation via Orval
 - Tailwind CSS and shadcn/ui-ready utilities
 - Biome for linting and formatting
 - Vitest + Testing Library for unit tests
 - Playwright for end-to-end tests
+- MSW and Prism for browser-level mocks and standalone mock server workflows
 - Husky + lint-staged + commitlint for commit workflow enforcement
 
 ## 🧩 Tech Stack
@@ -89,6 +91,8 @@ pnpm dev
 | Package Manager | pnpm |
 | Routing | TanStack Router |
 | Data Fetching | TanStack Query |
+| API Contract | Orval, OpenAPI |
+| Mocking | MSW, Prism |
 | Styling | Tailwind CSS |
 | UI Utilities | shadcn/ui, class-variance-authority, tailwind-merge |
 | Code Quality | Biome |
@@ -105,7 +109,11 @@ pnpm dev
 
 ```bash
 pnpm routes:generate   # Generate the TanStack Router route tree
+pnpm openapi:check     # Validate the remote OpenAPI document
+pnpm openapi:generate  # Generate API clients, React Query hooks, and MSW mocks
+pnpm openapi:mock      # Start a standalone Prism mock server
 pnpm dev               # Start the Vite dev server
+pnpm dev:mock          # Start Vite with the MSW browser mock enabled
 pnpm build             # Build the app into dist/
 pnpm build:pages       # Build the GitHub Pages site into dist-pages/
 pnpm preview           # Preview dist/ on http://localhost:4419
@@ -135,6 +143,22 @@ pnpm preview:pages
 
 Open `http://localhost:4419/TanVite/`.
 
+## 🧠 OpenAPI Workflow
+
+1. Copy `.env.example` to `.env.local`.
+2. Set `OPENAPI_SCHEMA_URL` to your backend Swagger/OpenAPI endpoint.
+3. Validate the contract and generate the API layer.
+4. Start development against either MSW or a standalone Prism mock server.
+
+```bash
+cp .env.example .env.local
+pnpm openapi:check
+pnpm openapi:generate
+pnpm dev:mock
+```
+
+Use `pnpm openapi:mock` when you want a separate mock server on `http://127.0.0.1:4010`.
+
 ## 🗺️ Project Structure
 
 ```text
@@ -143,8 +167,11 @@ src/
 ├── main.tsx
 ├── routeTree.gen.ts
 ├── lib/
+│   ├── api/
 │   ├── query-client.ts
 │   └── utils.ts
+├── mocks/
+│   └── browser.ts
 ├── routes/
 │   ├── __root.tsx
 │   ├── guide.tsx
@@ -192,6 +219,8 @@ For regular production deployment, use `pnpm build`.
 ## 🧰 Development Defaults
 
 - Enable React Query Devtools and TanStack Router Devtools only in development
+- Point `OPENAPI_SCHEMA_URL` at your backend spec before running `pnpm openapi:generate`
+- Generated API artifacts live under `src/lib/api/generated`
 - Keep shared query defaults in `src/lib/query-client.ts`
 - Use `src/lib/utils.ts` for the `cn()` helper
 

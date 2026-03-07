@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
+import { isMockServiceWorkerEnabled } from "./lib/api/config";
 import { queryClient } from "./lib/query-client";
 import "./index.css";
 
@@ -27,6 +28,11 @@ declare module "@tanstack/react-router" {
 const rootElement = document.getElementById("root");
 
 if (!rootElement) throw new Error("Root element not found");
+
+if (import.meta.env.DEV && isMockServiceWorkerEnabled) {
+  const { startMockServiceWorker } = await import("./mocks/browser");
+  await startMockServiceWorker();
+}
 
 createRoot(rootElement).render(
   <StrictMode>

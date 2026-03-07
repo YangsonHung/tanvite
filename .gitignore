@@ -6,6 +6,7 @@ dist
 dist-pages
 docs
 dist-ssr
+.openapi
 *.tsbuildinfo
 
 # Environment

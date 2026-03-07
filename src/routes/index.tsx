@@ -1,5 +1,5 @@
+import type { SVGProps } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Github } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -7,16 +7,16 @@ export const Route = createFileRoute("/")({
 
 const starterStats = [
   ["01", "React 19 + TypeScript", "Current React APIs with a strict TS baseline."],
-  ["02", "Router + Query", "File routes and server-state tooling prepared together."],
-  ["03", "Testable by default", "Vitest and Playwright are already part of the flow."],
+  ["02", "Router + Query + OpenAPI", "File routes, server-state hooks, and API generation prepared together."],
+  ["03", "Testable by default", "Vitest, Playwright, and mock workflows are already part of the flow."],
 ];
 
 const toolchainItems = [
   ["Routing", "TanStack Router", "File-based routes with generated route tree support."],
-  ["Data", "TanStack Query", "Shared query client defaults with devtools in development."],
+  ["Data", "TanStack Query + OpenAPI", "Shared query defaults plus generated API hooks, clients, and mocks."],
   ["Styling", "Tailwind CSS", "Utility-first styling with theme variables and shadcn/ui compatibility."],
   ["Quality", "Biome + commitlint", "Linting, formatting, and commit rules are part of the repo baseline."],
-  ["Testing", "Vitest + Playwright", "Unit and E2E testing workflows are already scripted."],
+  ["Testing", "Vitest + Playwright + MSW", "Unit, E2E, and contract-driven mock workflows are already scripted."],
 ];
 
 const workflowItems = [
@@ -26,17 +26,18 @@ const workflowItems = [
   ],
   [
     "Build features",
-    "Add routes under src/routes, share fetch logic through QueryClient, and keep UI composition lightweight.",
+    "Add routes under src/routes, regenerate API clients from OpenAPI, and keep feature code on top of typed hooks.",
   ],
   [
     "Verify and ship",
-    "Run Biome, unit tests, and Playwright before production builds so starter quality stays enforceable.",
+    "Run Biome, unit tests, Playwright, and mock flows before production builds so starter quality stays enforceable.",
   ],
 ];
 
 const commandItems = [
   ["Install", "pnpm install"],
   ["Develop", "pnpm dev"],
+  ["OpenAPI", "pnpm openapi:generate"],
   ["Generate routes", "pnpm routes:generate"],
   ["Test once", "pnpm test:run"],
   ["Build", "pnpm build"],
@@ -48,12 +49,30 @@ const codePreview = `src/
 │   ├── __root.tsx
 │   └── index.tsx
 ├── lib/
+│   ├── api/
 │   ├── query-client.ts
 │   └── utils.ts
+├── mocks/
+│   └── browser.ts
 └── routeTree.gen.ts
 
+pnpm openapi:generate
 pnpm routes:generate
 pnpm dev`;
+
+function GitHubMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path d="M12 0.5C5.37 0.5 0 5.87 0 12.5C0 17.8 3.44 22.29 8.21 23.88C8.81 23.99 9.03 23.62 9.03 23.3C9.03 23.01 9.02 22.05 9.02 20.97C5.67 21.7 4.97 19.35 4.97 19.35C4.42 17.95 3.63 17.58 3.63 17.58C2.55 16.84 3.71 16.86 3.71 16.86C4.9 16.94 5.52 18.08 5.52 18.08C6.58 19.89 8.31 19.37 8.98 19.06C9.09 18.29 9.39 17.76 9.72 17.46C7.05 17.16 4.24 16.12 4.24 11.49C4.24 10.17 4.71 9.09 5.48 8.24C5.36 7.94 4.94 6.72 5.6 5.07C5.6 5.07 6.61 4.75 8.99 6.36C9.95 6.09 10.98 5.95 12 5.95C13.02 5.95 14.05 6.09 15.01 6.36C17.39 4.75 18.4 5.07 18.4 5.07C19.06 6.72 18.64 7.94 18.52 8.24C19.29 9.09 19.76 10.17 19.76 11.49C19.76 16.13 16.95 17.16 14.27 17.46C14.69 17.82 15.08 18.54 15.08 19.64C15.08 21.22 15.06 22.88 15.06 23.3C15.06 23.62 15.28 24 15.89 23.88C20.66 22.29 24.1 17.8 24.1 12.5C24.1 5.87 18.73 0.5 12.1 0.5H12Z" />
+    </svg>
+  );
+}
 
 function HomePage() {
   return (
@@ -80,7 +99,7 @@ function HomePage() {
               rel="noreferrer"
               target="_blank"
             >
-              <Github className="h-5 w-5" />
+              <GitHubMark className="h-5 w-5" />
             </a>
             <div className="rounded-full border border-foreground/15 bg-white/60 px-4 py-2 text-xs uppercase tracking-[0.28em] text-foreground/65 backdrop-blur">
               Ready to Ship
