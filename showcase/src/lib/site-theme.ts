@@ -1,17 +1,17 @@
-import { useEffect, useEffectEvent, useState } from "react";
+import { useEffect, useEffectEvent, useState } from 'react';
 
-export type SiteThemePreference = "system" | "dark" | "light";
-export type ResolvedSiteTheme = "dark" | "light";
+export type SiteThemePreference = 'system' | 'dark' | 'light';
+export type ResolvedSiteTheme = 'dark' | 'light';
 
-export const SITE_THEME_STORAGE_KEY = "tanvite-site-theme";
-export const SITE_THEME_QUERY = "(prefers-color-scheme: dark)";
+export const SITE_THEME_STORAGE_KEY = 'tanvite-site-theme';
+export const SITE_THEME_QUERY = '(prefers-color-scheme: dark)';
 
 function isSiteThemePreference(value: string | null): value is SiteThemePreference {
-  return value === "system" || value === "dark" || value === "light";
+  return value === 'system' || value === 'dark' || value === 'light';
 }
 
 function getWindowStorage() {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     return null;
   }
 
@@ -23,7 +23,7 @@ function getWindowStorage() {
 }
 
 function getWindowMatchMedia() {
-  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return null;
   }
 
@@ -36,24 +36,24 @@ export function getStoredThemePreference(storage = getWindowStorage()): SiteThem
 }
 
 export function getInitialThemePreference(): SiteThemePreference {
-  return getStoredThemePreference() ?? "system";
+  return getStoredThemePreference() ?? 'system';
 }
 
 export function getSystemTheme(matchMedia = getWindowMatchMedia()): ResolvedSiteTheme {
-  return matchMedia?.(SITE_THEME_QUERY).matches ? "dark" : "light";
+  return matchMedia?.(SITE_THEME_QUERY).matches ? 'dark' : 'light';
 }
 
 export function resolveThemePreference(
   preference: SiteThemePreference,
   systemTheme: ResolvedSiteTheme = getSystemTheme()
 ): ResolvedSiteTheme {
-  return preference === "system" ? systemTheme : preference;
+  return preference === 'system' ? systemTheme : preference;
 }
 
 export function getToggledThemePreference(
   currentTheme: ResolvedSiteTheme
-): Exclude<SiteThemePreference, "system"> {
-  return currentTheme === "dark" ? "light" : "dark";
+): Exclude<SiteThemePreference, 'system'> {
+  return currentTheme === 'dark' ? 'light' : 'dark';
 }
 
 export function persistThemePreference(
@@ -65,14 +65,14 @@ export function persistThemePreference(
 
 export function applyThemePreference(
   preference: SiteThemePreference,
-  doc: Document | null = typeof document === "undefined" ? null : document,
+  doc: Document | null = typeof document === 'undefined' ? null : document,
   matchMedia = getWindowMatchMedia()
 ): ResolvedSiteTheme {
   const resolvedTheme = resolveThemePreference(preference, getSystemTheme(matchMedia));
 
   if (doc) {
     const { documentElement } = doc;
-    documentElement.classList.toggle("dark", resolvedTheme === "dark");
+    documentElement.classList.toggle('dark', resolvedTheme === 'dark');
     documentElement.style.colorScheme = resolvedTheme;
     documentElement.dataset.themePreference = preference;
     documentElement.dataset.themeResolved = resolvedTheme;
@@ -88,7 +88,7 @@ export function useSiteTheme() {
   );
 
   const syncSystemTheme = useEffectEvent(() => {
-    setResolvedTheme(applyThemePreference("system"));
+    setResolvedTheme(applyThemePreference('system'));
   });
 
   function setThemePreference(nextPreference: SiteThemePreference) {
@@ -102,7 +102,7 @@ export function useSiteTheme() {
   }
 
   useEffect(() => {
-    if (preference !== "system") {
+    if (preference !== 'system') {
       return;
     }
 
@@ -115,10 +115,10 @@ export function useSiteTheme() {
       syncSystemTheme();
     };
 
-    if (typeof matchMedia.addEventListener === "function") {
-      matchMedia.addEventListener("change", handleChange);
+    if (typeof matchMedia.addEventListener === 'function') {
+      matchMedia.addEventListener('change', handleChange);
       return () => {
-        matchMedia.removeEventListener("change", handleChange);
+        matchMedia.removeEventListener('change', handleChange);
       };
     }
 

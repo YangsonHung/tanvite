@@ -11,57 +11,39 @@
 
 **English** | [中文](README.zh-CN.md)
 
-TanVite is a production-grade React 19 template repository designed as a reusable frontend engineering foundation for serious product teams. It combines Vite, TypeScript, OpenSpec, `.agents/skills` for Codex, `.claude/skills` plus OPSX commands for Claude Code, TanStack Router, TanStack Query, OpenAPI tooling, Tailwind CSS, automated testing, code-quality enforcement, and GitHub Pages-ready delivery into a polished, high-standard stack for launching new products with spec-driven workflow, AI-assisted implementation, and modern frontend best practices already in place.
+TanVite is a production-grade React 19 starter system designed as a reusable frontend engineering foundation for serious product teams. It combines a publishable `create-tanvite` scaffolder, Vite, TypeScript, OpenSpec, `.agents/skills` for Codex, `.claude/skills` plus OPSX commands for Claude Code, TanStack Router, TanStack Query, OpenAPI tooling, Tailwind CSS, automated testing, code-quality enforcement, and GitHub Pages-ready delivery into a polished, high-standard stack for launching new products with spec-driven workflow, AI-assisted implementation, and modern frontend best practices already in place.
 
 ![TanVite Screenshot](assets/screenshots/tanvite-home.png)
 
 ## 🛰️ Why TanVite
 
-- Start from a modern React 19 template repository instead of assembling tooling by hand
+- Start from a modern React 19 starter without assembling tooling by hand
 - Work with OpenSpec from day one so change proposals and baseline specs stay inside the repository
 - Use `.agents/skills` for Codex and `.claude/skills` plus OPSX commands for Claude Code to cover design, code review, testing, git workflows, and browser automation
 - Keep routing, data fetching, styling, testing, and CI aligned from the first commit
 - Build product work on top of a frontend baseline that already standardizes routing, data, styling, testing, and CI
 - Combine OpenSpec-driven planning with OpenAPI-driven API generation in one repository
 - Reuse a polished landing page and guide page for public project presentation
-- Use the repository directly as a GitHub template for new product work
+- Start new product work through `npm create tanvite@latest` instead of copying the full maintenance repository
 
-## 🚀 Quick Start
+## 🚀 Create A Project
 
-1. Install dependencies.
-2. Start the development server.
-3. Open the app in the browser.
+Use the published scaffolder when you want a new TanVite-based product project.
 
 ```bash
+npm create tanvite@latest my-app
+cd my-app
 pnpm install
 pnpm dev
 ```
 
 Open `http://localhost:4319`.
 
-## 🧬 Use This Template
-
-### 🛸 Option 1: Use GitHub Template
-
-1. Open the repository on GitHub.
-2. Click `Use this template`.
-3. Create a new repository under your account or organization.
-4. Clone the generated repository locally.
+Optional examples:
 
 ```bash
-git clone <your-new-repo-url>
-cd <your-project>
-pnpm install
-pnpm dev
-```
-
-### 🧲 Option 2: Clone Directly
-
-```bash
-git clone https://github.com/YangsonHung/TanVite.git <your-project>
-cd <your-project>
-pnpm install
-pnpm dev
+npm create tanvite@latest my-app -- --preset full
+npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,agents
 ```
 
 ### 🧭 Next Steps
@@ -71,9 +53,14 @@ pnpm dev
 3. Move product-specific logic into `src/lib`, `src/hooks`, and your feature folders.
 4. Keep the existing testing and CI setup as the project baseline.
 
+## 🛠️ Maintainers Only
+
+The source repository is for maintaining TanVite itself: the `create-tanvite` scaffolder, the starter template, and the public showcase. Product teams starting a new app should use `npm create tanvite@latest`.
+
 ## 💠 Features
 
-- React 19 + TypeScript + Vite 5 template repository baseline
+- `create-tanvite` scaffolder for curated starter generation
+- React 19 + TypeScript + Vite 5 starter baseline
 - OpenSpec workspace initialized in `spec-driven` mode
 - `.agents/skills` for Codex and `.claude/skills` plus OPSX commands for Claude Code, covering frontend design, review, testing, git workflows, and browser automation
 - TanStack Router file-based routing
@@ -241,6 +228,12 @@ showcase/
     ├── lib/
     ├── main.tsx
     └── styles.css
+
+packages/
+└── create-tanvite/
+    ├── bin/
+    ├── src/
+    └── template/
 
 tests/
 ├── e2e/

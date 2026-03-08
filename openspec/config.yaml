@@ -4,6 +4,7 @@ context: |
   Stack: React 19, Vite, TypeScript, TanStack Router, TanStack Query, Tailwind CSS
   Tooling: Biome, Vitest, Playwright, OpenAPI/Orval/MSW/Prism
   Package manager: pnpm
+  All OpenSpec artifacts must be written in Simplified Chinese.
 
   Repository conventions:
   - Use pnpm for all package management and scripts
@@ -23,12 +24,18 @@ context: |
 
 rules:
   proposal:
+    - Write all content in Simplified Chinese
     - State the user-facing value and affected area clearly
     - Mention if the change affects docs, showcase copy, OpenAPI workflow, or GitHub Pages behavior
+  design:
+    - Write all content in Simplified Chinese
+    - Explain key technical decisions and rejected alternatives clearly
   tasks:
+    - Write all content in Simplified Chinese
     - Break work into small verifiable steps
     - Prefer source or config fixes over editing generated output
     - Include the smallest useful verification command set
-  spec:
+  specs:
+    - Write all content in Simplified Chinese
     - Keep requirements implementation-agnostic where possible
     - Add explicit acceptance criteria for routing, API workflow, or deployment behavior when relevant

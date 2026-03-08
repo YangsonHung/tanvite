@@ -1,9 +1,9 @@
-import { MoonStar, SunMedium } from "lucide-react";
-import type { ReactNode, SVGProps } from "react";
-import { useShowcaseI18n } from "../lib/i18n";
-import type { SiteLanguage } from "../lib/site-language";
-import type { ResolvedSiteTheme } from "../lib/site-theme";
-import { cn } from "../lib/utils";
+import { MoonStar, SunMedium } from 'lucide-react';
+import type { ReactNode, SVGProps } from 'react';
+import { useShowcaseI18n } from '../lib/i18n';
+import type { SiteLanguage } from '../lib/site-language';
+import type { ResolvedSiteTheme } from '../lib/site-theme';
+import { cn } from '../lib/utils';
 
 function ThemeIcon({
   resolvedTheme,
@@ -12,7 +12,7 @@ function ThemeIcon({
   resolvedTheme: ResolvedSiteTheme;
   className?: string;
 }) {
-  if (resolvedTheme === "dark") {
+  if (resolvedTheme === 'dark') {
     return <SunMedium className={className} />;
   }
 
@@ -41,12 +41,10 @@ export function LanguageToggle({
   setLanguage: (nextLanguage: SiteLanguage) => void;
 }) {
   const { t } = useShowcaseI18n();
-  const nextLanguage = language === "en" ? "zh-CN" : "en";
-  const label = nextLanguage === "en" ? t("common.english") : t("common.chinese");
+  const nextLanguage = language === 'en' ? 'zh-CN' : 'en';
+  const label = nextLanguage === 'en' ? t('common.english') : t('common.chinese');
   const ariaLabel =
-    nextLanguage === "en"
-      ? t("controls.switchToEnglish")
-      : t("controls.switchToChinese");
+    nextLanguage === 'en' ? t('controls.switchToEnglish') : t('controls.switchToChinese');
 
   return (
     <button
@@ -71,9 +69,7 @@ export function ThemeToggleButton({
 }) {
   const { t } = useShowcaseI18n();
   const ariaLabel =
-    resolvedTheme === "dark"
-      ? t("controls.switchToLightTheme")
-      : t("controls.switchToDarkTheme");
+    resolvedTheme === 'dark' ? t('controls.switchToLightTheme') : t('controls.switchToDarkTheme');
 
   return (
     <button
@@ -104,7 +100,7 @@ export function SiteHeaderControls({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-wrap items-center justify-end gap-2.5", className)}>
+    <div className={cn('flex flex-wrap items-center justify-end gap-2.5', className)}>
       <ThemeToggleButton
         language={language}
         resolvedTheme={resolvedTheme}

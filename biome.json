@@ -7,13 +7,13 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [
-      "dist",
-      "node_modules",
-      "coverage",
-      "playwright-report",
-      "src/routeTree.gen.ts"
-    ]
+    "include": [
+      "src/**/*",
+      "showcase/src/**/*",
+      "packages/create-tanvite/src/**/*",
+      "packages/create-tanvite/template/base/src/**/*"
+    ],
+    "ignore": ["src/routeTree.gen.ts", "src/lib/api/generated/**/*"]
   },
   "formatter": {
     "enabled": true,
@@ -48,7 +48,7 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double",
+      "quoteStyle": "single",
       "trailingCommas": "es5",
       "semicolons": "always",
       "arrowParentheses": "always"

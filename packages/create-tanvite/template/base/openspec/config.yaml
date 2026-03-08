@@ -1,0 +1,31 @@
+schema: spec-driven
+context: |
+  Project: __APP_NAME__
+  Stack: React 19, Vite, TypeScript, TanStack Router, TanStack Query, Tailwind CSS
+  Tooling: Biome, Vitest, Playwright, OpenAPI/Orval/MSW/Prism
+  Package manager: pnpm
+
+  Repository conventions:
+  - Use pnpm for all package management and scripts
+  - Prefer editing source files over generated files
+  - Do not hand-edit generated artifacts:
+    - src/routeTree.gen.ts
+    - src/lib/api/generated/
+    - dist/
+    - dist-pages/
+  - Keep public-facing README and app-facing starter copy aligned when project positioning changes
+  - If GitHub Pages support is enabled, keep the production base path aligned with the repository name
+
+rules:
+  proposal:
+    - State the user-facing value and affected area clearly
+    - Mention if the change affects docs, OpenAPI workflow, or GitHub Pages behavior
+  design:
+    - Explain key technical decisions and rejected alternatives clearly
+  tasks:
+    - Break work into small verifiable steps
+    - Prefer source or config fixes over editing generated output
+    - Include the smallest useful verification command set
+  specs:
+    - Keep requirements implementation-agnostic where possible
+    - Add explicit acceptance criteria for routing, API workflow, or deployment behavior when relevant

@@ -11,57 +11,39 @@
 
 [English](README.md) | **中文**
 
-TanVite 是一个面向生产环境的 React 19 模板仓库，定位为可复用的高标准前端工程基线，适合严肃的产品研发场景。它将 Vite、TypeScript、OpenSpec、面向 Codex 的 `.agents/skills`、面向 Claude Code 的 `.claude/skills` 与 OPSX commands、TanStack Router、TanStack Query、OpenAPI 工具链、Tailwind CSS、自动化测试、代码质量约束以及 GitHub Pages 展示能力整合为一套打磨完整、适合新项目直接起步的现代前端最佳实践组合，并把 spec-driven 工作流和 AI 辅助研发能力一起带入仓库基线。
+TanVite 是一个面向生产环境的 React 19 starter 系统，定位为可复用的高标准前端工程基线，适合严肃的产品研发场景。它将可发布的 `create-tanvite` 脚手架、Vite、TypeScript、OpenSpec、面向 Codex 的 `.agents/skills`、面向 Claude Code 的 `.claude/skills` 与 OPSX commands、TanStack Router、TanStack Query、OpenAPI 工具链、Tailwind CSS、自动化测试、代码质量约束以及 GitHub Pages 展示能力整合为一套打磨完整、适合新项目直接起步的现代前端最佳实践组合，并把 spec-driven 工作流和 AI 辅助研发能力一起带入仓库基线。
 
 ![TanVite Screenshot](assets/screenshots/tanvite-home-zh.png)
 
 ## 🛰️ 为什么选择 TanVite
 
-- 直接从现代 React 19 模板仓库开始，而不是手动拼装工程体系
+- 直接从现代 React 19 starter 开始，而不是手动拼装工程体系
 - 从第一天开始就接入 OpenSpec，把变更提案和基础规格收进仓库内管理
 - 直接使用面向 Codex 的 `.agents/skills` 以及面向 Claude Code 的 `.claude/skills` 与 OPSX commands 处理设计、代码审查、测试、Git 工作流和浏览器自动化
 - 从第一条提交开始统一路由、数据层、样式、测试和 CI 约定
 - 直接在一套已经统一路由、数据层、样式、测试与 CI 约定的前端工程基线上开展产品开发
 - 在同一套仓库里同时承载 OpenSpec 驱动的需求流和 OpenAPI 驱动的接口生成流
 - 复用已经完成的落地页和 guide 页面作为公开项目展示入口
-- 可直接作为 GitHub 模板仓库，用于新项目起步
+- 使用 `npm create tanvite@latest` 启动新项目，而不是复制整个维护仓库
 
-## 🚀 快速开始
+## 🚀 创建项目
 
-1. 安装依赖。
-2. 启动开发服务器。
-3. 在浏览器中打开项目。
+当你要创建一个新的 TanVite 项目时，优先使用已发布的脚手架。
 
 ```bash
+npm create tanvite@latest my-app
+cd my-app
 pnpm install
 pnpm dev
 ```
 
 打开 `http://localhost:4319`。
 
-## 🧬 使用模板
-
-### 🛸 方式一：使用 GitHub 模板
-
-1. 在 GitHub 打开仓库页面。
-2. 点击 `Use this template`。
-3. 在你的账号或组织下创建新仓库。
-4. 把新仓库克隆到本地。
+可选示例：
 
 ```bash
-git clone <你的新仓库地址>
-cd <你的项目目录>
-pnpm install
-pnpm dev
-```
-
-### 🧲 方式二：直接克隆
-
-```bash
-git clone https://github.com/YangsonHung/TanVite.git <你的项目目录>
-cd <你的项目目录>
-pnpm install
-pnpm dev
+npm create tanvite@latest my-app -- --preset full
+npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,agents
 ```
 
 ### 🧭 下一步
@@ -71,9 +53,14 @@ pnpm dev
 3. 把业务逻辑迁移到 `src/lib`、`src/hooks` 和各自的功能目录。
 4. 保留现有测试和 CI 作为项目基线。
 
+## 🛠️ 仅维护者
+
+源码仓库用于维护 TanVite 本体，包括 `create-tanvite` 脚手架、starter 模板和公开展示站。产品团队要启动新项目时，应使用 `npm create tanvite@latest`。
+
 ## 💠 特性
 
-- React 19 + TypeScript + Vite 5 模板仓库基线
+- 用于生成整理后 starter 的 `create-tanvite` 脚手架
+- React 19 + TypeScript + Vite 5 starter 基线
 - 已初始化为 `spec-driven` 模式的 OpenSpec 工作区
 - 已集成面向 Codex 的 `.agents/skills`，以及面向 Claude Code 的 `.claude/skills` 与 OPSX commands，覆盖设计、评审、测试、提交流程和浏览器自动化
 - TanStack Router 文件路由
@@ -241,6 +228,12 @@ showcase/
     ├── lib/
     ├── main.tsx
     └── styles.css
+
+packages/
+└── create-tanvite/
+    ├── bin/
+    ├── src/
+    └── template/
 
 tests/
 ├── e2e/

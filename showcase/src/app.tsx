@@ -1,13 +1,13 @@
-import { ArrowLeft, ArrowRight, BookOpenText, Braces, TerminalSquare } from "lucide-react";
-import { GitHubMark, SiteHeaderControls } from "./components/site-controls";
-import type { ShowcaseMessageKey } from "./lib/i18n";
-import { useShowcaseI18n } from "./lib/i18n";
-import type { SiteLanguage } from "./lib/site-language";
-import { useSiteLanguage } from "./lib/site-language";
-import { useSiteTheme } from "./lib/site-theme";
-import { cn } from "./lib/utils";
+import { ArrowLeft, ArrowRight, BookOpenText, Braces, TerminalSquare } from 'lucide-react';
+import { GitHubMark, SiteHeaderControls } from './components/site-controls';
+import type { ShowcaseMessageKey } from './lib/i18n';
+import { useShowcaseI18n } from './lib/i18n';
+import type { SiteLanguage } from './lib/site-language';
+import { useSiteLanguage } from './lib/site-language';
+import { useSiteTheme } from './lib/site-theme';
+import { cn } from './lib/utils';
 
-type ShowcasePage = "home" | "guide";
+type ShowcasePage = 'home' | 'guide';
 type StatItem = [string, string, string];
 type ToolchainItem = [string, string, string];
 type WorkflowItem = [string, string];
@@ -62,7 +62,11 @@ type GuideCopy = {
   reportIssue: string;
 };
 
-function readToolchainItems(t: (key: ShowcaseMessageKey) => string, baseKey: string, count: number) {
+function readToolchainItems(
+  t: (key: ShowcaseMessageKey) => string,
+  baseKey: string,
+  count: number
+) {
   return Array.from({ length: count }, (_, index) => {
     const itemKey = `${baseKey}.item${index + 1}`;
 
@@ -87,138 +91,113 @@ function readCommandItems(t: (key: ShowcaseMessageKey) => string, baseKey: strin
 
 function getHomeCopy(t: (key: ShowcaseMessageKey) => string): HomeCopy {
   return {
-    heroBadge: t("home.heroBadge"),
-    heroTitle: t("home.heroTitle"),
-    heroBody: t("home.heroBody"),
-    primaryCta: t("home.primaryCta"),
-    guideCta: t("home.guideCta"),
-    supportCta: t("home.supportCta"),
-    repoLabel: t("controls.repoLabel"),
+    heroBadge: t('home.heroBadge'),
+    heroTitle: t('home.heroTitle'),
+    heroBody: t('home.heroBody'),
+    primaryCta: t('home.primaryCta'),
+    guideCta: t('home.guideCta'),
+    supportCta: t('home.supportCta'),
+    repoLabel: t('controls.repoLabel'),
     starterStats: [
-      [
-        t("home.stats.item1.index"),
-        t("home.stats.item1.title"),
-        t("home.stats.item1.body"),
-      ],
-      [
-        t("home.stats.item2.index"),
-        t("home.stats.item2.title"),
-        t("home.stats.item2.body"),
-      ],
-      [
-        t("home.stats.item3.index"),
-        t("home.stats.item3.title"),
-        t("home.stats.item3.body"),
-      ],
+      [t('home.stats.item1.index'), t('home.stats.item1.title'), t('home.stats.item1.body')],
+      [t('home.stats.item2.index'), t('home.stats.item2.title'), t('home.stats.item2.body')],
+      [t('home.stats.item3.index'), t('home.stats.item3.title'), t('home.stats.item3.body')],
     ],
-    toolchainLabel: t("home.toolchainLabel"),
-    toolchainTitle: t("home.toolchainTitle"),
-    toolchainItems: readToolchainItems(t, "home.toolchain", 5),
-    startHere: t("home.startHere"),
-    workflowLabel: t("home.workflowLabel"),
-    workflowTitle: t("home.workflowTitle"),
+    toolchainLabel: t('home.toolchainLabel'),
+    toolchainTitle: t('home.toolchainTitle'),
+    toolchainItems: readToolchainItems(t, 'home.toolchain', 5),
+    startHere: t('home.startHere'),
+    workflowLabel: t('home.workflowLabel'),
+    workflowTitle: t('home.workflowTitle'),
     workflowItems: [
-      [
-        t("home.workflow.item1.title"),
-        t("home.workflow.item1.body"),
-      ],
-      [
-        t("home.workflow.item2.title"),
-        t("home.workflow.item2.body"),
-      ],
-      [
-        t("home.workflow.item3.title"),
-        t("home.workflow.item3.body"),
-      ],
+      [t('home.workflow.item1.title'), t('home.workflow.item1.body')],
+      [t('home.workflow.item2.title'), t('home.workflow.item2.body')],
+      [t('home.workflow.item3.title'), t('home.workflow.item3.body')],
     ],
-    commandsLabel: t("home.commandsLabel"),
-    commandsTitle: t("home.commandsTitle"),
-    commandItems: readCommandItems(t, "home.commands", 8),
-    snapshotLabel: t("home.snapshotLabel"),
-    snapshotTitle: t("home.snapshotTitle"),
-    snapshotBody: t("home.snapshotBody"),
-    codePreview: t("home.codePreview"),
+    commandsLabel: t('home.commandsLabel'),
+    commandsTitle: t('home.commandsTitle'),
+    commandItems: readCommandItems(t, 'home.commands', 8),
+    snapshotLabel: t('home.snapshotLabel'),
+    snapshotTitle: t('home.snapshotTitle'),
+    snapshotBody: t('home.snapshotBody'),
+    codePreview: t('home.codePreview'),
   };
 }
 
-function getGuideCopy(
-  language: SiteLanguage,
-  t: (key: ShowcaseMessageKey) => string
-): GuideCopy {
+function getGuideCopy(language: SiteLanguage, t: (key: ShowcaseMessageKey) => string): GuideCopy {
   return {
-    pageLabel: t("guide.pageLabel"),
-    title: t("guide.title"),
-    titleSecondary:
-      language === "zh-CN" ? t("guide.titleSecondary") : undefined,
-    backToLanding: t("guide.backToLanding"),
-    overviewLabel: t("guide.overviewLabel"),
-    overviewBody: t("guide.overviewBody"),
+    pageLabel: t('guide.pageLabel'),
+    title: t('guide.title'),
+    titleSecondary: language === 'zh-CN' ? t('guide.titleSecondary') : undefined,
+    backToLanding: t('guide.backToLanding'),
+    overviewLabel: t('guide.overviewLabel'),
+    overviewBody: t('guide.overviewBody'),
     sections: [
       {
-        title: t("guide.sections.gettingStarted.title"),
+        title: t('guide.sections.gettingStarted.title'),
         points: [
-          t("guide.sections.gettingStarted.point1"),
-          t("guide.sections.gettingStarted.point2"),
-          t("guide.sections.gettingStarted.point3"),
-          t("guide.sections.gettingStarted.point4"),
-          t("guide.sections.gettingStarted.point5"),
-          t("guide.sections.gettingStarted.point6"),
+          t('guide.sections.gettingStarted.point1'),
+          t('guide.sections.gettingStarted.point2'),
+          t('guide.sections.gettingStarted.point3'),
+          t('guide.sections.gettingStarted.point4'),
+          t('guide.sections.gettingStarted.point5'),
+          t('guide.sections.gettingStarted.point6'),
         ],
       },
       {
-        title: t("guide.sections.stack.title"),
+        title: t('guide.sections.stack.title'),
         points: [
-          t("guide.sections.stack.point1"),
-          t("guide.sections.stack.point2"),
-          t("guide.sections.stack.point3"),
+          t('guide.sections.stack.point1'),
+          t('guide.sections.stack.point2'),
+          t('guide.sections.stack.point3'),
         ],
       },
       {
-        title: t("guide.sections.workflow.title"),
+        title: t('guide.sections.workflow.title'),
         points: [
-          t("guide.sections.workflow.point1"),
-          t("guide.sections.workflow.point2"),
-          t("guide.sections.workflow.point3"),
+          t('guide.sections.workflow.point1'),
+          t('guide.sections.workflow.point2'),
+          t('guide.sections.workflow.point3'),
         ],
       },
     ],
-    commandsLabel: t("guide.commandsLabel"),
-    commandsTitle: t("guide.commandsTitle"),
-    commandCards: readCommandItems(t, "guide.commands", 6),
-    linksLabel: t("guide.linksLabel"),
-    linksTitle: t("guide.linksTitle"),
-    linksBody: t("guide.linksBody"),
-    openSite: t("guide.openSite"),
-    openRepository: t("guide.openRepository"),
-    reportIssue: t("guide.reportIssue"),
+    commandsLabel: t('guide.commandsLabel'),
+    commandsTitle: t('guide.commandsTitle'),
+    commandCards: readCommandItems(t, 'guide.commands', 6),
+    linksLabel: t('guide.linksLabel'),
+    linksTitle: t('guide.linksTitle'),
+    linksBody: t('guide.linksBody'),
+    openSite: t('guide.openSite'),
+    openRepository: t('guide.openRepository'),
+    reportIssue: t('guide.reportIssue'),
   };
 }
 
 function getBasePath() {
-  return import.meta.env.BASE_URL.replace(/\/$/, "");
+  return import.meta.env.BASE_URL.replace(/\/$/, '');
 }
 
-function getShowcaseHref(path: "/" | "/guide") {
+function getShowcaseHref(path: '/' | '/guide') {
   const basePath = getBasePath();
-  if (path === "/") {
-    return basePath || "/";
+  if (path === '/') {
+    return basePath || '/';
   }
 
   return `${basePath}${path}`;
 }
 
 function getCurrentPage(): ShowcasePage {
-  if (typeof window === "undefined") {
-    return "home";
+  if (typeof window === 'undefined') {
+    return 'home';
   }
 
   const basePath = getBasePath();
   const pathname = window.location.pathname;
   const normalizedPath = pathname.startsWith(basePath)
-    ? pathname.slice(basePath.length) || "/"
+    ? pathname.slice(basePath.length) || '/'
     : pathname;
 
-  return normalizedPath === "/guide" ? "guide" : "home";
+  return normalizedPath === '/guide' ? 'guide' : 'home';
 }
 
 export function App() {
@@ -227,7 +206,7 @@ export function App() {
   const themeState = useSiteTheme();
   const language = languageState.language;
 
-  if (page === "guide") {
+  if (page === 'guide') {
     return (
       <GuideShell
         language={language}
@@ -256,42 +235,42 @@ function HomeShell({
 }: {
   language: SiteLanguage;
   setLanguage: (nextLanguage: SiteLanguage) => void;
-  resolvedTheme: "dark" | "light";
+  resolvedTheme: 'dark' | 'light';
   toggleThemePreference: () => void;
 }) {
   const { t } = useShowcaseI18n();
   const copy = getHomeCopy(t);
-  const workflowPanelClass = resolvedTheme === "dark" ? "glass-panel-strong" : "glass-panel";
-  const workflowEyebrowClass = resolvedTheme === "dark" ? "text-white/55" : "text-foreground/48";
-  const workflowTitleClass = resolvedTheme === "dark" ? "text-white" : "text-foreground";
+  const workflowPanelClass = resolvedTheme === 'dark' ? 'glass-panel-strong' : 'glass-panel';
+  const workflowEyebrowClass = resolvedTheme === 'dark' ? 'text-white/55' : 'text-foreground/48';
+  const workflowTitleClass = resolvedTheme === 'dark' ? 'text-white' : 'text-foreground';
   const workflowCardClass =
-    resolvedTheme === "dark"
-      ? "border-white/10 bg-[hsl(223_24%_14%)]"
-      : "border-border/70 bg-[hsl(var(--surface-muted)/0.92)]";
+    resolvedTheme === 'dark'
+      ? 'border-white/10 bg-[hsl(223_24%_14%)]'
+      : 'border-border/70 bg-[hsl(var(--surface-muted)/0.92)]';
   const workflowStepClass =
-    resolvedTheme === "dark"
-      ? "border-white/15 bg-white/5 text-white"
-      : "border-border/70 bg-[hsl(var(--surface)/0.92)] text-foreground";
-  const workflowTextClass = resolvedTheme === "dark" ? "text-white" : "text-foreground";
-  const workflowBodyClass = resolvedTheme === "dark" ? "text-white/72" : "text-foreground/68";
+    resolvedTheme === 'dark'
+      ? 'border-white/15 bg-white/5 text-white'
+      : 'border-border/70 bg-[hsl(var(--surface)/0.92)] text-foreground';
+  const workflowTextClass = resolvedTheme === 'dark' ? 'text-white' : 'text-foreground';
+  const workflowBodyClass = resolvedTheme === 'dark' ? 'text-white/72' : 'text-foreground/68';
   const commandPanelClass =
-    resolvedTheme === "dark" ? "glass-panel-strong text-white" : "glass-panel text-foreground";
-  const commandEyebrowClass = resolvedTheme === "dark" ? "text-white/55" : "text-foreground/48";
-  const commandTitleClass = resolvedTheme === "dark" ? "text-white" : "text-foreground";
+    resolvedTheme === 'dark' ? 'glass-panel-strong text-white' : 'glass-panel text-foreground';
+  const commandEyebrowClass = resolvedTheme === 'dark' ? 'text-white/55' : 'text-foreground/48';
+  const commandTitleClass = resolvedTheme === 'dark' ? 'text-white' : 'text-foreground';
   const commandBadgeClass =
-    resolvedTheme === "dark"
-      ? "border-white/12 text-white/70"
-      : "border-border/70 bg-[hsl(var(--surface-muted)/0.92)] text-foreground/70";
+    resolvedTheme === 'dark'
+      ? 'border-white/12 text-white/70'
+      : 'border-border/70 bg-[hsl(var(--surface-muted)/0.92)] text-foreground/70';
   const commandCardClass =
-    resolvedTheme === "dark"
-      ? "border-white/10 bg-[hsl(223_24%_14%)]"
-      : "border-border/70 bg-[hsl(var(--surface-muted)/0.92)]";
-  const commandLabelClass = resolvedTheme === "dark" ? "text-white/45" : "text-foreground/45";
-  const commandTextClass = resolvedTheme === "dark" ? "text-white/88" : "text-foreground/84";
+    resolvedTheme === 'dark'
+      ? 'border-white/10 bg-[hsl(223_24%_14%)]'
+      : 'border-border/70 bg-[hsl(var(--surface-muted)/0.92)]';
+  const commandLabelClass = resolvedTheme === 'dark' ? 'text-white/45' : 'text-foreground/45';
+  const commandTextClass = resolvedTheme === 'dark' ? 'text-white/88' : 'text-foreground/84';
   const snapshotCodeClass =
-    resolvedTheme === "dark"
-      ? "code-panel text-white/90"
-      : "border border-border/70 bg-[hsl(var(--surface-muted)/0.9)] text-foreground/84 shadow-[0_18px_34px_hsl(var(--shadow-color)/0.08)]";
+    resolvedTheme === 'dark'
+      ? 'code-panel text-white/90'
+      : 'border border-border/70 bg-[hsl(var(--surface-muted)/0.9)] text-foreground/84 shadow-[0_18px_34px_hsl(var(--shadow-color)/0.08)]';
 
   return (
     <main className="site-shell grain-overlay relative min-h-screen overflow-hidden px-4 pb-12 pt-[4.75rem] sm:px-6 sm:pt-[5.25rem] lg:px-8">
@@ -343,10 +322,10 @@ function HomeShell({
             </h1>
             <p
               className={cn(
-                "mx-auto mt-5 max-w-4xl text-balance text-2xl font-semibold text-foreground sm:text-4xl lg:text-[3.6rem]",
-                language === "zh-CN"
-                  ? "leading-[1.3] tracking-[-0.04em] sm:leading-[1.22] lg:leading-[1.16]"
-                  : "leading-[1.18] tracking-[-0.05em] sm:leading-[1.12] lg:leading-[1.08]"
+                'mx-auto mt-5 max-w-4xl text-balance text-2xl font-semibold text-foreground sm:text-4xl lg:text-[3.6rem]',
+                language === 'zh-CN'
+                  ? 'leading-[1.3] tracking-[-0.04em] sm:leading-[1.22] lg:leading-[1.16]'
+                  : 'leading-[1.18] tracking-[-0.05em] sm:leading-[1.12] lg:leading-[1.08]'
               )}
             >
               {copy.heroTitle}
@@ -359,7 +338,7 @@ function HomeShell({
                 <span>{copy.primaryCta}</span>
                 <ArrowRight className="h-4 w-4" />
               </a>
-              <a className="site-button-secondary gap-2" href={getShowcaseHref("/guide")}>
+              <a className="site-button-secondary gap-2" href={getShowcaseHref('/guide')}>
                 <BookOpenText className="h-4 w-4" />
                 <span>{copy.guideCta}</span>
               </a>
@@ -376,7 +355,7 @@ function HomeShell({
                 <div>
                   <div className="eyebrow">{copy.startHere}</div>
                   <code className="mt-2 block text-sm font-medium text-foreground/86 sm:text-base">
-                    pnpm install && pnpm dev
+                    npm create tanvite@latest
                   </code>
                 </div>
               </div>
@@ -415,8 +394,8 @@ function HomeShell({
                 <div
                   key={title}
                   className={cn(
-                    "soft-card rounded-[1.6rem] p-5",
-                    index === copy.toolchainItems.length - 1 && "sm:col-span-2"
+                    'soft-card rounded-[1.6rem] p-5',
+                    index === copy.toolchainItems.length - 1 && 'sm:col-span-2'
                   )}
                 >
                   <div className="eyebrow">{label}</div>
@@ -426,11 +405,11 @@ function HomeShell({
               ))}
             </div>
           </article>
-          <article className={cn("rounded-[2rem] p-6 md:p-8", workflowPanelClass)} id="workflow">
-            <p className={cn("eyebrow", workflowEyebrowClass)}>{copy.workflowLabel}</p>
+          <article className={cn('rounded-[2rem] p-6 md:p-8', workflowPanelClass)} id="workflow">
+            <p className={cn('eyebrow', workflowEyebrowClass)}>{copy.workflowLabel}</p>
             <h2
               className={cn(
-                "mt-4 text-3xl font-semibold tracking-[-0.05em] md:text-4xl",
+                'mt-4 text-3xl font-semibold tracking-[-0.05em] md:text-4xl',
                 workflowTitleClass
               )}
             >
@@ -438,19 +417,19 @@ function HomeShell({
             </h2>
             <div className="mt-8 space-y-5">
               {copy.workflowItems.map(([title, description], index) => (
-                <div key={title} className={cn("rounded-[1.6rem] border p-5", workflowCardClass)}>
+                <div key={title} className={cn('rounded-[1.6rem] border p-5', workflowCardClass)}>
                   <div className="flex items-start gap-4">
                     <div
                       className={cn(
-                        "flex h-11 w-11 shrink-0 items-center justify-center rounded-full border text-sm font-semibold",
+                        'flex h-11 w-11 shrink-0 items-center justify-center rounded-full border text-sm font-semibold',
                         workflowStepClass
                       )}
                     >
                       0{index + 1}
                     </div>
                     <div>
-                      <h3 className={cn("text-lg font-semibold", workflowTextClass)}>{title}</h3>
-                      <p className={cn("mt-2 text-sm leading-7", workflowBodyClass)}>
+                      <h3 className={cn('text-lg font-semibold', workflowTextClass)}>{title}</h3>
+                      <p className={cn('mt-2 text-sm leading-7', workflowBodyClass)}>
                         {description}
                       </p>
                     </div>
@@ -461,13 +440,13 @@ function HomeShell({
           </article>
         </section>
         <section className="section-divider grid gap-6 py-6 lg:grid-cols-[0.96fr_1.04fr]">
-          <article className={cn("rounded-[2rem] p-6 md:p-8", commandPanelClass)}>
+          <article className={cn('rounded-[2rem] p-6 md:p-8', commandPanelClass)}>
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className={cn("eyebrow", commandEyebrowClass)}>{copy.commandsLabel}</p>
+                <p className={cn('eyebrow', commandEyebrowClass)}>{copy.commandsLabel}</p>
                 <h2
                   className={cn(
-                    "mt-4 text-3xl font-semibold tracking-[-0.05em] md:text-4xl",
+                    'mt-4 text-3xl font-semibold tracking-[-0.05em] md:text-4xl',
                     commandTitleClass
                   )}
                 >
@@ -476,7 +455,7 @@ function HomeShell({
               </div>
               <div
                 className={cn(
-                  "rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em]",
+                  'rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em]',
                   commandBadgeClass
                 )}
               >
@@ -485,9 +464,9 @@ function HomeShell({
             </div>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {copy.commandItems.map(([label, command]) => (
-                <div key={command} className={cn("rounded-[1.4rem] border p-4", commandCardClass)}>
-                  <div className={cn("eyebrow", commandLabelClass)}>{label}</div>
-                  <code className={cn("mt-3 block text-sm font-medium", commandTextClass)}>
+                <div key={command} className={cn('rounded-[1.4rem] border p-4', commandCardClass)}>
+                  <div className={cn('eyebrow', commandLabelClass)}>{label}</div>
+                  <code className={cn('mt-3 block text-sm font-medium', commandTextClass)}>
                     {command}
                   </code>
                 </div>
@@ -505,7 +484,7 @@ function HomeShell({
               </div>
               <pre
                 className={cn(
-                  "overflow-x-auto rounded-[1.6rem] p-5 text-sm leading-7",
+                  'overflow-x-auto rounded-[1.6rem] p-5 text-sm leading-7',
                   snapshotCodeClass
                 )}
               >
@@ -527,21 +506,21 @@ function GuideShell({
 }: {
   language: SiteLanguage;
   setLanguage: (nextLanguage: SiteLanguage) => void;
-  resolvedTheme: "dark" | "light";
+  resolvedTheme: 'dark' | 'light';
   toggleThemePreference: () => void;
 }) {
   const { t } = useShowcaseI18n();
   const copy = getGuideCopy(language, t);
   const commandPanelClass =
-    resolvedTheme === "dark" ? "glass-panel-strong text-white" : "glass-panel text-foreground";
-  const commandEyebrowClass = resolvedTheme === "dark" ? "text-white/55" : "text-foreground/48";
-  const commandTitleClass = resolvedTheme === "dark" ? "text-white" : "text-foreground";
+    resolvedTheme === 'dark' ? 'glass-panel-strong text-white' : 'glass-panel text-foreground';
+  const commandEyebrowClass = resolvedTheme === 'dark' ? 'text-white/55' : 'text-foreground/48';
+  const commandTitleClass = resolvedTheme === 'dark' ? 'text-white' : 'text-foreground';
   const commandCardClass =
-    resolvedTheme === "dark"
-      ? "border-white/10 bg-[hsl(223_24%_14%)]"
-      : "border-border/70 bg-[hsl(var(--surface-muted)/0.92)]";
-  const commandLabelClass = resolvedTheme === "dark" ? "text-white/45" : "text-foreground/45";
-  const commandTextClass = resolvedTheme === "dark" ? "text-white/88" : "text-foreground/84";
+    resolvedTheme === 'dark'
+      ? 'border-white/10 bg-[hsl(223_24%_14%)]'
+      : 'border-border/70 bg-[hsl(var(--surface-muted)/0.92)]';
+  const commandLabelClass = resolvedTheme === 'dark' ? 'text-white/45' : 'text-foreground/45';
+  const commandTextClass = resolvedTheme === 'dark' ? 'text-white/88' : 'text-foreground/84';
 
   return (
     <main className="site-shell grain-overlay relative min-h-screen overflow-hidden px-4 pb-12 pt-[4.75rem] sm:px-6 sm:pt-[5.25rem] lg:px-8">
@@ -566,7 +545,7 @@ function GuideShell({
           >
             <a
               className="site-button-secondary min-h-9 min-w-[10rem] justify-center gap-2 px-4 text-[13px]"
-              href={getShowcaseHref("/")}
+              href={getShowcaseHref('/')}
             >
               <ArrowLeft className="h-4 w-4" />
               <span>{copy.backToLanding}</span>
@@ -605,10 +584,10 @@ function GuideShell({
             </div>
           </div>
           <div className="grid gap-6">
-            <section className={cn("rounded-[2rem] p-6 md:p-8", commandPanelClass)}>
-              <p className={cn("eyebrow", commandEyebrowClass)}>{copy.commandsLabel}</p>
+            <section className={cn('rounded-[2rem] p-6 md:p-8', commandPanelClass)}>
+              <p className={cn('eyebrow', commandEyebrowClass)}>{copy.commandsLabel}</p>
               <h2
-                className={cn("mt-4 text-3xl font-semibold tracking-[-0.05em]", commandTitleClass)}
+                className={cn('mt-4 text-3xl font-semibold tracking-[-0.05em]', commandTitleClass)}
               >
                 {copy.commandsTitle}
               </h2>
@@ -616,10 +595,10 @@ function GuideShell({
                 {copy.commandCards.map(([label, command]) => (
                   <div
                     key={command}
-                    className={cn("rounded-[1.4rem] border p-4", commandCardClass)}
+                    className={cn('rounded-[1.4rem] border p-4', commandCardClass)}
                   >
-                    <div className={cn("eyebrow", commandLabelClass)}>{label}</div>
-                    <code className={cn("mt-3 block text-sm font-medium", commandTextClass)}>
+                    <div className={cn('eyebrow', commandLabelClass)}>{label}</div>
+                    <code className={cn('mt-3 block text-sm font-medium', commandTextClass)}>
                       {command}
                     </code>
                   </div>

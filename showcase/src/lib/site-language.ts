@@ -1,4 +1,4 @@
-import { type ShowcaseLocale, useShowcaseI18n } from "./i18n";
+import { type ShowcaseLocale, useShowcaseI18n } from './i18n';
 
 export type SiteLanguage = ShowcaseLocale;
 

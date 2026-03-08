@@ -1,0 +1,28 @@
+{
+  "name": "create-tanvite",
+  "version": "0.1.0",
+  "description": "Scaffold a TanVite starter project with optional OpenSpec, OpenAPI, Playwright, Pages, and agent assets.",
+  "author": "Yangson Hung",
+  "type": "module",
+  "bin": {
+    "create-tanvite": "./bin/create-tanvite.mjs"
+  },
+  "files": ["bin", "src", "template", "README.md", "TEMPLATE_OWNERSHIP.md"],
+  "keywords": ["create", "vite", "react", "tanstack-router", "starter", "scaffold"],
+  "license": "MIT",
+  "homepage": "https://github.com/YangsonHung/TanVite",
+  "bugs": {
+    "url": "https://github.com/YangsonHung/TanVite/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YangsonHung/TanVite.git",
+    "directory": "packages/create-tanvite"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

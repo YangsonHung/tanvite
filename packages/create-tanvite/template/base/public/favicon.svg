@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="__APP_NAME__">
+  <defs>
+    <linearGradient id="tanvite-fill" x1="8" x2="56" y1="10" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#dba85e"/>
+      <stop offset="0.5" stop-color="#de6d49"/>
+      <stop offset="1" stop-color="#1f6f86"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#f5ede1"/>
+  <path d="M16 18h32v7H35v21h-9V25H16z" fill="#153843"/>
+  <path d="M37 18h11L34 46H23z" fill="url(#tanvite-fill)"/>
+</svg>

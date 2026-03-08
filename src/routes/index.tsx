@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Braces, FileCode2, Rocket } from "lucide-react";
-import { useI18n } from "../lib/i18n";
+import { createFileRoute } from '@tanstack/react-router';
+import { ArrowUpRight, Braces, FileCode2, Rocket } from 'lucide-react';
+import { useI18n } from '../lib/i18n';
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute('/')({
   component: StarterHomePage,
 });
 
@@ -14,56 +14,68 @@ function StarterHomePage() {
       <div className="rounded-3xl border bg-card p-8 shadow-sm sm:p-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="inline-flex items-center rounded-full bg-secondary px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-secondary-foreground">
-            {t("starter.badge")}
+            {t('starter.badge')}
           </div>
           <div className="inline-flex items-center gap-2 rounded-full border bg-background p-1 text-sm">
-            <span className="px-2 text-muted-foreground">{t("common.languageLabel")}</span>
+            <span className="px-2 text-muted-foreground">{t('common.languageLabel')}</span>
             <button
               className={`rounded-full px-3 py-1.5 font-medium transition-colors ${
-                locale === "en"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                locale === 'en'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
-              onClick={() => setLocale("en")}
+              onClick={() => setLocale('en')}
               type="button"
             >
-              {t("common.english")}
+              {t('common.english')}
             </button>
             <button
               className={`rounded-full px-3 py-1.5 font-medium transition-colors ${
-                locale === "zh-CN"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                locale === 'zh-CN'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
-              onClick={() => setLocale("zh-CN")}
+              onClick={() => setLocale('zh-CN')}
               type="button"
             >
-              {t("common.chinese")}
+              {t('common.chinese')}
             </button>
           </div>
         </div>
         <h1 className="mt-6 text-4xl font-semibold tracking-[-0.04em] text-foreground sm:text-5xl">
-          {t("starter.title")}
+          {t('starter.title')}
         </h1>
         <p className="mt-5 max-w-3xl text-base leading-8 text-muted-foreground sm:text-lg">
-          {t("starter.body")}
+          {t('starter.body')}
         </p>
 
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           <section className="rounded-2xl border bg-background p-5">
             <Rocket className="h-5 w-5 text-primary" />
-            <h2 className="mt-4 text-lg font-semibold text-foreground">{t("starter.runtimeTitle")}</h2>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">{t("starter.runtimeBody")}</p>
+            <h2 className="mt-4 text-lg font-semibold text-foreground">
+              {t('starter.runtimeTitle')}
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              {t('starter.runtimeBody')}
+            </p>
           </section>
           <section className="rounded-2xl border bg-background p-5">
             <Braces className="h-5 w-5 text-primary" />
-            <h2 className="mt-4 text-lg font-semibold text-foreground">{t("starter.contractTitle")}</h2>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">{t("starter.contractBody")}</p>
+            <h2 className="mt-4 text-lg font-semibold text-foreground">
+              {t('starter.contractTitle')}
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              {t('starter.contractBody')}
+            </p>
           </section>
           <section className="rounded-2xl border bg-background p-5">
             <FileCode2 className="h-5 w-5 text-primary" />
-            <h2 className="mt-4 text-lg font-semibold text-foreground">{t("starter.showcaseTitle")}</h2>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">{t("starter.showcaseBody")}</p>
+            <h2 className="mt-4 text-lg font-semibold text-foreground">
+              {t('starter.showcaseTitle')}
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              {t('starter.showcaseBody')}
+            </p>
           </section>
         </div>
 
@@ -74,7 +86,7 @@ function StarterHomePage() {
             rel="noreferrer"
             target="_blank"
           >
-            <span>{t("starter.openShowcase")}</span>
+            <span>{t('starter.openShowcase')}</span>
             <ArrowUpRight className="h-4 w-4" />
           </a>
           <a
@@ -83,7 +95,7 @@ function StarterHomePage() {
             rel="noreferrer"
             target="_blank"
           >
-            <span>{t("starter.openRepository")}</span>
+            <span>{t('starter.openRepository')}</span>
             <ArrowUpRight className="h-4 w-4" />
           </a>
         </div>

@@ -1,7 +1,7 @@
 import path from "node:path";
-import { defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [tanstackRouter(), react()],
@@ -16,15 +16,10 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
-      exclude: [
-        "node_modules/",
-        "tests/e2e/",
-        "src/routeTree.gen.ts",
-        "*.config.*",
-      ],
+      exclude: ["node_modules/", "tests/e2e/", "src/routeTree.gen.ts", "*.config.*"],
     },
-    // 排除 E2E 测试
-    exclude: ["node_modules", "tests/e2e"],
+    // 排除 E2E 测试与脚手架模板测试
+    exclude: ["node_modules", "tests/e2e", ".tmp", "packages/create-tanvite/**"],
   },
   resolve: {
     alias: {

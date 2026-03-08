@@ -6,6 +6,7 @@ Repository instructions for Codex, Claude Code, and other agents that read `AGEN
 
 TanVite is a production-oriented React 19 starter with:
 
+- a publishable `create-tanvite` scaffolder for curated starter generation
 - Vite + TypeScript
 - OpenSpec for spec-driven change tracking
 - `.agents/skills/` for Codex and `.claude/skills/` for Claude Code
@@ -18,10 +19,16 @@ TanVite is a production-oriented React 19 starter with:
 
 - Use `pnpm` for all package management and scripts.
 - Prefer editing source files over editing generated files.
+- Every time `AGENTS.md` changes, sync the same update to `CLAUDE.md`; `AGENTS.md` and `CLAUDE.md` must stay aligned.
 - Keep public-facing copy aligned across:
   - `README.md`
   - `README.zh-CN.md`
   - `showcase/src/app.tsx`
+- Keep starter distribution behavior aligned across:
+  - `packages/create-tanvite/src/`
+  - `packages/create-tanvite/template/base/`
+  - `README.md`
+  - `README.zh-CN.md`
 - Preserve bilingual behavior on the showcase landing page and guide page.
 - When changing project positioning, update both OpenSpec-facing docs and public showcase copy.
 
@@ -70,6 +77,7 @@ src/routes/            Starter route files
 src/lib/               Shared runtime logic, API config, query client, utilities
 src/mocks/             MSW browser mocks
 showcase/              Public showcase app (landing page, guide, site-only styles)
+packages/create-tanvite/ CLI package and curated starter template source
 
 openspec/changes/      Active change proposals
 openspec/specs/        Baseline specifications
@@ -101,6 +109,7 @@ When changing any of the following, update all relevant surfaces in the same pas
 - OpenAPI workflow
 - GitHub Pages behavior
 - starter commands
+- starter distribution flow
 
 Relevant files:
 

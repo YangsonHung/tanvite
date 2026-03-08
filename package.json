@@ -26,9 +26,16 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "lint": "biome lint --write .",
-    "format": "biome format --write .",
-    "check": "biome check --write .",
+    "biome:lint": "biome lint .",
+    "biome:lint:fix": "biome lint --write .",
+    "biome:format": "biome format --write .",
+    "biome:check": "biome check .",
+    "biome:check:fix": "biome check --write .",
+    "lint": "pnpm biome:lint",
+    "lint:fix": "pnpm biome:lint:fix",
+    "format": "pnpm biome:format",
+    "check": "pnpm biome:check",
+    "check:fix": "pnpm biome:check:fix",
     "prepare": "husky"
   },
   "dependencies": {
@@ -81,13 +88,9 @@
     "yaml": "^2.8.2"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,css}": [
-      "biome check --write --no-errors-on-unmatched"
-    ]
+    "*.{js,jsx,ts,tsx,json,css}": ["biome check --write --no-errors-on-unmatched"]
   },
   "msw": {
-    "workerDirectory": [
-      "public"
-    ]
+    "workerDirectory": ["public"]
   }
 }
