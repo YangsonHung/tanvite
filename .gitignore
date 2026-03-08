@@ -8,6 +8,7 @@ docs
 .tmp
 dist-ssr
 .openapi
+*.tgz
 *.tsbuildinfo
 
 # Environment
