@@ -82,7 +82,7 @@ function StarterHomePage() {
         <div className="mt-10 flex flex-wrap gap-3">
           <a
             className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
-            href="https://yangsonhung.github.io/TanVite"
+            href="https://yangsonhung.github.io/tanvite"
             rel="noreferrer"
             target="_blank"
           >
@@ -91,7 +91,7 @@ function StarterHomePage() {
           </a>
           <a
             className="inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold text-foreground"
-            href="https://github.com/YangsonHung/TanVite"
+            href="https://github.com/YangsonHung/tanvite"
             rel="noreferrer"
             target="_blank"
           >

@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     root: isShowcase ? path.resolve(__dirname, "./showcase") : __dirname,
-    base: isShowcaseBuild ? "/TanVite/" : "/",
+    base: isShowcaseBuild ? "/tanvite/" : "/",
     cacheDir: path.resolve(
       __dirname,
       isShowcase ? "node_modules/.vite-showcase" : "node_modules/.vite"

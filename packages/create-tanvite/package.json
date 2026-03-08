@@ -10,13 +10,13 @@
   "files": ["bin", "src", "template", "README.md", "TEMPLATE_OWNERSHIP.md"],
   "keywords": ["create", "vite", "react", "tanstack-router", "starter", "scaffold"],
   "license": "MIT",
-  "homepage": "https://github.com/YangsonHung/TanVite",
+  "homepage": "https://github.com/YangsonHung/tanvite",
   "bugs": {
-    "url": "https://github.com/YangsonHung/TanVite/issues"
+    "url": "https://github.com/YangsonHung/tanvite/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YangsonHung/TanVite.git",
+    "url": "git+https://github.com/YangsonHung/tanvite.git",
     "directory": "packages/create-tanvite"
   },
   "publishConfig": {

@@ -131,6 +131,6 @@ Run the smallest useful verification set for the change:
 
 - Standard app builds output to `dist/`
 - GitHub Pages builds output to `dist-pages/`
-- GitHub Pages runs under the `/TanVite/` base path
+- GitHub Pages runs under the `/tanvite/` base path
 
 Any change touching links, asset paths, router behavior, or preview instructions must keep the Pages deployment path working.

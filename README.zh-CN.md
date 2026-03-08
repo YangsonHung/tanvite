@@ -5,9 +5,9 @@
 [![TanStack Query](https://img.shields.io/badge/TanStack-Query-b91c1c?logo=reactquery&logoColor=white)](#-技术栈)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](#-技术栈)
 [![MIT License](https://img.shields.io/badge/License-MIT-16a34a)](#-许可证)
-[![Pages Deploy](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml)
-[![CI Status](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml/badge.svg)](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml)
-[![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-222222?logo=githubpages&logoColor=white)](https://yangsonhung.github.io/TanVite/)
+[![Pages Deploy](https://github.com/YangsonHung/tanvite/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/YangsonHung/tanvite/actions/workflows/deploy-pages.yml)
+[![CI Status](https://github.com/YangsonHung/tanvite/actions/workflows/ci.yml/badge.svg)](https://github.com/YangsonHung/tanvite/actions/workflows/ci.yml)
+[![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-222222?logo=githubpages&logoColor=white)](https://yangsonhung.github.io/tanvite/)
 
 [English](README.md) | **中文**
 
@@ -136,7 +136,7 @@ pnpm build:pages
 pnpm preview:pages
 ```
 
-打开 `http://localhost:4419/TanVite/`。
+打开 `http://localhost:4419/tanvite/`。
 
 ## 🧠 OpenAPI 工作流
 
@@ -259,13 +259,13 @@ pnpm routes:generate
 
 - 应用构建产物：`dist/`
 - Pages 构建产物：`dist-pages/`
-- 对外地址：`https://yangsonhung.github.io/TanVite`
+- 对外地址：`https://yangsonhung.github.io/tanvite`
 - 部署工作流： [.github/workflows/deploy-pages.yml](/Users/yangsonhung/Projects/personal/TanVite/.github/workflows/deploy-pages.yml)
 
 用于 GitHub Pages 时：
 
 - 使用 `pnpm build:pages` 构建
-- 生产环境 `base` 使用 `/TanVite/`
+- 生产环境 `base` 使用 `/tanvite/`
 - 发布 GitHub Actions artifact，而不是提交 `docs/`
 - 在 Pages 产物中保留 `404.html` 和 `.nojekyll` 以支持 SPA 托管
 

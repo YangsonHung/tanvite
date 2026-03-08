@@ -5,9 +5,9 @@
 [![TanStack Query](https://img.shields.io/badge/TanStack-Query-b91c1c?logo=reactquery&logoColor=white)](#-tech-stack)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](#-tech-stack)
 [![MIT License](https://img.shields.io/badge/License-MIT-16a34a)](#-license)
-[![Pages Deploy](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/YangsonHung/TanVite/actions/workflows/deploy-pages.yml)
-[![CI Status](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml/badge.svg)](https://github.com/YangsonHung/TanVite/actions/workflows/ci.yml)
-[![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-222222?logo=githubpages&logoColor=white)](https://yangsonhung.github.io/TanVite/)
+[![Pages Deploy](https://github.com/YangsonHung/tanvite/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/YangsonHung/tanvite/actions/workflows/deploy-pages.yml)
+[![CI Status](https://github.com/YangsonHung/tanvite/actions/workflows/ci.yml/badge.svg)](https://github.com/YangsonHung/tanvite/actions/workflows/ci.yml)
+[![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-222222?logo=githubpages&logoColor=white)](https://yangsonhung.github.io/tanvite/)
 
 **English** | [中文](README.zh-CN.md)
 
@@ -136,7 +136,7 @@ pnpm build:pages
 pnpm preview:pages
 ```
 
-Open `http://localhost:4419/TanVite/`.
+Open `http://localhost:4419/tanvite/`.
 
 ## 🧠 OpenAPI Workflow
 
@@ -259,13 +259,13 @@ Use the official GitHub Actions Pages deployment flow.
 
 - App build output: `dist/`
 - Pages build output: `dist-pages/`
-- Public URL: `https://yangsonhung.github.io/TanVite`
+- Public URL: `https://yangsonhung.github.io/tanvite`
 - Deployment workflow: [.github/workflows/deploy-pages.yml](/Users/yangsonhung/Projects/personal/TanVite/.github/workflows/deploy-pages.yml)
 
 For GitHub Pages:
 
 - Build with `pnpm build:pages`
-- Use `/TanVite/` as the production base path
+- Use `/tanvite/` as the production base path
 - Publish the GitHub Actions artifact instead of committing `docs/`
 - Keep `404.html` and `.nojekyll` in the Pages output for SPA hosting
 

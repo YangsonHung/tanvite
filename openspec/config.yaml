@@ -20,7 +20,7 @@ context: |
     - showcase/src/app.tsx
     - AGENTS.md
   - Preserve bilingual behavior on the showcase landing page and guide page
-  - GitHub Pages runs under the /TanVite/ base path
+  - GitHub Pages runs under the /tanvite/ base path
 
 rules:
   proposal:

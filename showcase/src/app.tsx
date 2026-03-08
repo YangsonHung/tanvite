@@ -299,7 +299,7 @@ function HomeShell({
             <a
               aria-label={copy.repoLabel}
               className="site-control"
-              href="https://github.com/YangsonHung/TanVite"
+              href="https://github.com/YangsonHung/tanvite"
               rel="noreferrer"
               target="_blank"
             >
@@ -614,7 +614,7 @@ function GuideShell({
               <div className="mt-6 flex flex-wrap gap-3">
                 <a
                   className="site-button-secondary px-5"
-                  href="https://yangsonhung.github.io/TanVite"
+                  href="https://yangsonhung.github.io/tanvite"
                   rel="noreferrer"
                   target="_blank"
                 >
@@ -622,7 +622,7 @@ function GuideShell({
                 </a>
                 <a
                   className="site-button-secondary px-5"
-                  href="https://github.com/YangsonHung/TanVite"
+                  href="https://github.com/YangsonHung/tanvite"
                   rel="noreferrer"
                   target="_blank"
                 >
@@ -630,7 +630,7 @@ function GuideShell({
                 </a>
                 <a
                   className="site-button-secondary px-5"
-                  href="https://github.com/YangsonHung/TanVite/issues"
+                  href="https://github.com/YangsonHung/tanvite/issues"
                   rel="noreferrer"
                   target="_blank"
                 >
