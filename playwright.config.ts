@@ -10,13 +10,10 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 1,
   // CI 环境中单 worker
   workers: process.env.CI ? 1 : undefined,
-  reporter: [
-    ["html", { outputFolder: "playwright-report" }],
-    ["list"],
-  ],
+  reporter: [["html", { outputFolder: "playwright-report" }], ["list"]],
   use: {
     // 基础 URL，与 vite dev 端口对应
-    baseURL: "http://localhost:3000",
+    baseURL: "http://localhost:4319",
     // 失败时截图
     screenshot: "only-on-failure",
     // 失败时录像
@@ -50,7 +47,7 @@ export default defineConfig({
   // 运行 E2E 前先启动开发服务器
   webServer: {
     command: "pnpm dev",
-    url: "http://localhost:3000",
+    url: "http://localhost:4319",
     reuseExistingServer: !process.env.CI,
   },
 });

@@ -4,6 +4,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
 import { isMockServiceWorkerEnabled } from "./lib/api/config";
+import { I18nProvider } from "./lib/i18n";
 import { queryClient } from "./lib/query-client";
 import "./index.css";
 
@@ -36,8 +37,10 @@ if (import.meta.env.DEV && isMockServiceWorkerEnabled) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <I18nProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </I18nProvider>
   </StrictMode>
 );

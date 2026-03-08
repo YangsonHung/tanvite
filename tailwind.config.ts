@@ -5,7 +5,12 @@ const config: Config = {
   // 开启暗黑模式（class 策略）
   darkMode: ["class"],
   // 扫描范围
-  content: ["./index.html", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{ts,tsx}",
+    "./showcase/index.html",
+    "./showcase/src/**/*.{ts,tsx}",
+  ],
   theme: {
     extend: {
       // shadcn/ui 所需的 CSS 变量映射

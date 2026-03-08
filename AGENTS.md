@@ -8,7 +8,7 @@ TanVite is a production-oriented React 19 starter with:
 
 - Vite + TypeScript
 - OpenSpec for spec-driven change tracking
-- `.agents/skills/` as the shared skill catalog
+- `.agents/skills/` for Codex and `.claude/skills/` for Claude Code
 - TanStack Router + TanStack Query
 - OpenAPI / Orval / MSW / Prism
 - Biome, Vitest, Playwright
@@ -21,20 +21,19 @@ TanVite is a production-oriented React 19 starter with:
 - Keep public-facing copy aligned across:
   - `README.md`
   - `README.zh-CN.md`
-  - `src/routes/index.tsx`
-  - `src/routes/guide.tsx`
-- Preserve bilingual behavior on the landing page and guide page.
+  - `showcase/src/app.tsx`
+- Preserve bilingual behavior on the showcase landing page and guide page.
 - When changing project positioning, update both OpenSpec-facing docs and public showcase copy.
 
 ## Shared Agent Assets
 
-The repository-level skill catalog lives in:
+The repository-level Codex skill catalog lives in:
 
 ```text
 .agents/skills/
 ```
 
-These skills are intended to be reused across Codex and Claude Code.
+Claude Code keeps its corresponding skills under `.claude/skills/`.
 
 OpenSpec command assets currently live in:
 
@@ -55,29 +54,29 @@ pnpm test:run
 pnpm check
 
 pnpm routes:generate
+pnpm openspec:list
+pnpm openspec:new <name>
+pnpm openspec:validate
+pnpm openspec:spec:list
 pnpm openapi:check
 pnpm openapi:generate
 pnpm openapi:mock
-
-openspec list
-openspec new change <name>
-openspec validate
 ```
 
 ## Important Paths
 
 ```text
-src/routes/            Route files and public-facing pages
+src/routes/            Starter route files
 src/lib/               Shared runtime logic, API config, query client, utilities
 src/mocks/             MSW browser mocks
-src/lib/site-language.ts
-                       Shared language state for landing and guide pages
+showcase/              Public showcase app (landing page, guide, site-only styles)
 
 openspec/changes/      Active change proposals
 openspec/specs/        Baseline specifications
 openspec/config.yaml   OpenSpec config
 
-.agents/skills/        Shared skill catalog for agents
+.agents/skills/        Codex skill catalog
+.claude/skills/        Claude Code skill catalog
 .claude/commands/opsx/ OpenSpec command assets for Claude Code
 ```
 
@@ -107,8 +106,7 @@ Relevant files:
 
 - `README.md`
 - `README.zh-CN.md`
-- `src/routes/index.tsx`
-- `src/routes/guide.tsx`
+- `showcase/src/app.tsx`
 - `AGENTS.md`
 
 ## Verification
