@@ -1,89 +1,127 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Repository instructions for Codex, Claude Code, and other agents that read `AGENTS.md`.
 
-## Commands
+## Project Profile
 
-```bash
-pnpm install              # Install dependencies
-pnpm dev                  # Start Vite dev server (port 4319)
-pnpm dev:mock             # Start dev server with MSW browser mocks
-pnpm build                # Build app to dist/
-pnpm build:pages          # Build GitHub Pages site to dist-pages/
-pnpm preview              # Preview dist/ (port 4419)
-pnpm preview:pages        # Preview dist-pages/ (port 4419)
+TanVite is a production-oriented React 19 starter with:
 
-pnpm test                 # Run Vitest in watch mode
-pnpm test:run             # Run unit tests once
-pnpm test:coverage        # Run tests with coverage report
-pnpm test:e2e             # Run Playwright E2E tests
-pnpm test:e2e:ui          # Run Playwright in UI mode
+- Vite + TypeScript
+- OpenSpec for spec-driven change tracking
+- `.agents/skills/` for Codex and `.claude/skills/` for Claude Code
+- TanStack Router + TanStack Query
+- OpenAPI / Orval / MSW / Prism
+- Biome, Vitest, Playwright
+- GitHub Pages showcase support
 
-pnpm check                # Run Biome lint + format with fixes
-pnpm lint                 # Run Biome lint
-pnpm format               # Run Biome format
+## Working Rules
 
-pnpm routes:generate      # Generate TanStack Router route tree
-pnpm openapi:check        # Validate OpenAPI schema
-pnpm openapi:generate     # Generate API clients, hooks, MSW mocks
-pnpm openapi:mock         # Start Prism standalone mock server (port 4010)
+- Use `pnpm` for all package management and scripts.
+- Prefer editing source files over editing generated files.
+- Keep public-facing copy aligned across:
+  - `README.md`
+  - `README.zh-CN.md`
+  - `showcase/src/app.tsx`
+- Preserve bilingual behavior on the showcase landing page and guide page.
+- When changing project positioning, update both OpenSpec-facing docs and public showcase copy.
 
-openspec list             # List OpenSpec changes
-openspec new change <name> # Create new change proposal
-openspec validate         # Validate OpenSpec config
+## Shared Agent Assets
+
+The repository-level Codex skill catalog lives in:
+
+```text
+.agents/skills/
 ```
 
-## Architecture
+Claude Code keeps its corresponding skills under `.claude/skills/`.
 
-**Tech Stack:**
-- React 19 + TypeScript + Vite 5
-- TanStack Router (file-based routing) + TanStack Query v5
-- Tailwind CSS + shadcn/ui utilities
-- Biome for linting/formatting
-- Vitest (unit) + Playwright (E2E)
-- OpenAPI/Orval for API client generation
-- MSW (browser mocks) + Prism (standalone mock server)
+OpenSpec command assets currently live in:
 
-**Path Aliases:**
-- `@/*` → `./src/*`
+```text
+.claude/commands/opsx/
+```
 
-**Key Directories:**
-- `src/routes/` — Route files (TanStack Router)
-- `src/lib/` — Shared utilities, API config, query client
-- `src/lib/api/generated/` — Generated API layer (Orval output)
-- `src/mocks/` — MSW browser mocks
-- `openspec/` — OpenSpec workspace (changes/, specs/, config.yaml)
-- `.agents/skills/` — Shared skill catalog for Codex/Claude Code
-- `.claude/commands/opsx/` — OpenSpec command assets
+If you change workflow wording or OpenSpec collaboration patterns, check both `.agents/skills/` and `.claude/commands/opsx/`.
 
-**Generated Files (do not hand-edit):**
+## Key Commands
+
+```bash
+pnpm install
+pnpm dev
+pnpm build
+pnpm build:pages
+pnpm test:run
+pnpm check
+
+pnpm routes:generate
+pnpm openspec:list
+pnpm openspec:new <name>
+pnpm openspec:validate
+pnpm openspec:spec:list
+pnpm openapi:check
+pnpm openapi:generate
+pnpm openapi:mock
+```
+
+## Important Paths
+
+```text
+src/routes/            Starter route files
+src/lib/               Shared runtime logic, API config, query client, utilities
+src/mocks/             MSW browser mocks
+showcase/              Public showcase app (landing page, guide, site-only styles)
+
+openspec/changes/      Active change proposals
+openspec/specs/        Baseline specifications
+openspec/config.yaml   OpenSpec config
+
+.agents/skills/        Codex skill catalog
+.claude/skills/        Claude Code skill catalog
+.claude/commands/opsx/ OpenSpec command assets for Claude Code
+```
+
+## Generated Files
+
+Do not hand-edit generated artifacts unless the task explicitly requires it.
+
 - `src/routeTree.gen.ts`
-- `src/lib/api/generated/*`
-- `dist/`, `dist-pages/`
+- `src/lib/api/generated/`
+- `dist/`
+- `dist-pages/`
 
-## Development Patterns
+If generated output is wrong, fix the source configuration or generation script first.
 
-**API Workflow:**
-1. Set `OPENAPI_SCHEMA_URL` in `.env.local` (copy from `.env.example`)
-2. Run `pnpm openapi:check` then `pnpm openapi:generate`
-3. Use `pnpm dev:mock` (MSW) or `pnpm openapi:mock` (Prism server)
+## Docs and UI Sync
 
-**OpenSpec Workflow:**
-- Active proposals: `openspec/changes/`
-- Baseline specs: `openspec/specs/`
-- Uses `spec-driven` schema
+When changing any of the following, update all relevant surfaces in the same pass:
 
-**Sync surfaces when changing copy/positioning:**
-- `README.md`, `README.zh-CN.md`
-- `src/routes/index.tsx`, `src/routes/guide.tsx`
+- project description
+- supported agent workflows
+- OpenSpec workflow
+- OpenAPI workflow
+- GitHub Pages behavior
+- starter commands
+
+Relevant files:
+
+- `README.md`
+- `README.zh-CN.md`
+- `showcase/src/app.tsx`
 - `AGENTS.md`
 
-**GitHub Pages:**
-- Build: `pnpm build:pages` → outputs to `dist-pages/` with `/TanVite/` base
-- Uses GitHub Actions deployment (not manual `docs/` commit)
-- Keep `404.html` and `.nojekyll` in Pages output
+## Verification
 
-**Conventions:**
-- Use `pnpm` for all package operations
-- Biome rules: 2-space indent, 100 char line width, double quotes, always semicolons
-- TypeScript strict mode with noUnusedLocals/Parameters enabled
+Run the smallest useful verification set for the change:
+
+- docs/copy only: `pnpm build`
+- TypeScript or UI code: `pnpm build`
+- tooling/runtime changes: `pnpm test:run && pnpm build`
+- formatting/lint issues: `pnpm check`
+
+## Deployment Notes
+
+- Standard app builds output to `dist/`
+- GitHub Pages builds output to `dist-pages/`
+- GitHub Pages runs under the `/TanVite/` base path
+
+Any change touching links, asset paths, router behavior, or preview instructions must keep the Pages deployment path working.
