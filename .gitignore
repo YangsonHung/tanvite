@@ -39,4 +39,4 @@ test-results
 Thumbs.db
 
 # TanStack Router (auto-generated)
-src/routeTree.gen.ts
+**/src/routeTree.gen.ts
