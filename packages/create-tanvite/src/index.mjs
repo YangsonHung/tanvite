@@ -52,6 +52,7 @@ export async function run(argv) {
 
   await ensureTargetDirectory(targetDir, parsed.yes);
   await fs.cp(templateDir(), targetDir, { recursive: true });
+  await restoreDotfiles(targetDir);
 
   await removePath(path.join(targetDir, 'showcase'));
   await removePath(path.join(targetDir, 'README.md'));
@@ -82,6 +83,20 @@ export async function run(argv) {
 
 function templateDir() {
   return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../template/base');
+}
+
+async function restoreDotfiles(targetDir) {
+  const mappings = [['gitignore', '.gitignore']];
+
+  for (const [sourceName, targetName] of mappings) {
+    const sourcePath = path.join(targetDir, sourceName);
+    const targetPath = path.join(targetDir, targetName);
+    await fs.rename(sourcePath, targetPath).catch((error) => {
+      if (error.code !== 'ENOENT') {
+        throw error;
+      }
+    });
+  }
 }
 
 function parseArgs(argv) {
