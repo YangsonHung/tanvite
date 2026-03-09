@@ -57,6 +57,24 @@ npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,age
 
 源码仓库用于维护 TanVite 本体，包括 `create-tanvite` 脚手架、starter 模板和公开展示站。产品团队要启动新项目时，应使用 `npm create tanvite@latest`。
 
+### 发布 `create-tanvite`
+
+在 `packages/create-tanvite` 下发布，并在发布前先校验 tarball 内容。
+
+```bash
+cd packages/create-tanvite
+npm version patch --no-git-tag-version
+pnpm pack
+tar -tzf create-tanvite-*.tgz | grep -E "template/base/(gitignore|\\.gitignore|src/routeTree\\.gen\\.ts)"
+pnpm publish --access public --no-git-checks --registry=https://registry.npmjs.org
+```
+
+发布后校验 npm dist-tags：
+
+```bash
+npm view create-tanvite version dist-tags --json --registry=https://registry.npmjs.org
+```
+
 ## 💠 特性
 
 - 用于生成整理后 starter 的 `create-tanvite` 脚手架

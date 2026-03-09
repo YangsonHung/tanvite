@@ -57,6 +57,24 @@ npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,age
 
 The source repository is for maintaining TanVite itself: the `create-tanvite` scaffolder, the starter template, and the public showcase. Product teams starting a new app should use `npm create tanvite@latest`.
 
+### Publish `create-tanvite`
+
+Release from `packages/create-tanvite` and verify tarball contents before publish.
+
+```bash
+cd packages/create-tanvite
+npm version patch --no-git-tag-version
+pnpm pack
+tar -tzf create-tanvite-*.tgz | grep -E "template/base/(gitignore|\\.gitignore|src/routeTree\\.gen\\.ts)"
+pnpm publish --access public --no-git-checks --registry=https://registry.npmjs.org
+```
+
+Then verify npm dist-tags:
+
+```bash
+npm view create-tanvite version dist-tags --json --registry=https://registry.npmjs.org
+```
+
 ## 💠 Features
 
 - `create-tanvite` scaffolder for curated starter generation
