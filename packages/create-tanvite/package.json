@@ -1,6 +1,6 @@
 {
   "name": "create-tanvite",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Scaffold a TanVite starter project with optional OpenSpec, OpenAPI, Playwright, Pages, and agent assets.",
   "author": "Yangson Hung",
   "type": "module",
