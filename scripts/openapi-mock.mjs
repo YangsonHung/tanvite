@@ -1,9 +1,9 @@
-import { spawn } from "node:child_process";
+import { spawn } from 'node:child_process';
 import {
   cacheOpenApiDocument,
   fetchOpenApiDocument,
   getOpenApiConfig,
-} from "./openapi-helpers.mjs";
+} from './openapi-helpers.mjs';
 
 const config = getOpenApiConfig();
 
@@ -16,26 +16,26 @@ try {
   console.log(`Listening on http://127.0.0.1:${config.mockServerPort}`);
 
   const child = spawn(
-    "pnpm",
+    'pnpm',
     [
-      "exec",
-      "prism",
-      "mock",
+      'exec',
+      'prism',
+      'mock',
       schemaCacheFile,
-      "--port",
+      '--port',
       String(config.mockServerPort),
-      "--host",
-      "127.0.0.1",
-      "--cors",
-      "--dynamic",
+      '--host',
+      '127.0.0.1',
+      '--cors',
+      '--dynamic',
     ],
     {
-      stdio: "inherit",
-      shell: process.platform === "win32",
+      stdio: 'inherit',
+      shell: process.platform === 'win32',
     }
   );
 
-  child.on("close", (code) => {
+  child.on('close', (code) => {
     process.exit(code ?? 0);
   });
 } catch (error) {

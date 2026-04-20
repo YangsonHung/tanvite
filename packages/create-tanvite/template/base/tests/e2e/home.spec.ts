@@ -1,10 +1,10 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from '@playwright/test';
 
-test("starter 首页正常渲染", async ({ page }) => {
-  await page.goto("/");
+test('starter 首页正常渲染', async ({ page }) => {
+  await page.goto('/');
 
   await expect(
-    page.getByRole("heading", {
+    page.getByRole('heading', {
       name: /Ship product code without rebuilding your frontend foundation/,
     })
   ).toBeVisible();

@@ -10,7 +10,7 @@ context: |
   - Prefer editing source files over generated files
   - Do not hand-edit generated artifacts:
     - src/routeTree.gen.ts
-    - src/lib/api/generated/
+    - src/shared/api/generated/
     - dist/
     - dist-pages/
   - Keep public-facing README and app-facing starter copy aligned when project positioning changes

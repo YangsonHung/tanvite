@@ -1,4 +1,4 @@
-import { Generator, getConfig } from "@tanstack/router-generator";
+import { Generator, getConfig } from '@tanstack/router-generator';
 
 const config = getConfig({}, process.cwd());
 const generator = new Generator({

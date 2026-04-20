@@ -3,16 +3,16 @@ import {
   fetchOpenApiDocument,
   getDocumentVersion,
   validateOpenApiDocument,
-} from "./openapi-helpers.mjs";
+} from './openapi-helpers.mjs';
 
 try {
   const { config, document } = await fetchOpenApiDocument();
   const version = validateOpenApiDocument(document);
   const cachePath = await cacheOpenApiDocument(document);
-  const title = document.info?.title ?? "Untitled API";
+  const title = document.info?.title ?? 'Untitled API';
   const endpointCount = Object.keys(document.paths ?? {}).length;
 
-  console.log("OpenAPI document is valid.");
+  console.log('OpenAPI document is valid.');
   console.log(`Source: ${config.schemaUrl}`);
   console.log(`Title: ${title}`);
   console.log(`Version: ${getDocumentVersion(document)} (${version})`);

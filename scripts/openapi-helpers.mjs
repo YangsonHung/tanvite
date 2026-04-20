@@ -1,10 +1,10 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import YAML from "yaml";
-import { resolveOpenApiConfig } from "../openapi.config.mjs";
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import YAML from 'yaml';
+import { resolveOpenApiConfig } from '../openapi.config.mjs';
 
 const jsonHeaders = {
-  Accept: "application/json, application/yaml, application/x-yaml, text/yaml, text/plain;q=0.9",
+  Accept: 'application/json, application/yaml, application/x-yaml, text/yaml, text/plain;q=0.9',
 };
 
 export function getOpenApiConfig() {
@@ -22,7 +22,7 @@ export async function fetchOpenApiDocument() {
   }
 
   const raw = await response.text();
-  const contentType = response.headers.get("content-type") ?? "";
+  const contentType = response.headers.get('content-type') ?? '';
 
   return {
     config,
@@ -32,17 +32,17 @@ export async function fetchOpenApiDocument() {
   };
 }
 
-export function parseOpenApiDocument(raw, contentType = "") {
+export function parseOpenApiDocument(raw, contentType = '') {
   const normalizedType = contentType.toLowerCase();
 
-  if (normalizedType.includes("json")) {
+  if (normalizedType.includes('json')) {
     return JSON.parse(raw);
   }
 
   if (
-    normalizedType.includes("yaml") ||
-    normalizedType.includes("yml") ||
-    normalizedType.includes("text/plain")
+    normalizedType.includes('yaml') ||
+    normalizedType.includes('yml') ||
+    normalizedType.includes('text/plain')
   ) {
     return YAML.parse(raw);
   }
@@ -55,22 +55,22 @@ export function parseOpenApiDocument(raw, contentType = "") {
 }
 
 export function getDocumentVersion(document) {
-  return document.openapi ?? document.swagger ?? "unknown";
+  return document.openapi ?? document.swagger ?? 'unknown';
 }
 
 export function validateOpenApiDocument(document) {
-  if (!document || typeof document !== "object") {
-    throw new Error("OpenAPI document must be a JSON/YAML object.");
+  if (!document || typeof document !== 'object') {
+    throw new Error('OpenAPI document must be a JSON/YAML object.');
   }
 
   const version = getDocumentVersion(document);
 
-  if (version === "unknown") {
-    throw new Error("OpenAPI document must include an `openapi` or `swagger` version field.");
+  if (version === 'unknown') {
+    throw new Error('OpenAPI document must include an `openapi` or `swagger` version field.');
   }
 
-  if (!document.paths || typeof document.paths !== "object") {
-    throw new Error("OpenAPI document must include a `paths` object.");
+  if (!document.paths || typeof document.paths !== 'object') {
+    throw new Error('OpenAPI document must include a `paths` object.');
   }
 
   return version;
@@ -85,28 +85,28 @@ export async function cacheOpenApiDocument(document) {
   const absolutePath = path.resolve(schemaCacheFile);
 
   await ensureDirectory(path.dirname(absolutePath));
-  await fs.writeFile(absolutePath, JSON.stringify(document, null, 2), "utf8");
+  await fs.writeFile(absolutePath, JSON.stringify(document, null, 2), 'utf8');
 
   return absolutePath;
 }
 
 export async function writeGeneratedMockIndex() {
   const { generatedDir } = getOpenApiConfig();
-  const endpointsDir = path.resolve(generatedDir, "endpoints");
-  const outputFile = path.resolve(generatedDir, "mock-handlers.ts");
+  const endpointsDir = path.resolve(generatedDir, 'endpoints');
+  const outputFile = path.resolve(generatedDir, 'mock-handlers.ts');
 
   const files = await collectMockFiles(endpointsDir);
 
   if (!files.length) {
     const fallback = `import type { RequestHandler } from "msw";\n\nexport const handlers: RequestHandler[] = [];\n`;
     await ensureDirectory(path.dirname(outputFile));
-    await fs.writeFile(outputFile, fallback, "utf8");
+    await fs.writeFile(outputFile, fallback, 'utf8');
     return;
   }
 
   const mockExports = await Promise.all(
     files.map(async (filePath, index) => {
-      const source = await fs.readFile(filePath, "utf8");
+      const source = await fs.readFile(filePath, 'utf8');
       const match = source.match(/export const (\w+Mock) = \(\) => \[/m);
 
       if (!match) {
@@ -127,14 +127,14 @@ export async function writeGeneratedMockIndex() {
 
       return `import { ${factoryName} as ${importAlias} } from "${importPath}";`;
     })
-    .join("\n");
+    .join('\n');
 
   const body = `${imports}\n\nexport const handlers = [\n${mockExports
     .map(({ importAlias }) => `  ...${importAlias}(),`)
-    .join("\n")}\n];\n`;
+    .join('\n')}\n];\n`;
 
   await ensureDirectory(path.dirname(outputFile));
-  await fs.writeFile(outputFile, body, "utf8");
+  await fs.writeFile(outputFile, body, 'utf8');
 }
 
 export async function normalizeGeneratedFiles() {
@@ -144,11 +144,11 @@ export async function normalizeGeneratedFiles() {
 
   await Promise.all(
     files.map(async (filePath) => {
-      const source = await fs.readFile(filePath, "utf8");
+      const source = await fs.readFile(filePath, 'utf8');
       const normalized = replacePlainTemplateLiterals(source);
 
       if (normalized !== source) {
-        await fs.writeFile(filePath, normalized, "utf8");
+        await fs.writeFile(filePath, normalized, 'utf8');
       }
     })
   );
@@ -165,7 +165,7 @@ async function collectMockFiles(rootDir) {
           return collectMockFiles(fullPath);
         }
 
-        if (entry.isFile() && entry.name.endsWith(".msw.ts")) {
+        if (entry.isFile() && entry.name.endsWith('.msw.ts')) {
           return [fullPath];
         }
 
@@ -190,7 +190,7 @@ async function collectTypeScriptFiles(rootDir) {
           return collectTypeScriptFiles(fullPath);
         }
 
-        if (entry.isFile() && entry.name.endsWith(".ts")) {
+        if (entry.isFile() && entry.name.endsWith('.ts')) {
           return [fullPath];
         }
 
@@ -212,6 +212,6 @@ function replacePlainTemplateLiterals(source) {
 }
 
 function toImportPath(relativePath) {
-  const normalizedPath = relativePath.split(path.sep).join("/");
-  return normalizedPath.startsWith(".") ? normalizedPath : `./${normalizedPath}`;
+  const normalizedPath = relativePath.split(path.sep).join('/');
+  return normalizedPath.startsWith('.') ? normalizedPath : `./${normalizedPath}`;
 }

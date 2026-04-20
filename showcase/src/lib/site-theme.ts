@@ -126,7 +126,7 @@ export function useSiteTheme() {
     return () => {
       matchMedia.removeListener(handleChange);
     };
-  }, [preference, syncSystemTheme]);
+  }, [preference]);
 
   return {
     preference,

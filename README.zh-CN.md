@@ -50,7 +50,7 @@ npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,age
 
 1. 替换首页文案和品牌信息。
 2. 在 `src/routes` 下添加或删除页面路由。
-3. 把业务逻辑迁移到 `src/lib`、`src/hooks` 和各自的功能目录。
+3. 把可复用页面区块沉淀到 `src/widgets`，把共享运行时能力沉淀到 `src/shared`。
 4. 保留现有测试和 CI 作为项目基线。
 
 ## 🛠️ 仅维护者
@@ -78,7 +78,7 @@ npm view create-tanvite version dist-tags --json --registry=https://registry.npm
 ## 💠 特性
 
 - 用于生成整理后 starter 的 `create-tanvite` 脚手架
-- React 19 + TypeScript + Vite 5 starter 基线
+- React 19 + TypeScript + Vite 8 starter 基线
 - 已初始化为 `spec-driven` 模式的 OpenSpec 工作区
 - 已集成面向 Codex 的 `.agents/skills`，以及面向 Claude Code 的 `.claude/skills` 与 OPSX commands，覆盖设计、评审、测试、提交流程和浏览器自动化
 - TanStack Router 文件路由
@@ -207,17 +207,24 @@ src/
 ├── index.css
 ├── main.tsx
 ├── routeTree.gen.ts
-├── lib/
-│   ├── api/
-│   ├── query-client.ts
-│   └── utils.ts
-├── mocks/
-│   └── browser.ts
+├── app/
+│   ├── main.tsx
+│   ├── providers/
+│   ├── router.tsx
+│   └── styles/
+├── entities/
+├── features/
 ├── routes/
 │   ├── __root.tsx
 │   └── index.tsx
-├── types/
-│   └── index.ts
+├── shared/
+│   ├── api/
+│   ├── i18n/
+│   ├── lib/
+│   ├── types/
+│   └── ui/
+├── widgets/
+│   └── starter-home/
 └── vite-env.d.ts
 
 openspec/
@@ -295,9 +302,9 @@ pnpm routes:generate
 - 在功能实现逐渐变大之前，先把需求和行为变更沉淀到 `openspec/changes`
 - 把 `.agents/skills`、`.claude/skills` 和 `.claude/commands/opsx` 一起纳入版本管理，让 Codex 和 Claude Code 始终基于同一套协作约定工作
 - 运行 `pnpm openapi:generate` 之前，先把 `OPENAPI_SCHEMA_URL` 指向你的后端契约地址
-- 生成的 API 产物位于 `src/lib/api/generated`
-- 在 `src/lib/query-client.ts` 中维护共享 Query 默认配置
-- 在 `src/lib/utils.ts` 中使用 `cn()` 工具函数
+- 生成的 API 产物位于 `src/shared/api/generated`
+- 在 `src/shared/api/query-client.ts` 中维护共享 Query 默认配置
+- 在 `src/shared/lib/utils.ts` 中使用 `cn()` 工具函数
 
 ## 🤝 贡献指南
 

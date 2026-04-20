@@ -73,9 +73,10 @@ pnpm openapi:mock
 ## Important Paths
 
 ```text
-src/routes/            Starter route files
-src/lib/               Shared runtime logic, API config, query client, utilities
-src/mocks/             MSW browser mocks
+src/app/               App entry, providers, router wiring, global styles
+src/routes/            TanStack Router route files and page-level composition
+src/widgets/           Reusable route-facing UI blocks
+src/shared/            Shared runtime logic, API config, query client, utilities
 showcase/              Public showcase app (landing page, guide, site-only styles)
 packages/create-tanvite/ CLI package and curated starter template source
 
@@ -93,7 +94,7 @@ openspec/config.yaml   OpenSpec config
 Do not hand-edit generated artifacts unless the task explicitly requires it.
 
 - `src/routeTree.gen.ts`
-- `src/lib/api/generated/`
+- `src/shared/api/generated/`
 - `dist/`
 - `dist-pages/`
 

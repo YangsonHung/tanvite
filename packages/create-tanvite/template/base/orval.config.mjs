@@ -1,5 +1,5 @@
-import { defineConfig } from "orval";
-import { resolveOpenApiConfig } from "./openapi.config.mjs";
+import { defineConfig } from 'orval';
+import { resolveOpenApiConfig } from './openapi.config.mjs';
 
 const openApiConfig = resolveOpenApiConfig();
 
@@ -10,15 +10,15 @@ export default defineConfig({
       validation: true,
     },
     output: {
-      mode: "tags-split",
+      mode: 'tags-split',
       target: `${openApiConfig.generatedDir}/endpoints`,
       schemas: `${openApiConfig.generatedDir}/models`,
-      client: "react-query",
+      client: 'react-query',
       clean: true,
       prettier: false,
       biome: false,
       mock: {
-        type: "msw",
+        type: 'msw',
         useExamples: true,
         baseUrl: openApiConfig.apiBaseUrl,
       },

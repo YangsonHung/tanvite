@@ -280,7 +280,7 @@ function HomeShell({
       <header className='glass-nav fixed inset-x-0 top-0 z-30 px-4 py-2.5 sm:px-6 lg:px-8'>
         <div className='mx-auto flex max-w-7xl flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
           <div className='min-w-0'>
-            <p className='eyebrow'>React 19 x Vite 5</p>
+            <p className='eyebrow'>React 19 x Vite 8</p>
             <div className='mt-1.5 flex flex-wrap items-center gap-2.5'>
               <span className='text-lg font-semibold tracking-[0.16em] text-foreground sm:text-[1.35rem]'>
                 TanVite
@@ -575,8 +575,8 @@ function GuideShell({
                 <article key={section.title} className='soft-card rounded-[1.6rem] p-5 md:p-6'>
                   <h2 className='text-xl font-semibold text-foreground'>{section.title}</h2>
                   <ul className='mt-4 space-y-3 text-sm leading-7 text-foreground/70'>
-                    {section.points.map((point, index) => (
-                      <li key={`${section.title}-${index}`}>{point}</li>
+                    {section.points.map((point) => (
+                      <li key={`${section.title}-${point}`}>{point}</li>
                     ))}
                   </ul>
                 </article>

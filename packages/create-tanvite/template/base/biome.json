@@ -1,14 +1,25 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.12/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": true
+    "useIgnoreFile": false
   },
   "files": {
     "ignoreUnknown": false,
-    "include": ["src/**/*"],
-    "ignore": ["src/routeTree.gen.ts", "src/lib/api/generated/**/*"]
+    "includes": [
+      "package.json",
+      "components.json",
+      "vite.config.ts",
+      "vitest.config.ts",
+      "openapi.config.mjs",
+      "orval.config.mjs",
+      "scripts/**/*.mjs",
+      "tests/**/*",
+      "src/**/*",
+      "!src/routeTree.gen.ts",
+      "!src/shared/api/generated/**/*"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -17,8 +28,12 @@
     "lineWidth": 100,
     "lineEnding": "lf"
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "enabled": true,
@@ -49,5 +64,40 @@
       "semicolons": "always",
       "arrowParentheses": "always"
     }
-  }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["package.json"],
+      "json": {
+        "formatter": {
+          "expand": "always"
+        }
+      }
+    },
+    {
+      "includes": ["scripts/**/*.mjs"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/app/styles/**/*.css"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noImportantStyles": "off"
+          }
+        }
+      }
+    }
+  ]
 }

@@ -1,10 +1,10 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { PropsWithChildren } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import {
   DEFAULT_SHOWCASE_LOCALE,
-  type ShowcaseLocale,
   getInitialShowcaseLocale,
   persistShowcaseLocale,
+  type ShowcaseLocale,
   supportedShowcaseLocales,
 } from './config';
 import { type ShowcaseMessageKey, showcaseMessages } from './messages';

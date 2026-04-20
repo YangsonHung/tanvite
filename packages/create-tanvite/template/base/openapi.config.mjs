@@ -1,17 +1,17 @@
-import fs from "node:fs";
-import path from "node:path";
-import dotenv from "dotenv";
-import dotenvExpand from "dotenv-expand";
+import fs from 'node:fs';
+import path from 'node:path';
+import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
 
-const DEFAULT_SCHEMA_URL = "https://petstore3.swagger.io/api/v3/openapi.json";
+const DEFAULT_SCHEMA_URL = 'https://petstore3.swagger.io/api/v3/openapi.json';
 const DEFAULT_MOCK_PORT = 4010;
-const GENERATED_DIR = "./src/lib/api/generated";
-const SCHEMA_CACHE_FILE = "./.openapi/schema.json";
+const GENERATED_DIR = './src/shared/api/generated';
+const SCHEMA_CACHE_FILE = './.openapi/schema.json';
 
 loadOpenApiEnvFiles();
 
 function normalizePort(value) {
-  const port = Number.parseInt(value ?? "", 10);
+  const port = Number.parseInt(value ?? '', 10);
 
   if (Number.isNaN(port) || port <= 0) {
     return DEFAULT_MOCK_PORT;
@@ -35,7 +35,7 @@ export function resolveOpenApiConfig() {
 export const defaultOpenApiConfig = resolveOpenApiConfig();
 
 function loadOpenApiEnvFiles() {
-  const envFiles = [".env", ".env.local"];
+  const envFiles = ['.env', '.env.local'];
 
   for (const fileName of envFiles) {
     const absolutePath = path.resolve(process.cwd(), fileName);

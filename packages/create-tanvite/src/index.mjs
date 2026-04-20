@@ -224,8 +224,8 @@ async function applyTokens(targetDir, values) {
     'index.html',
     'openspec/config.yaml',
     'public/favicon.svg',
-    'src/lib/i18n/config.ts',
-    'src/lib/i18n/messages.ts',
+    'src/shared/i18n/config.ts',
+    'src/shared/i18n/messages.ts',
     'vite.config.ts',
   ];
 
@@ -253,7 +253,7 @@ async function applyFeaturePruning(targetDir, features) {
       removePath(path.join(targetDir, 'openapi.config.mjs')),
       removePath(path.join(targetDir, 'orval.config.mjs')),
       removePath(path.join(targetDir, 'public/mockServiceWorker.js')),
-      removePath(path.join(targetDir, 'src/mocks')),
+      removePath(path.join(targetDir, 'src/shared/api/mock')),
       removePath(path.join(targetDir, 'tests/scripts')),
       removePath(path.join(targetDir, 'scripts/openapi-check.mjs')),
       removePath(path.join(targetDir, 'scripts/openapi-generate.mjs')),
@@ -261,9 +261,9 @@ async function applyFeaturePruning(targetDir, features) {
       removePath(path.join(targetDir, 'scripts/openapi-mock.mjs')),
     ]);
 
-    await fs.writeFile(path.join(targetDir, 'src/main.tsx'), noOpenApiMainSource(), 'utf8');
+    await fs.writeFile(path.join(targetDir, 'src/app/main.tsx'), noOpenApiMainSource(), 'utf8');
     await fs.writeFile(
-      path.join(targetDir, 'src/lib/api/config.ts'),
+      path.join(targetDir, 'src/shared/api/config.ts'),
       noOpenApiConfigSource(),
       'utf8'
     );
@@ -315,6 +315,7 @@ async function writePackageJson(targetDir, features) {
       'dev:mock',
     ]);
     unsetKeys(packageJson.devDependencies, [
+      '@faker-js/faker',
       '@stoplight/prism-cli',
       'dotenv',
       'dotenv-expand',
@@ -350,9 +351,10 @@ async function writeEnvExample(targetDir, features) {
 
 async function writeStarterDocs(targetDir, context) {
   const featureList = [
-    'React 19 + TypeScript + Vite',
+    'React 19 + TypeScript + Vite 8',
     'TanStack Router + TanStack Query',
-    'Tailwind CSS + Biome + Vitest',
+    'Route-FSD starter structure',
+    'Tailwind CSS v4 + Biome 2 + Vitest',
   ];
 
   if (context.features.openspec) {
@@ -410,8 +412,9 @@ ${commandLines.join('\n')}
 ## Project Notes
 
 - Package name: \`${context.packageName}\`
-- Add product routes under \`src/routes\`
-- Keep shared runtime logic under \`src/lib\`
+- Keep route entries under \`src/routes\`
+- Move reusable screen blocks into \`src/widgets\`
+- Keep app-wide runtime logic under \`src/shared\`
 - Regenerate the TanStack Router tree with \`pnpm routes:generate\`
 `;
 
@@ -419,56 +422,36 @@ ${commandLines.join('\n')}
 }
 
 function noOpenApiMainSource() {
-  return `import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { routeTree } from "./routeTree.gen";
-import { I18nProvider } from "./lib/i18n";
-import { queryClient } from "./lib/query-client";
-import "./index.css";
+  return `import { RouterProvider } from '@tanstack/react-router';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './styles/index.css';
+import { AppProviders } from './providers/app-providers';
+import { router } from './router';
 
-const routerBasepath = import.meta.env.BASE_URL.replace(/\\/$/, "") || "/";
+const rootElement = document.getElementById('root');
 
-const router = createRouter({
-  basepath: routerBasepath,
-  routeTree,
-  context: { queryClient },
-  defaultPreload: "intent",
-  defaultPreloadStaleTime: 0,
-});
-
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
-}
-
-const rootElement = document.getElementById("root");
-
-if (!rootElement) throw new Error("Root element not found");
+if (!rootElement) throw new Error('Root element not found');
 
 createRoot(rootElement).render(
   <StrictMode>
-    <I18nProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </I18nProvider>
+    <AppProviders>
+      <RouterProvider router={router} />
+    </AppProviders>
   </StrictMode>
 );
 `;
 }
 
 function noOpenApiConfigSource() {
-  return `import axios from "axios";
+  return `import axios from 'axios';
 
 export const apiBaseUrl = import.meta.env.DEV
-  ? ""
-  : import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+  ? ''
+  : import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
 
 axios.defaults.baseURL = apiBaseUrl;
-axios.defaults.headers.common.Accept = "application/json";
+axios.defaults.headers.common.Accept = 'application/json';
 `;
 }
 
@@ -482,6 +465,7 @@ Project instructions for Codex and other agents.
 - Always use pnpm for scripts and package management.
 - Prefer editing source files over generated files.
 - Regenerate \`src/routeTree.gen.ts\` instead of editing it by hand.
+- Keep route entries in \`src/routes\`, reusable UI in \`src/widgets\`, and shared runtime logic in \`src/shared\`.
 - Keep changes focused and verify with the smallest useful command set.
 `;
 }
@@ -495,6 +479,7 @@ Claude Code guidance for this starter project.
 
 - Use pnpm for all scripts.
 - Treat \`src/routeTree.gen.ts\` as generated output.
+- Keep route entries in \`src/routes\`, reusable UI in \`src/widgets\`, and shared runtime logic in \`src/shared\`.
 - Prefer source or config changes over patching generated files.
 - Run the smallest useful verification command before finishing.
 `;

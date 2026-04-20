@@ -50,7 +50,7 @@ npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,age
 
 1. Replace the landing copy and branding.
 2. Add or remove routes under `src/routes`.
-3. Move product-specific logic into `src/lib`, `src/hooks`, and your feature folders.
+3. Move reusable screen blocks into `src/widgets` and shared runtime logic into `src/shared`.
 4. Keep the existing testing and CI setup as the project baseline.
 
 ## 🛠️ Maintainers Only
@@ -78,7 +78,7 @@ npm view create-tanvite version dist-tags --json --registry=https://registry.npm
 ## 💠 Features
 
 - `create-tanvite` scaffolder for curated starter generation
-- React 19 + TypeScript + Vite 5 starter baseline
+- React 19 + TypeScript + Vite 8 starter baseline
 - OpenSpec workspace initialized in `spec-driven` mode
 - `.agents/skills` for Codex and `.claude/skills` plus OPSX commands for Claude Code, covering frontend design, review, testing, git workflows, and browser automation
 - TanStack Router file-based routing
@@ -207,17 +207,24 @@ src/
 ├── index.css
 ├── main.tsx
 ├── routeTree.gen.ts
-├── lib/
-│   ├── api/
-│   ├── query-client.ts
-│   └── utils.ts
-├── mocks/
-│   └── browser.ts
+├── app/
+│   ├── main.tsx
+│   ├── providers/
+│   ├── router.tsx
+│   └── styles/
+├── entities/
+├── features/
 ├── routes/
 │   ├── __root.tsx
 │   └── index.tsx
-├── types/
-│   └── index.ts
+├── shared/
+│   ├── api/
+│   ├── i18n/
+│   ├── lib/
+│   ├── types/
+│   └── ui/
+├── widgets/
+│   └── starter-home/
 └── vite-env.d.ts
 
 openspec/
@@ -295,9 +302,9 @@ For regular production deployment, use `pnpm build`.
 - Track requirement and behavior changes in `openspec/changes` before implementation work grows
 - Keep `.agents/skills`, `.claude/skills`, and `.claude/commands/opsx` versioned with the project so Codex and Claude Code stay aligned on the same workflows
 - Point `OPENAPI_SCHEMA_URL` at your backend spec before running `pnpm openapi:generate`
-- Generated API artifacts live under `src/lib/api/generated`
-- Keep shared query defaults in `src/lib/query-client.ts`
-- Use `src/lib/utils.ts` for the `cn()` helper
+- Generated API artifacts live under `src/shared/api/generated`
+- Keep shared query defaults in `src/shared/api/query-client.ts`
+- Use `src/shared/lib/utils.ts` for the `cn()` helper
 
 ## 🤝 Contributing
 
