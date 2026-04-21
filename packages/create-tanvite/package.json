@@ -7,21 +7,8 @@
   "bin": {
     "create-tanvite": "./bin/create-tanvite.mjs"
   },
-  "files": [
-    "bin",
-    "src",
-    "template",
-    "README.md",
-    "TEMPLATE_OWNERSHIP.md"
-  ],
-  "keywords": [
-    "create",
-    "vite",
-    "react",
-    "tanstack-router",
-    "starter",
-    "scaffold"
-  ],
+  "files": ["bin", "src", "template", "README.md", "TEMPLATE_OWNERSHIP.md"],
+  "keywords": ["create", "vite", "react", "tanstack-router", "starter", "scaffold"],
   "license": "MIT",
   "homepage": "https://github.com/YangsonHung/tanvite",
   "bugs": {

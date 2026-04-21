@@ -6,7 +6,15 @@ export async function writeStarterDocs(targetDir, context) {
 
   const featureList = [...messages.baseFeatures];
 
-  for (const key of ['openspec', 'openapi', 'playwright', 'pages', 'agents', 'lintFileNaming', 'lintMaxLines']) {
+  for (const key of [
+    'openspec',
+    'openapi',
+    'playwright',
+    'pages',
+    'agents',
+    'lintFileNaming',
+    'lintMaxLines',
+  ]) {
     if (features[key] && messages.featureLabels[key]) {
       featureList.push(messages.featureLabels[key]);
     }

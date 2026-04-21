@@ -7,19 +7,14 @@ import { writeAgentFiles, writeStarterDocs } from './docs.mjs';
 import { resolveFeatures, resolveMaxLinesLimit } from './features.mjs';
 import {
   DEFAULT_LOCALE,
-  SUPPORTED_LOCALES,
   getMessages,
   isSupportedLocale,
   normalizeLocale,
+  SUPPORTED_LOCALES,
 } from './i18n/index.mjs';
 import { writeLintCheckScripts } from './lint-checks.mjs';
 import { writeEnvExample, writePackageJson } from './package-json.mjs';
-import {
-  ensureTargetDirectory,
-  removePath,
-  restoreDotfiles,
-  templateDir,
-} from './paths.mjs';
+import { ensureTargetDirectory, removePath, restoreDotfiles, templateDir } from './paths.mjs';
 import { promptChoice, promptText } from './prompts.mjs';
 import { applyFeaturePruning } from './prune.mjs';
 import { applyTokens } from './tokens.mjs';
@@ -38,9 +33,7 @@ export async function run(argv) {
 
   const targetDirInput =
     parsed.positionals[0] ||
-    (parsed.yes
-      ? 'my-tanvite-app'
-      : await promptText(messages.promptDirectory, 'my-tanvite-app'));
+    (parsed.yes ? 'my-tanvite-app' : await promptText(messages.promptDirectory, 'my-tanvite-app'));
   const targetDir = path.resolve(process.cwd(), targetDirInput);
   const defaultPackageName = sanitizePackageName(path.basename(targetDir));
 

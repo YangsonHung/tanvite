@@ -28,7 +28,11 @@ export async function promptYesNo(label, defaultValue, messages) {
 }
 
 export async function promptInteger(label, defaultValue, options = {}) {
-  const { min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY, invalidMessage } = options;
+  const {
+    min = Number.NEGATIVE_INFINITY,
+    max = Number.POSITIVE_INFINITY,
+    invalidMessage,
+  } = options;
 
   for (;;) {
     const rl = readline.createInterface({

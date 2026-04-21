@@ -89,8 +89,7 @@ const messages = {
   yesHint: 'Y/n',
   noHint: 'y/N',
 
-  scaffoldedSummary: ({ appName, dirRel }) =>
-    `已在 ${dirRel} 中生成 ${appName}`,
+  scaffoldedSummary: ({ appName, dirRel }) => `已在 ${dirRel} 中生成 ${appName}`,
   nextStepsHeader: '后续步骤：',
   nextStepsCd: (dirRel) => `  cd ${dirRel}`,
   nextStepsInstall: '  pnpm install',

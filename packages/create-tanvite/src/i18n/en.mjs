@@ -89,8 +89,7 @@ const messages = {
   yesHint: 'Y/n',
   noHint: 'y/N',
 
-  scaffoldedSummary: ({ appName, dirRel }) =>
-    `Scaffolded ${appName} in ${dirRel}`,
+  scaffoldedSummary: ({ appName, dirRel }) => `Scaffolded ${appName} in ${dirRel}`,
   nextStepsHeader: 'Next steps:',
   nextStepsCd: (dirRel) => `  cd ${dirRel}`,
   nextStepsInstall: '  pnpm install',
@@ -103,10 +102,8 @@ const messages = {
   lintScripts: {
     fileNamingPass: 'File naming check passed (kebab-case).',
     fileNamingFail: 'File naming check failed (kebab-case required):',
-    maxLinesPass: (max) =>
-      `File line count check passed (limit ${max} lines).`,
-    maxLinesFail: (max) =>
-      `File line count check failed (limit ${max} lines):`,
+    maxLinesPass: (max) => `File line count check passed (limit ${max} lines).`,
+    maxLinesFail: (max) => `File line count check failed (limit ${max} lines):`,
     maxLinesEntryTemplate: '- __FILE__ (__LINES__ lines)',
     fileNamingHeaderComment: '/** Match biome.json / check-max-lines ignore list */',
     routeFileComment:
