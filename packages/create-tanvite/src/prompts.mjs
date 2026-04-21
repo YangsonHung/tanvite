@@ -55,13 +55,22 @@ export async function promptInteger(label, defaultValue, options = {}) {
 }
 
 export async function promptChoice(label, choices, defaultValue, displayMap = {}) {
+  const defaultIndex = Math.max(0, choices.indexOf(defaultValue));
+  const defaultNumber = defaultIndex + 1;
+
+  console.log(label);
+  for (let i = 0; i < choices.length; i += 1) {
+    const choice = choices[i];
+    const display = displayMap[choice] ?? choice;
+    const marker = i === defaultIndex ? '*' : ' ';
+    console.log(`  ${marker} ${i + 1}) ${display}`);
+  }
+
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
-  const display = choices.map((c) => displayMap[c] ?? c).join('/');
-  const defaultDisplay = displayMap[defaultValue] ?? defaultValue;
-  const answer = await rl.question(`${label} (${display}) [${defaultDisplay}]: `);
+  const answer = await rl.question(`> [${defaultNumber}]: `);
   rl.close();
   const trimmed = answer.trim();
 
@@ -69,12 +78,18 @@ export async function promptChoice(label, choices, defaultValue, displayMap = {}
     return defaultValue;
   }
 
+  const numeric = Number.parseInt(trimmed, 10);
+  if (Number.isInteger(numeric) && numeric >= 1 && numeric <= choices.length) {
+    return choices[numeric - 1];
+  }
+
   if (choices.includes(trimmed)) {
     return trimmed;
   }
 
+  const lower = trimmed.toLowerCase();
   for (const choice of choices) {
-    if ((displayMap[choice] ?? '').toLowerCase() === trimmed.toLowerCase()) {
+    if ((displayMap[choice] ?? '').toLowerCase() === lower) {
       return choice;
     }
   }

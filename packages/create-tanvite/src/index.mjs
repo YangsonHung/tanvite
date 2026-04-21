@@ -100,9 +100,8 @@ async function resolveLocale(parsed) {
     return DEFAULT_LOCALE;
   }
 
-  const promptLabel = `${LOCALE_DISPLAY.en} / ${LOCALE_DISPLAY['zh-CN']}`;
   const choice = await promptChoice(
-    promptLabel,
+    'Language / 语言',
     SUPPORTED_LOCALES,
     DEFAULT_LOCALE,
     LOCALE_DISPLAY
