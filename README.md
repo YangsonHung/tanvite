@@ -24,14 +24,28 @@ TanVite is a production-grade React 19 starter system designed as a reusable fro
 - Build product work on top of a frontend baseline that already standardizes routing, data, styling, testing, and CI
 - Combine OpenSpec-driven planning with OpenAPI-driven API generation in one repository
 - Reuse a polished landing page and guide page for public project presentation
-- Start new product work through `npm create tanvite@latest` instead of copying the full maintenance repository
+- Start new product work through `npm create tanvite@latest` / `pnpm create tanvite@latest` / `yarn create tanvite@latest` instead of copying the full maintenance repository
 
 ## 🚀 Create A Project
 
 Use the published scaffolder when you want a new TanVite-based product project.
 
+Pick the package manager you use:
+
 ```bash
+# npm
 npm create tanvite@latest my-app
+
+# pnpm
+pnpm create tanvite@latest my-app
+
+# yarn
+yarn create tanvite@latest my-app
+```
+
+Then install and start the dev server:
+
+```bash
 cd my-app
 pnpm install
 pnpm dev
@@ -39,11 +53,20 @@ pnpm dev
 
 Open `http://localhost:4319`.
 
-Optional examples:
+Optional examples (flags go after `--` for `npm`, directly for `pnpm` / `yarn`):
 
 ```bash
+# npm
 npm create tanvite@latest my-app -- --preset full
 npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,agents
+
+# pnpm
+pnpm create tanvite@latest my-app --preset full
+pnpm create tanvite@latest my-app --with openspec,openapi,playwright,pages,agents
+
+# yarn
+yarn create tanvite@latest my-app --preset full
+yarn create tanvite@latest my-app --with openspec,openapi,playwright,pages,agents
 ```
 
 ### 🧭 Next Steps
@@ -55,7 +78,7 @@ npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,age
 
 ## 🛠️ Maintainers Only
 
-The source repository is for maintaining TanVite itself: the `create-tanvite` scaffolder, the starter template, and the public showcase. Product teams starting a new app should use `npm create tanvite@latest`.
+The source repository is for maintaining TanVite itself: the `create-tanvite` scaffolder, the starter template, and the public showcase. Product teams starting a new app should use `npm create tanvite@latest` (or `pnpm create tanvite@latest` / `yarn create tanvite@latest`).
 
 ### Publish `create-tanvite`
 
@@ -285,7 +308,7 @@ Use the official GitHub Actions Pages deployment flow.
 - App build output: `dist/`
 - Pages build output: `dist-pages/`
 - Public URL: `https://yangsonhung.github.io/tanvite`
-- Deployment workflow: [.github/workflows/deploy-pages.yml](/Users/yangsonhung/Projects/personal/TanVite/.github/workflows/deploy-pages.yml)
+- Deployment workflow: [.github/workflows/deploy-pages.yml](./.github/workflows/deploy-pages.yml)
 
 For GitHub Pages:
 
@@ -308,11 +331,11 @@ For regular production deployment, use `pnpm build`.
 
 ## 🤝 Contributing
 
-Read [CONTRIBUTING.md](/Users/yangsonhung/Projects/personal/TanVite/CONTRIBUTING.md) before opening a pull request.
+Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
 
 ## 🌀 Changelog
 
-Track project history in [CHANGELOG.md](/Users/yangsonhung/Projects/personal/TanVite/CHANGELOG.md).
+Track project history in [CHANGELOG.md](./CHANGELOG.md).
 
 ## 🪪 License
 

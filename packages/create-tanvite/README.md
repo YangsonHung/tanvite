@@ -8,7 +8,8 @@
 
 ```bash
 npm create tanvite@latest
-pnpm create tanvite
+pnpm create tanvite@latest
+yarn create tanvite@latest
 ```
 
 The CLI supports:

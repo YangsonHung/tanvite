@@ -24,14 +24,28 @@ TanVite 是一个面向生产环境的 React 19 starter 系统，定位为可复
 - 直接在一套已经统一路由、数据层、样式、测试与 CI 约定的前端工程基线上开展产品开发
 - 在同一套仓库里同时承载 OpenSpec 驱动的需求流和 OpenAPI 驱动的接口生成流
 - 复用已经完成的落地页和 guide 页面作为公开项目展示入口
-- 使用 `npm create tanvite@latest` 启动新项目，而不是复制整个维护仓库
+- 使用 `npm create tanvite@latest` / `pnpm create tanvite@latest` / `yarn create tanvite@latest` 启动新项目，而不是复制整个维护仓库
 
 ## 🚀 创建项目
 
 当你要创建一个新的 TanVite 项目时，优先使用已发布的脚手架。
 
+任选你使用的包管理器：
+
 ```bash
+# npm
 npm create tanvite@latest my-app
+
+# pnpm
+pnpm create tanvite@latest my-app
+
+# yarn
+yarn create tanvite@latest my-app
+```
+
+然后安装依赖并启动开发服务器：
+
+```bash
 cd my-app
 pnpm install
 pnpm dev
@@ -39,11 +53,20 @@ pnpm dev
 
 打开 `http://localhost:4319`。
 
-可选示例：
+可选示例（`npm` 需要使用 `--` 分隔参数，`pnpm` / `yarn` 可直接传入）：
 
 ```bash
+# npm
 npm create tanvite@latest my-app -- --preset full
 npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,agents
+
+# pnpm
+pnpm create tanvite@latest my-app --preset full
+pnpm create tanvite@latest my-app --with openspec,openapi,playwright,pages,agents
+
+# yarn
+yarn create tanvite@latest my-app --preset full
+yarn create tanvite@latest my-app --with openspec,openapi,playwright,pages,agents
 ```
 
 ### 🧭 下一步
@@ -55,7 +78,7 @@ npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,age
 
 ## 🛠️ 仅维护者
 
-源码仓库用于维护 TanVite 本体，包括 `create-tanvite` 脚手架、starter 模板和公开展示站。产品团队要启动新项目时，应使用 `npm create tanvite@latest`。
+源码仓库用于维护 TanVite 本体，包括 `create-tanvite` 脚手架、starter 模板和公开展示站。产品团队要启动新项目时，应使用 `npm create tanvite@latest`（或 `pnpm create tanvite@latest` / `yarn create tanvite@latest`）。
 
 ### 发布 `create-tanvite`
 
@@ -285,7 +308,7 @@ pnpm routes:generate
 - 应用构建产物：`dist/`
 - Pages 构建产物：`dist-pages/`
 - 对外地址：`https://yangsonhung.github.io/tanvite`
-- 部署工作流： [.github/workflows/deploy-pages.yml](/Users/yangsonhung/Projects/personal/TanVite/.github/workflows/deploy-pages.yml)
+- 部署工作流： [.github/workflows/deploy-pages.yml](./.github/workflows/deploy-pages.yml)
 
 用于 GitHub Pages 时：
 
@@ -308,11 +331,11 @@ pnpm routes:generate
 
 ## 🤝 贡献指南
 
-提交 Pull Request 前请先阅读 [CONTRIBUTING.md](/Users/yangsonhung/Projects/personal/TanVite/CONTRIBUTING.md)。
+提交 Pull Request 前请先阅读 [CONTRIBUTING.md](./CONTRIBUTING.md)。
 
 ## 🌀 更新日志
 
-项目变更历史见 [CHANGELOG.md](/Users/yangsonhung/Projects/personal/TanVite/CHANGELOG.md)。
+项目变更历史见 [CHANGELOG.md](./CHANGELOG.md)。
 
 ## 🪪 许可证
 
