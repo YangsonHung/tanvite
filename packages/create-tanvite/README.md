@@ -47,6 +47,7 @@ src/
 ├── prune.mjs           # applyFeaturePruning + no-OpenAPI fallback sources.
 ├── package-json.mjs    # writePackageJson, writeEnvExample, lint-script wiring into `check`.
 ├── docs.mjs            # writeStarterDocs (README) + writeAgentFiles (AGENTS, CLAUDE).
+├── husky.mjs           # writeHuskyHooks: regenerates .husky/pre-commit & commit-msg.
 ├── lint-checks.mjs     # Renders optional check-file-naming / check-max-lines scripts.
 ├── utils.mjs           # Pure helpers: sanitizePackageName, toTitleCase, unsetKeys.
 ├── i18n/

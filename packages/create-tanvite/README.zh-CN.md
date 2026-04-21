@@ -44,6 +44,7 @@ src/
 ├── prune.mjs           # applyFeaturePruning 以及无 OpenAPI 时的回退文件。
 ├── package-json.mjs    # writePackageJson、writeEnvExample；把 lint 脚本接入 `check`。
 ├── docs.mjs            # writeStarterDocs（README）与 writeAgentFiles（AGENTS、CLAUDE）。
+├── husky.mjs           # writeHuskyHooks：重写 .husky/pre-commit 与 commit-msg。
 ├── lint-checks.mjs     # 按需生成 check-file-naming / check-max-lines 脚本。
 ├── utils.mjs           # 纯函数工具：sanitizePackageName、toTitleCase、unsetKeys。
 ├── i18n/

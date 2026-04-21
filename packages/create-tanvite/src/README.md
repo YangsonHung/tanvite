@@ -19,9 +19,13 @@ src/
 ├── tokens.mjs             # applyTokens: replace __PACKAGE_NAME__ etc. in templates.
 ├── prune.mjs              # applyFeaturePruning + the no-OpenAPI fallback sources.
 ├── package-json.mjs       # writePackageJson + writeEnvExample. Owns the script
-│                          # chain wiring (e.g. appending lint scripts to `check`).
+│                          # chain wiring (e.g. appending lint scripts to
+│                          # `check`, `check:fix`, `build`, `build:pages`).
 ├── docs.mjs               # writeStarterDocs (README) + writeAgentFiles (AGENTS,
 │                          # CLAUDE). Templates come from i18n.
+├── husky.mjs              # writeHuskyHooks: regenerates .husky/pre-commit and
+│                          # .husky/commit-msg, appending optional check:*
+│                          # hook lines based on enabled features.
 ├── lint-checks.mjs        # Renders optional check-file-naming / check-max-lines
 │                          # scripts using locale-aware messages.
 ├── utils.mjs              # Pure helpers: sanitizePackageName, toTitleCase,

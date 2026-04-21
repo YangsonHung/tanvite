@@ -5,6 +5,7 @@ import process from 'node:process';
 import { parseArgs } from './args.mjs';
 import { writeAgentFiles, writeStarterDocs } from './docs.mjs';
 import { resolveFeatures, resolveMaxLinesLimit } from './features.mjs';
+import { writeHuskyHooks } from './husky.mjs';
 import {
   DEFAULT_LOCALE,
   getMessages,
@@ -78,6 +79,7 @@ export async function run(argv) {
   await writeLintCheckScripts(targetDir, features, messages, { maxLinesLimit });
   await writePackageJson(targetDir, features);
   await writeEnvExample(targetDir, features);
+  await writeHuskyHooks(targetDir, features);
   await writeStarterDocs(targetDir, { appName, packageName, features, messages });
   await writeAgentFiles(targetDir, features, messages);
 

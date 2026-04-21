@@ -21,6 +21,7 @@
     "dev": "vite",
     "dev:showcase": "vite --mode showcase",
     "dev:mock": "cross-env VITE_API_MOCK=msw vite",
+    "typecheck": "tsc -b --pretty false",
     "build": "pnpm check:boundaries && pnpm routes:generate && tsc -b && vite build",
     "build:pages": "pnpm check:boundaries && pnpm routes:generate && tsc -b && vite build --mode pages && node ./scripts/postbuild-pages.mjs dist-pages",
     "preview": "vite preview --port 4419 --strictPort",
