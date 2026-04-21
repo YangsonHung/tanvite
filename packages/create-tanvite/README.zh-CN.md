@@ -67,8 +67,8 @@ node ./packages/create-tanvite/bin/create-tanvite.mjs
 ```bash
 cd packages/create-tanvite
 npm version patch --no-git-tag-version
-pnpm pack
-tar -tzf create-tanvite-*.tgz | grep -E "template/base/(gitignore|\\.gitignore|src/routeTree\\.gen\\.ts)"
+TARBALL=$(pnpm pack | tail -n 1)
+tar -tzf "$TARBALL" | grep -E "template/base/(gitignore|\\.gitignore|src/routeTree\\.gen\\.ts)"
 pnpm publish --access public --no-git-checks --registry=https://registry.npmjs.org
 ```
 
