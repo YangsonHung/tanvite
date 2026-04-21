@@ -10,7 +10,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "routes:generate": "node ./scripts/generate-routes.mjs",
-    "boundaries:check": "node ./scripts/boundaries-check.mjs",
+    "check:boundaries": "node ./scripts/check-boundaries.mjs",
     "openspec:list": "openspec list",
     "openspec:new": "openspec new change",
     "openspec:validate": "openspec validate",
@@ -21,8 +21,8 @@
     "dev": "vite",
     "dev:showcase": "vite --mode showcase",
     "dev:mock": "cross-env VITE_API_MOCK=msw vite",
-    "build": "pnpm boundaries:check && pnpm routes:generate && tsc -b && vite build",
-    "build:pages": "pnpm boundaries:check && pnpm routes:generate && tsc -b && vite build --mode pages && node ./scripts/postbuild-pages.mjs dist-pages",
+    "build": "pnpm check:boundaries && pnpm routes:generate && tsc -b && vite build",
+    "build:pages": "pnpm check:boundaries && pnpm routes:generate && tsc -b && vite build --mode pages && node ./scripts/postbuild-pages.mjs dist-pages",
     "preview": "vite preview --port 4419 --strictPort",
     "preview:pages": "vite preview --outDir dist-pages --port 4419 --strictPort",
     "test": "vitest",
@@ -39,8 +39,8 @@
     "lint": "pnpm biome:lint",
     "lint:fix": "pnpm biome:lint:fix",
     "format": "pnpm biome:format",
-    "check": "pnpm biome:check && pnpm boundaries:check",
-    "check:fix": "pnpm biome:check:fix && pnpm boundaries:check",
+    "check": "pnpm biome:check && pnpm check:boundaries",
+    "check:fix": "pnpm biome:check:fix && pnpm check:boundaries",
     "prepare": "husky"
   },
   "dependencies": {

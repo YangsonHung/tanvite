@@ -75,13 +75,26 @@ function applyLintCheckScripts(packageJson, features) {
     extras.push('pnpm check:max-lines');
   }
 
-  if (extras.length > 0 && typeof packageJson.scripts.check === 'string') {
-    packageJson.scripts.check = appendChain(packageJson.scripts.check, extras);
+  if (extras.length === 0) return;
+
+  const chainTargets = ['check', 'check:fix', 'build', 'build:pages'];
+  for (const scriptName of chainTargets) {
+    const existing = packageJson.scripts[scriptName];
+    if (typeof existing !== 'string') continue;
+    packageJson.scripts[scriptName] = injectAfterBoundaries(existing, extras);
   }
 }
 
-function appendChain(existing, additions) {
-  const filtered = additions.filter((cmd) => !existing.includes(cmd));
-  if (filtered.length === 0) return existing;
-  return `${existing} && ${filtered.join(' && ')}`;
+function injectAfterBoundaries(command, additions) {
+  const filtered = additions.filter((cmd) => !command.includes(cmd));
+  if (filtered.length === 0) return command;
+
+  const marker = 'pnpm check:boundaries';
+  const markerIndex = command.indexOf(marker);
+  if (markerIndex === -1) {
+    return `${command} && ${filtered.join(' && ')}`;
+  }
+
+  const insertionPoint = markerIndex + marker.length;
+  return `${command.slice(0, insertionPoint)} && ${filtered.join(' && ')}${command.slice(insertionPoint)}`;
 }
