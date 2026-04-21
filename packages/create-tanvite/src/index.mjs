@@ -1,66 +1,80 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
-import readline from 'node:readline/promises';
-import { fileURLToPath } from 'node:url';
 
-const featureKeys = ['openspec', 'openapi', 'playwright', 'pages', 'agents'];
-const featurePrompts = {
-  openspec: 'Include OpenSpec workflow?',
-  openapi: 'Include OpenAPI client generation and mocking?',
-  playwright: 'Include Playwright end-to-end tests?',
-  pages: 'Include GitHub Pages-compatible build support?',
-  agents: 'Include Codex and Claude Code agent assets?',
-};
+import { parseArgs } from './args.mjs';
+import { writeAgentFiles, writeStarterDocs } from './docs.mjs';
+import { resolveFeatures, resolveMaxLinesLimit } from './features.mjs';
+import {
+  DEFAULT_LOCALE,
+  SUPPORTED_LOCALES,
+  getMessages,
+  isSupportedLocale,
+  normalizeLocale,
+} from './i18n/index.mjs';
+import { writeLintCheckScripts } from './lint-checks.mjs';
+import { writeEnvExample, writePackageJson } from './package-json.mjs';
+import {
+  ensureTargetDirectory,
+  removePath,
+  restoreDotfiles,
+  templateDir,
+} from './paths.mjs';
+import { promptChoice, promptText } from './prompts.mjs';
+import { applyFeaturePruning } from './prune.mjs';
+import { applyTokens } from './tokens.mjs';
+import { sanitizePackageName, toTitleCase } from './utils.mjs';
 
-const presetDefaults = {
-  minimal: {
-    openspec: false,
-    openapi: false,
-    playwright: false,
-    pages: false,
-    agents: false,
-  },
-  full: {
-    openspec: true,
-    openapi: true,
-    playwright: true,
-    pages: true,
-    agents: true,
-  },
+const LOCALE_DISPLAY = {
+  en: 'English',
+  'zh-CN': '简体中文',
 };
 
 export async function run(argv) {
   const parsed = parseArgs(argv);
+
+  const locale = await resolveLocale(parsed);
+  const messages = getMessages(locale);
+
   const targetDirInput =
     parsed.positionals[0] ||
-    (parsed.yes ? 'my-tanvite-app' : await promptText('Project directory', 'my-tanvite-app'));
+    (parsed.yes
+      ? 'my-tanvite-app'
+      : await promptText(messages.promptDirectory, 'my-tanvite-app'));
   const targetDir = path.resolve(process.cwd(), targetDirInput);
   const defaultPackageName = sanitizePackageName(path.basename(targetDir));
+
   const packageName =
     parsed.packageName ||
-    (parsed.yes ? defaultPackageName : await promptText('Package name', defaultPackageName));
+    (parsed.yes
+      ? defaultPackageName
+      : await promptText(messages.promptPackageName, defaultPackageName));
+
   const appName =
     parsed.title ||
     (parsed.yes
       ? toTitleCase(packageName)
-      : await promptText('App title', toTitleCase(packageName)));
+      : await promptText(messages.promptAppTitle, toTitleCase(packageName)));
+
   const preset =
     parsed.preset ||
-    (parsed.yes ? 'minimal' : await promptChoice('Starter preset', ['minimal', 'full'], 'minimal'));
-  const features = await resolveFeatures(parsed, preset);
+    (parsed.yes
+      ? 'minimal'
+      : await promptChoice(
+          messages.promptPreset,
+          ['minimal', 'full'],
+          'minimal',
+          messages.presetLabels
+        ));
 
-  await ensureTargetDirectory(targetDir, parsed.yes);
+  const features = await resolveFeatures(parsed, preset, messages);
+  const maxLinesLimit = await resolveMaxLinesLimit(parsed, features, messages);
+
+  await ensureTargetDirectory(targetDir, parsed.yes, messages);
   await fs.cp(templateDir(), targetDir, { recursive: true });
   await restoreDotfiles(targetDir);
 
-  await removePath(path.join(targetDir, 'showcase'));
-  await removePath(path.join(targetDir, 'README.md'));
-  await removePath(path.join(targetDir, 'README.zh-CN.md'));
-  await removePath(path.join(targetDir, 'LICENSE'));
-  await removePath(path.join(targetDir, 'CHANGELOG.md'));
-  await removePath(path.join(targetDir, 'CONTRIBUTING.md'));
-  await removePath(path.join(targetDir, '.github'));
+  await pruneRepoOnlyArtifacts(targetDir);
 
   await applyTokens(targetDir, {
     packageName,
@@ -68,489 +82,53 @@ export async function run(argv) {
     pagesBasePath: features.pages ? `/${packageName}/` : '/',
   });
   await applyFeaturePruning(targetDir, features);
+  await writeLintCheckScripts(targetDir, features, messages, { maxLinesLimit });
   await writePackageJson(targetDir, features);
   await writeEnvExample(targetDir, features);
-  await writeStarterDocs(targetDir, { appName, packageName, features });
+  await writeStarterDocs(targetDir, { appName, packageName, features, messages });
+  await writeAgentFiles(targetDir, features, messages);
 
-  console.log('');
-  console.log(`Scaffolded ${appName} in ${path.relative(process.cwd(), targetDir) || '.'}`);
-  console.log('');
-  console.log('Next steps:');
-  console.log(`  cd ${path.relative(process.cwd(), targetDir) || '.'}`);
-  console.log('  pnpm install');
-  console.log('  pnpm dev');
+  printNextSteps({ messages, appName, targetDir });
 }
 
-function templateDir() {
-  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../template/base');
-}
-
-async function restoreDotfiles(targetDir) {
-  const mappings = [['gitignore', '.gitignore']];
-
-  for (const [sourceName, targetName] of mappings) {
-    const sourcePath = path.join(targetDir, sourceName);
-    const targetPath = path.join(targetDir, targetName);
-    await fs.rename(sourcePath, targetPath).catch((error) => {
-      if (error.code !== 'ENOENT') {
-        throw error;
-      }
-    });
-  }
-}
-
-function parseArgs(argv) {
-  const parsed = {
-    yes: false,
-    preset: '',
-    title: '',
-    packageName: '',
-    with: [],
-    toggles: {},
-    positionals: [],
-  };
-
-  for (let index = 0; index < argv.length; index += 1) {
-    const value = argv[index];
-
-    if (value === '-y' || value === '--yes') {
-      parsed.yes = true;
-      continue;
-    }
-
-    if (value === '--preset') {
-      parsed.preset = argv[index + 1] ?? '';
-      index += 1;
-      continue;
-    }
-
-    if (value === '--title') {
-      parsed.title = argv[index + 1] ?? '';
-      index += 1;
-      continue;
-    }
-
-    if (value === '--package-name') {
-      parsed.packageName = argv[index + 1] ?? '';
-      index += 1;
-      continue;
-    }
-
-    if (value === '--with') {
-      parsed.with = (argv[index + 1] ?? '')
-        .split(',')
-        .map((item) => item.trim())
-        .filter(Boolean);
-      index += 1;
-      continue;
-    }
-
-    if (value.startsWith('--no-')) {
-      parsed.toggles[value.slice(5)] = false;
-      continue;
-    }
-
-    if (value.startsWith('--')) {
-      parsed.toggles[value.slice(2)] = true;
-      continue;
-    }
-
-    parsed.positionals.push(value);
-  }
-
-  return parsed;
-}
-
-async function resolveFeatures(parsed, preset) {
-  const featureState = { ...(presetDefaults[preset] ?? presetDefaults.minimal) };
-
-  for (const feature of parsed.with) {
-    if (feature in featureState) {
-      featureState[feature] = true;
-    }
-  }
-
-  for (const [feature, enabled] of Object.entries(parsed.toggles)) {
-    if (feature in featureState) {
-      featureState[feature] = enabled;
-    }
+async function resolveLocale(parsed) {
+  if (parsed.lang) {
+    return normalizeLocale(parsed.lang);
   }
 
   if (parsed.yes) {
-    return featureState;
+    return DEFAULT_LOCALE;
   }
 
-  for (const feature of featureKeys) {
-    const defaultValue = featureState[feature];
-    featureState[feature] = await promptYesNo(
-      featurePrompts[feature] ?? `Include ${feature}?`,
-      defaultValue
-    );
-  }
-
-  return featureState;
-}
-
-async function ensureTargetDirectory(targetDir, yes) {
-  await fs.mkdir(targetDir, { recursive: true });
-  const entries = await fs.readdir(targetDir);
-
-  if (!entries.length) {
-    return;
-  }
-
-  if (yes) {
-    throw new Error(`Target directory is not empty: ${targetDir}`);
-  }
-
-  const overwrite = await promptYesNo(
-    `Directory ${targetDir} is not empty. Continue anyway?`,
-    false
+  const promptLabel = `${LOCALE_DISPLAY.en} / ${LOCALE_DISPLAY['zh-CN']}`;
+  const choice = await promptChoice(
+    promptLabel,
+    SUPPORTED_LOCALES,
+    DEFAULT_LOCALE,
+    LOCALE_DISPLAY
   );
-  if (!overwrite) {
-    throw new Error('Aborted.');
-  }
+  return isSupportedLocale(choice) ? choice : DEFAULT_LOCALE;
 }
 
-async function applyTokens(targetDir, values) {
-  const replacements = [
-    ['__PACKAGE_NAME__', values.packageName],
-    ['__APP_NAME__', values.appName],
-    ['__PAGES_BASE_PATH__', values.pagesBasePath],
-  ];
-
-  const files = [
-    'package.json',
-    'index.html',
-    'openspec/config.yaml',
-    'public/favicon.svg',
-    'src/shared/i18n/config.ts',
-    'src/shared/i18n/messages.ts',
-    'vite.config.ts',
-  ];
-
-  await Promise.all(
-    files.map(async (relativePath) => {
-      const filePath = path.join(targetDir, relativePath);
-      let source = await fs.readFile(filePath, 'utf8');
-
-      for (const [token, replacement] of replacements) {
-        source = source.split(token).join(replacement);
-      }
-
-      await fs.writeFile(filePath, source, 'utf8');
-    })
-  );
+async function pruneRepoOnlyArtifacts(targetDir) {
+  await Promise.all([
+    removePath(path.join(targetDir, 'showcase')),
+    removePath(path.join(targetDir, 'README.md')),
+    removePath(path.join(targetDir, 'README.zh-CN.md')),
+    removePath(path.join(targetDir, 'LICENSE')),
+    removePath(path.join(targetDir, 'CHANGELOG.md')),
+    removePath(path.join(targetDir, 'CONTRIBUTING.md')),
+    removePath(path.join(targetDir, '.github')),
+  ]);
 }
 
-async function applyFeaturePruning(targetDir, features) {
-  if (!features.openspec) {
-    await removePath(path.join(targetDir, 'openspec'));
-  }
-
-  if (!features.openapi) {
-    await Promise.all([
-      removePath(path.join(targetDir, 'openapi.config.mjs')),
-      removePath(path.join(targetDir, 'orval.config.mjs')),
-      removePath(path.join(targetDir, 'public/mockServiceWorker.js')),
-      removePath(path.join(targetDir, 'src/shared/api/mock')),
-      removePath(path.join(targetDir, 'tests/scripts')),
-      removePath(path.join(targetDir, 'scripts/openapi-check.mjs')),
-      removePath(path.join(targetDir, 'scripts/openapi-generate.mjs')),
-      removePath(path.join(targetDir, 'scripts/openapi-helpers.mjs')),
-      removePath(path.join(targetDir, 'scripts/openapi-mock.mjs')),
-    ]);
-
-    await fs.writeFile(path.join(targetDir, 'src/app/main.tsx'), noOpenApiMainSource(), 'utf8');
-    await fs.writeFile(
-      path.join(targetDir, 'src/shared/api/config.ts'),
-      noOpenApiConfigSource(),
-      'utf8'
-    );
-  }
-
-  if (!features.playwright) {
-    await Promise.all([
-      removePath(path.join(targetDir, 'playwright.config.ts')),
-      removePath(path.join(targetDir, 'tests/e2e')),
-    ]);
-  }
-
-  if (!features.pages) {
-    await removePath(path.join(targetDir, 'scripts/postbuild-pages.mjs'));
-  }
-
-  if (!features.agents) {
-    await Promise.all([
-      removePath(path.join(targetDir, '.agents')),
-      removePath(path.join(targetDir, '.claude')),
-      removePath(path.join(targetDir, 'AGENTS.md')),
-      removePath(path.join(targetDir, 'CLAUDE.md')),
-    ]);
-  } else {
-    await fs.writeFile(path.join(targetDir, 'AGENTS.md'), agentsGuideSource(), 'utf8');
-    await fs.writeFile(path.join(targetDir, 'CLAUDE.md'), claudeGuideSource(), 'utf8');
-  }
-}
-
-async function writePackageJson(targetDir, features) {
-  const packageJsonPath = path.join(targetDir, 'package.json');
-  const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'));
-
-  if (!features.openspec) {
-    unsetKeys(packageJson.scripts, [
-      'openspec:list',
-      'openspec:new',
-      'openspec:validate',
-      'openspec:spec:list',
-    ]);
-    unsetKeys(packageJson.devDependencies, ['@fission-ai/openspec']);
-  }
-
-  if (!features.openapi) {
-    unsetKeys(packageJson.scripts, [
-      'openapi:check',
-      'openapi:generate',
-      'openapi:mock',
-      'dev:mock',
-    ]);
-    unsetKeys(packageJson.devDependencies, [
-      '@faker-js/faker',
-      '@stoplight/prism-cli',
-      'dotenv',
-      'dotenv-expand',
-      'msw',
-      'orval',
-      'yaml',
-    ]);
-    packageJson.msw = undefined;
-  }
-
-  if (!features.playwright) {
-    unsetKeys(packageJson.scripts, ['test:e2e', 'test:e2e:ui']);
-    unsetKeys(packageJson.devDependencies, ['@playwright/test']);
-  }
-
-  if (!features.pages) {
-    unsetKeys(packageJson.scripts, ['build:pages', 'preview:pages']);
-  }
-
-  await fs.writeFile(`${packageJsonPath}`, `${JSON.stringify(packageJson, null, 2)}\n`, 'utf8');
-}
-
-async function writeEnvExample(targetDir, features) {
-  const lines = ['VITE_API_BASE_URL=http://127.0.0.1:8000'];
-
-  if (features.openapi) {
-    lines.unshift('OPENAPI_SCHEMA_URL=https://petstore3.swagger.io/api/v3/openapi.json');
-    lines.push('OPENAPI_MOCK_PORT=4010');
-  }
-
-  await fs.writeFile(path.join(targetDir, '.env.example'), `${lines.join('\n')}\n`, 'utf8');
-}
-
-async function writeStarterDocs(targetDir, context) {
-  const featureList = [
-    'React 19 + TypeScript + Vite 8',
-    'TanStack Router + TanStack Query',
-    'Route-FSD starter structure',
-    'Tailwind CSS v4 + Biome 2 + Vitest',
-  ];
-
-  if (context.features.openspec) {
-    featureList.push('OpenSpec workflow');
-  }
-
-  if (context.features.openapi) {
-    featureList.push('OpenAPI / Orval / MSW / Prism');
-  }
-
-  if (context.features.playwright) {
-    featureList.push('Playwright end-to-end tests');
-  }
-
-  if (context.features.pages) {
-    featureList.push('GitHub Pages build support');
-  }
-
-  if (context.features.agents) {
-    featureList.push('Codex and Claude Code agent assets');
-  }
-
-  const commandLines = ['pnpm install', 'pnpm dev', 'pnpm build', 'pnpm test:run'];
-
-  if (context.features.openspec) {
-    commandLines.push('pnpm openspec:list');
-  }
-
-  if (context.features.openapi) {
-    commandLines.push('pnpm openapi:check', 'pnpm openapi:generate');
-  }
-
-  if (context.features.playwright) {
-    commandLines.push('pnpm test:e2e');
-  }
-
-  if (context.features.pages) {
-    commandLines.push('pnpm build:pages');
-  }
-
-  const readme = `# ${context.appName}
-
-This project was scaffolded with \`create-tanvite\`.
-
-## Included Features
-
-${featureList.map((item) => `- ${item}`).join('\n')}
-
-## Quick Start
-
-\`\`\`bash
-${commandLines.join('\n')}
-\`\`\`
-
-## Project Notes
-
-- Package name: \`${context.packageName}\`
-- Keep route entries under \`src/routes\`
-- Move reusable screen blocks into \`src/widgets\`
-- Keep app-wide runtime logic under \`src/shared\`
-- Regenerate the TanStack Router tree with \`pnpm routes:generate\`
-`;
-
-  await fs.writeFile(path.join(targetDir, 'README.md'), `${readme}\n`, 'utf8');
-}
-
-function noOpenApiMainSource() {
-  return `import { RouterProvider } from '@tanstack/react-router';
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import './styles/index.css';
-import { AppProviders } from './providers/app-providers';
-import { router } from './router';
-
-const rootElement = document.getElementById('root');
-
-if (!rootElement) throw new Error('Root element not found');
-
-createRoot(rootElement).render(
-  <StrictMode>
-    <AppProviders>
-      <RouterProvider router={router} />
-    </AppProviders>
-  </StrictMode>
-);
-`;
-}
-
-function noOpenApiConfigSource() {
-  return `import axios from 'axios';
-
-export const apiBaseUrl = import.meta.env.DEV
-  ? ''
-  : import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
-
-axios.defaults.baseURL = apiBaseUrl;
-axios.defaults.headers.common.Accept = 'application/json';
-`;
-}
-
-function agentsGuideSource() {
-  return `# AGENTS.md
-
-Project instructions for Codex and other agents.
-
-## Working Rules
-
-- Always use pnpm for scripts and package management.
-- Prefer editing source files over generated files.
-- Regenerate \`src/routeTree.gen.ts\` instead of editing it by hand.
-- Keep route entries in \`src/routes\`, reusable UI in \`src/widgets\`, and shared runtime logic in \`src/shared\`.
-- Keep changes focused and verify with the smallest useful command set.
-`;
-}
-
-function claudeGuideSource() {
-  return `# CLAUDE.md
-
-Claude Code guidance for this starter project.
-
-## Working Rules
-
-- Use pnpm for all scripts.
-- Treat \`src/routeTree.gen.ts\` as generated output.
-- Keep route entries in \`src/routes\`, reusable UI in \`src/widgets\`, and shared runtime logic in \`src/shared\`.
-- Prefer source or config changes over patching generated files.
-- Run the smallest useful verification command before finishing.
-`;
-}
-
-function sanitizePackageName(input) {
-  return (
-    input
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9-._/]+/g, '-')
-      .replace(/^-+|-+$/g, '') || 'my-tanvite-app'
-  );
-}
-
-function unsetKeys(record, keys) {
-  for (const key of keys) {
-    record[key] = undefined;
-  }
-}
-
-function toTitleCase(value) {
-  return value
-    .split(/[-_./]+/)
-    .filter(Boolean)
-    .map((part) => part[0].toUpperCase() + part.slice(1))
-    .join(' ');
-}
-
-async function removePath(targetPath) {
-  await fs.rm(targetPath, { recursive: true, force: true });
-}
-
-async function promptText(label, defaultValue) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  const answer = await rl.question(`${label} (${defaultValue}): `);
-  rl.close();
-  return answer.trim() || defaultValue;
-}
-
-async function promptYesNo(label, defaultValue) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  const hint = defaultValue ? 'Y/n' : 'y/N';
-  const answer = await rl.question(`${label} [${hint}]: `);
-  rl.close();
-
-  if (!answer.trim()) {
-    return defaultValue;
-  }
-
-  return /^y(es)?$/i.test(answer.trim());
-}
-
-async function promptChoice(label, choices, defaultValue) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  const answer = await rl.question(`${label} (${choices.join('/')}) [${defaultValue}]: `);
-  rl.close();
-  const resolved = answer.trim() || defaultValue;
-
-  if (choices.includes(resolved)) {
-    return resolved;
-  }
-
-  return defaultValue;
+function printNextSteps({ messages, appName, targetDir }) {
+  const dirRel = path.relative(process.cwd(), targetDir) || '.';
+  console.log('');
+  console.log(messages.scaffoldedSummary({ appName, dirRel }));
+  console.log('');
+  console.log(messages.nextStepsHeader);
+  console.log(messages.nextStepsCd(dirRel));
+  console.log(messages.nextStepsInstall);
+  console.log(messages.nextStepsDev);
 }

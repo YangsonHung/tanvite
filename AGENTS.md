@@ -29,6 +29,10 @@ TanVite is a production-oriented React 19 starter with:
   - `packages/create-tanvite/template/base/`
   - `README.md`
   - `README.zh-CN.md`
+- Anything under `packages/create-tanvite/src/` MUST follow the module split
+  convention documented in `packages/create-tanvite/src/README.md`:
+  `index.mjs` is orchestration only, every module owns a single responsibility,
+  and all user-facing strings live in `packages/create-tanvite/src/i18n/`.
 - Preserve bilingual behavior on the showcase landing page and guide page.
 - When changing project positioning, update both OpenSpec-facing docs and public showcase copy.
 
