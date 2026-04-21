@@ -2,25 +2,65 @@
 
 **English** | [中文](README.zh-CN.md)
 
-`create-tanvite` scaffolds a curated TanVite starter without copying the full maintenance repository.
+This directory hosts the `create-tanvite` npm package — the scaffolder
+published as [`create-tanvite`](https://www.npmjs.com/package/create-tanvite)
+on npm. End-user install and usage docs live in the
+[repository root README](../../README.md); this README describes the
+**package internals**.
 
-## Usage
+## Package Layout
 
-```bash
-npm create tanvite@latest
-pnpm create tanvite@latest
-yarn create tanvite@latest
+```text
+packages/create-tanvite/
+├── bin/
+│   └── create-tanvite.mjs   # Thin entry; forwards argv to run() in src/index.mjs.
+├── src/                     # CLI implementation (see "Source Layout" below).
+├── template/
+│   └── base/                # Starter template copied into the target directory.
+├── package.json             # Published package manifest.
+├── TEMPLATE_OWNERSHIP.md    # Rules for what may live under template/.
+├── README.md
+└── README.zh-CN.md
 ```
 
-The CLI supports:
+- `bin/create-tanvite.mjs` is wired to the `create-tanvite` executable via
+  the `bin` field of `package.json`. It contains no logic beyond loading
+  `src/index.mjs` and calling `run(process.argv.slice(2))`.
+- `template/base/` is copied verbatim into the generated project and then
+  pruned, tokenized, and augmented based on user answers. Generated
+  artifacts (e.g. `src/routeTree.gen.ts`) must **not** be checked in
+  here — see [`TEMPLATE_OWNERSHIP.md`](./TEMPLATE_OWNERSHIP.md).
 
-- interactive language selection (`English` / `简体中文`) driving prompt copy, README, and AGENTS.md
-- `minimal` and `full` presets
-- optional OpenSpec, OpenAPI, Playwright, GitHub Pages, agent assets, and lint scripts
-- optional `kebab-case` file naming check and per-file line limit check (auto-wired into `pnpm check`); the line limit is user-configurable (default `300`, must be between `100` and `1000` inclusive)
-- package name and app title replacement
+## Source Layout (`src/`)
 
-### CLI Flags
+The CLI is split into single-responsibility modules; `index.mjs` is
+orchestration only.
+
+```text
+src/
+├── index.mjs           # Orchestrator. Wires modules together via run(argv).
+├── args.mjs            # CLI flag parsing (parseArgs). No I/O, no prompts.
+├── prompts.mjs         # Interactive readline prompts (text / yes-no / choice / integer).
+├── features.mjs        # featureKeys, presetDefaults, resolveFeatures, resolveMaxLinesLimit.
+├── paths.mjs           # Filesystem entry: templateDir, restoreDotfiles, ensureTargetDirectory.
+├── tokens.mjs          # applyTokens: replace __PACKAGE_NAME__ etc. in templates.
+├── prune.mjs           # applyFeaturePruning + no-OpenAPI fallback sources.
+├── package-json.mjs    # writePackageJson, writeEnvExample, lint-script wiring into `check`.
+├── docs.mjs            # writeStarterDocs (README) + writeAgentFiles (AGENTS, CLAUDE).
+├── lint-checks.mjs     # Renders optional check-file-naming / check-max-lines scripts.
+├── utils.mjs           # Pure helpers: sanitizePackageName, toTitleCase, unsetKeys.
+├── i18n/
+│   ├── index.mjs       # Locale registry, normalizeLocale, getMessages.
+│   ├── en.mjs          # English prompts, README/AGENTS templates, lint copy, feature labels.
+│   └── zh-CN.mjs       # Simplified Chinese mirror of en.mjs.
+└── README.md           # Conventions for src/. MUST be followed by future changes.
+```
+
+Contribution rules (module boundaries, adding a locale, adding a feature
+flag) live in [`src/README.md`](./src/README.md). Any future change to
+the CLI must respect the conventions listed there.
+
+## CLI Flags
 
 | Flag | Description |
 | ---- | ----------- |
@@ -31,9 +71,9 @@ The CLI supports:
 | `--package-name <name>` | Override the inferred package name. |
 | `--with feat1,feat2` | Force-enable features. |
 | `--<feature>` / `--no-<feature>` | Toggle individual features. Supported: `openspec`, `openapi`, `playwright`, `pages`, `agents`, `lint-file-naming`, `lint-max-lines`. |
-| `--max-lines <N>` | Per-file line limit for the `lint-max-lines` check. Must be an integer between `100` and `1000` (inclusive). Default: `300`. |
+| `--max-lines <N>` | Per-file line limit for the `lint-max-lines` check. Integer between `100` and `1000` (inclusive). Default: `300`. |
 
-### Examples
+Examples:
 
 ```bash
 npm create tanvite@latest my-app -- --lang zh-CN --preset full
@@ -43,39 +83,13 @@ npm create tanvite@latest my-app -- -y --lang en --preset minimal --lint-file-na
 The generated `CLAUDE.md` always contains a single `@AGENTS.md` reference, so
 Claude Code follows the same instructions as Codex.
 
-### Source Layout
-
-The CLI implementation under `src/` follows a strict module split. See
-[`src/README.md`](./src/README.md) for the conventions all future contributions
-must respect.
-
 ## Local Development
 
-Run the bin script directly from this repository:
+Run the bin script directly from this repository (no install, no publish):
 
 ```bash
-node ./packages/create-tanvite/bin/create-tanvite.mjs
+node ./packages/create-tanvite/bin/create-tanvite.mjs <target-dir> [flags]
 ```
 
-## Release (Maintainers)
-
-Publish the package from the workspace directory.
-
-1. Ensure the template tree does not include generated artifacts such as `src/routeTree.gen.ts`.
-2. Bump `packages/create-tanvite/package.json` version.
-3. Run `pnpm pack` and inspect the tarball before publish.
-4. Publish to npmjs registry with 2FA.
-
-```bash
-cd packages/create-tanvite
-npm version patch --no-git-tag-version
-TARBALL=$(pnpm pack | tail -n 1)
-tar -tzf "$TARBALL" | grep -E "template/base/(gitignore|\\.gitignore|src/routeTree\\.gen\\.ts)"
-pnpm publish --access public --no-git-checks --registry=https://registry.npmjs.org
-```
-
-After publish, verify:
-
-```bash
-npm view create-tanvite version dist-tags --json --registry=https://registry.npmjs.org
-```
+For the published end-user workflow and the maintainer release workflow,
+see the [repository root README](../../README.md).
