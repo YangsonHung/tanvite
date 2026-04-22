@@ -8,6 +8,11 @@ The format follows Keep a Changelog and uses Semantic Versioning conventions whe
 
 ### Added
 
+- AI agent hooks feature for `create-tanvite`: optional Claude Code and Codex runtime hooks with `--hooks` flag and `--hooks-agents` multi-select (pnpm enforcement, file protection, auto-format, context injection, boundary checks, desktop notification)
+- `promptMultiSelect` interactive prompt for multi-choice selection in `create-tanvite`
+- Agent Hooks documentation section in generated starter README (bilingual)
+- Agent Hooks documentation section in repository root README and README.zh-CN
+- Feature spec at `spec/agent-hooks-feature.md`
 - Publishable `create-tanvite` scaffolder package for curated starter generation
 - GitHub Pages deployment through GitHub Actions
 - Public landing page and guide page for project showcase
