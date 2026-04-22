@@ -59,14 +59,17 @@ Optional examples (flags go after `--` for `npm`, directly for `pnpm` / `yarn`):
 # npm
 npm create tanvite@latest my-app -- --preset full
 npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,agents
+npm create tanvite@latest my-app -- --hooks --hooks-agents claude,codex
 
 # pnpm
 pnpm create tanvite@latest my-app --preset full
 pnpm create tanvite@latest my-app --with openspec,openapi,playwright,pages,agents
+pnpm create tanvite@latest my-app --hooks --hooks-agents claude,codex
 
 # yarn
 yarn create tanvite@latest my-app --preset full
 yarn create tanvite@latest my-app --with openspec,openapi,playwright,pages,agents
+yarn create tanvite@latest my-app --hooks --hooks-agents claude,codex
 ```
 
 ### 🧭 Next Steps
@@ -113,6 +116,7 @@ npm view create-tanvite version dist-tags --json --registry=https://registry.npm
 - Playwright for end-to-end tests
 - MSW and Prism for browser-level mocks and standalone mock server workflows
 - Husky + lint-staged + commitlint for commit workflow enforcement
+- AI agent hooks for Claude Code and Codex — pnpm enforcement, file protection, auto-format, context injection, boundary checks, and desktop notifications
 
 ## 🧩 Tech Stack
 
@@ -123,7 +127,7 @@ npm view create-tanvite version dist-tags --json --registry=https://registry.npm
 | Build Tool | Vite |
 | Package Manager | pnpm |
 | Specification Workflow | OpenSpec |
-| AI Collaboration | `.agents/skills`, `.claude/skills`, Codex, Claude Code, OPSX commands |
+| AI Collaboration | `.agents/skills`, `.claude/skills`, Codex, Claude Code, OPSX commands, agent hooks |
 | Routing | TanStack Router |
 | Data Fetching | TanStack Query |
 | API Contract | Orval, OpenAPI |
@@ -222,6 +226,31 @@ The current workspace ships with Codex skills under `.agents/skills/`, Claude Co
 - `react-expert` and `typescript-expert` for framework and language-specific guidance
 - `agent-browser` and `webapp-testing` for browser automation and local app verification
 - `git-commit` and `git-pushing` for conventional commit and delivery workflows
+
+## 🪝 Agent Hooks
+
+When the `hooks` feature is enabled via `create-tanvite`, the generated project ships with deterministic runtime hooks for Claude Code and/or Codex. These hooks enforce project rules automatically rather than relying on the AI to remember them.
+
+### Claude Code
+
+| Hook | Event | What it does |
+| --- | --- | --- |
+| pnpm enforcement | `PreToolUse` (Bash) | Blocks `npm`, `yarn`, `bun` install commands |
+| File protection | `PreToolUse` (Edit\|Write) | Blocks edits to `src/routeTree.gen.ts`, `src/shared/api/generated/`, `.env`, `package-lock.json` |
+| Auto-format | `PostToolUse` (Edit\|Write) | Runs `biome check --write` after every file edit |
+| Context injection | `SessionStart` | Injects project rules on session start and after context compaction |
+| Boundary check | `Stop` | Runs `pnpm check:boundaries` before the agent stops |
+| Desktop notification | `Notification` | Sends a macOS notification when the agent needs input |
+
+### Codex
+
+| Hook | Event | What it does |
+| --- | --- | --- |
+| pnpm enforcement | `PreToolUse` (Bash) | Blocks `npm`, `yarn`, `bun` install commands |
+| Context injection | `SessionStart` | Injects project rules on session start |
+| Boundary check | `Stop` | Runs `pnpm check:boundaries` before the agent stops |
+
+Select agents during scaffolding with `--hooks --hooks-agents claude`, `--hooks --hooks-agents codex`, or `--hooks --hooks-agents claude,codex`. The `full` preset enables hooks for both agents by default.
 
 ## 🗺️ Project Structure
 

@@ -2,9 +2,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 
+import { writeAgentHooks } from './agent-hooks.mjs';
 import { parseArgs } from './args.mjs';
 import { writeAgentFiles, writeStarterDocs } from './docs.mjs';
-import { resolveFeatures, resolveMaxLinesLimit } from './features.mjs';
+import { resolveFeatures, resolveHooksAgents, resolveMaxLinesLimit } from './features.mjs';
 import { writeHuskyHooks } from './husky.mjs';
 import {
   DEFAULT_LOCALE,
@@ -63,6 +64,7 @@ export async function run(argv) {
 
   const features = await resolveFeatures(parsed, preset, messages);
   const maxLinesLimit = await resolveMaxLinesLimit(parsed, features, messages);
+  const hooksAgents = await resolveHooksAgents(parsed, features, messages);
 
   await ensureTargetDirectory(targetDir, parsed.yes, messages);
   await fs.cp(templateDir(), targetDir, { recursive: true });
@@ -80,8 +82,9 @@ export async function run(argv) {
   await writePackageJson(targetDir, features);
   await writeEnvExample(targetDir, features);
   await writeHuskyHooks(targetDir, features);
-  await writeStarterDocs(targetDir, { appName, packageName, features, messages });
+  await writeStarterDocs(targetDir, { appName, packageName, features, hooksAgents, messages });
   await writeAgentFiles(targetDir, features, messages);
+  await writeAgentHooks(targetDir, features, hooksAgents, messages);
 
   printNextSteps({ messages, appName, targetDir });
 }

@@ -21,6 +21,10 @@ src/
 ├── package-json.mjs       # writePackageJson + writeEnvExample. Owns the script
 │                          # chain wiring (e.g. appending lint scripts to
 │                          # `check`, `check:fix`, `build`, `build:pages`).
+├── agent-hooks.mjs        # writeAgentHooks: generates .claude/settings.json,
+│                          # .codex/hooks.json, and hook shell scripts.
+│                          # Agent selection (claude/codex) resolved
+│                          # by resolveHooksAgents in features.mjs.
 ├── docs.mjs               # writeStarterDocs (README) + writeAgentFiles (AGENTS,
 │                          # CLAUDE). Templates come from i18n.
 ├── husky.mjs              # writeHuskyHooks: regenerates .husky/pre-commit and
@@ -59,13 +63,13 @@ src/
 8. **Adding a feature flag requires updates in three places:**
    `features.mjs` (key + preset defaults), `i18n/*.mjs` (prompt copy + label),
    and the corresponding writer module (`prune.mjs`, `package-json.mjs`,
-   `lint-checks.mjs`, …).
-9. **Follow-up numeric / free-form prompts** (e.g. `resolveMaxLinesLimit`) live
-   next to the feature resolver in `features.mjs`. They read overrides from
-   `args.mjs` first, fall back to defaults in `-y` mode, and use
-   `prompts.mjs` with locale-aware copy otherwise. Validation bounds are
-   exported constants (e.g. `DEFAULT_MAX_LINES`, `MAX_LINES_MIN`,
-   `MAX_LINES_MAX`) and treated as inclusive.
+   `lint-checks.mjs`, `agent-hooks.mjs`, …).
+9. **Follow-up numeric / free-form prompts** (e.g. `resolveMaxLinesLimit`,
+   `resolveHooksAgents`) live next to the feature resolver in `features.mjs`.
+   They read overrides from `args.mjs` first, fall back to defaults in `-y`
+   mode, and use `prompts.mjs` with locale-aware copy otherwise. Validation
+   bounds are exported constants (e.g. `DEFAULT_MAX_LINES`, `MAX_LINES_MIN`,
+   `MAX_LINES_MAX`, `HOOKS_AGENT_OPTIONS`) and treated as inclusive.
 
 ## Adding a Locale
 

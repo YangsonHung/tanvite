@@ -1,8 +1,10 @@
-import { promptInteger, promptYesNo } from './prompts.mjs';
+import { promptInteger, promptMultiSelect, promptYesNo } from './prompts.mjs';
 
 export const DEFAULT_MAX_LINES = 300;
 export const MAX_LINES_MIN = 100;
 export const MAX_LINES_MAX = 1000;
+
+export const HOOKS_AGENT_OPTIONS = ['claude', 'codex'];
 
 export const featureKeys = [
   'openspec',
@@ -10,6 +12,7 @@ export const featureKeys = [
   'playwright',
   'pages',
   'agents',
+  'hooks',
   'lintFileNaming',
   'lintMaxLines',
 ];
@@ -21,6 +24,7 @@ export const presetDefaults = {
     playwright: false,
     pages: false,
     agents: false,
+    hooks: false,
     lintFileNaming: false,
     lintMaxLines: false,
   },
@@ -30,6 +34,7 @@ export const presetDefaults = {
     playwright: true,
     pages: true,
     agents: true,
+    hooks: true,
     lintFileNaming: true,
     lintMaxLines: true,
   },
@@ -95,4 +100,37 @@ function parseMaxLines(raw) {
     return null;
   }
   return parsed;
+}
+
+export async function resolveHooksAgents(parsed, features, messages) {
+  if (!features.hooks) {
+    return null;
+  }
+
+  const fromFlag = parseHooksAgents(parsed.hooksAgents);
+  if (fromFlag !== null) {
+    return fromFlag;
+  }
+
+  if (parsed.yes) {
+    return [...HOOKS_AGENT_OPTIONS];
+  }
+
+  return promptMultiSelect(
+    messages.promptHooksAgents,
+    HOOKS_AGENT_OPTIONS,
+    HOOKS_AGENT_OPTIONS,
+    messages.hooksAgentsLabels
+  );
+}
+
+function parseHooksAgents(raw) {
+  if (!raw) return null;
+  const tokens = raw
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const valid = tokens.filter((t) => HOOKS_AGENT_OPTIONS.includes(t));
+  if (valid.length === 0) return null;
+  return [...new Set(valid)];
 }

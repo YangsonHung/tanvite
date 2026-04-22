@@ -59,14 +59,17 @@ pnpm dev
 # npm
 npm create tanvite@latest my-app -- --preset full
 npm create tanvite@latest my-app -- --with openspec,openapi,playwright,pages,agents
+npm create tanvite@latest my-app -- --hooks --hooks-agents claude,codex
 
 # pnpm
 pnpm create tanvite@latest my-app --preset full
 pnpm create tanvite@latest my-app --with openspec,openapi,playwright,pages,agents
+pnpm create tanvite@latest my-app --hooks --hooks-agents claude,codex
 
 # yarn
 yarn create tanvite@latest my-app --preset full
 yarn create tanvite@latest my-app --with openspec,openapi,playwright,pages,agents
+yarn create tanvite@latest my-app --hooks --hooks-agents claude,codex
 ```
 
 ### 🧭 下一步
@@ -113,6 +116,7 @@ npm view create-tanvite version dist-tags --json --registry=https://registry.npm
 - 使用 Playwright 进行 E2E 测试
 - 使用 MSW 与 Prism 提供浏览器 mock 和独立 mock server 工作流
 - 使用 Husky + lint-staged + commitlint 约束提交流程
+- AI 代理钩子（支持 Claude Code 与 Codex）— pnpm 强制、文件保护、自动格式化、上下文注入、边界检查和桌面通知
 
 ## 🧩 技术栈
 
@@ -123,7 +127,7 @@ npm view create-tanvite version dist-tags --json --registry=https://registry.npm
 | 构建工具 | Vite |
 | 包管理器 | pnpm |
 | 规格工作流 | OpenSpec |
-| AI 协作层 | `.agents/skills`、`.claude/skills`、Codex、Claude Code、OPSX commands |
+| AI 协作层 | `.agents/skills`、`.claude/skills`、Codex、Claude Code、OPSX commands、代理钩子 |
 | 路由 | TanStack Router |
 | 数据获取 | TanStack Query |
 | API 契约 | Orval、OpenAPI |
@@ -222,6 +226,31 @@ pnpm openspec:spec:list
 - `react-expert`、`typescript-expert` 提供框架与语言层面的专项支持
 - `agent-browser`、`webapp-testing` 用于浏览器自动化和本地 Web 应用验证
 - `git-commit`、`git-pushing` 用于规范化提交与推送流程
+
+## 🪝 代理钩子
+
+通过 `create-tanvite` 启用 `hooks` 特性后，生成的项目会自带面向 Claude Code 和/或 Codex 的确定性运行时钩子。这些钩子会自动执行项目规则，而不依赖 AI 记住它们。
+
+### Claude Code
+
+| 钩子 | 事件 | 作用 |
+| --- | --- | --- |
+| pnpm 强制 | `PreToolUse` (Bash) | 阻止 `npm`、`yarn`、`bun` 安装命令 |
+| 文件保护 | `PreToolUse` (Edit\|Write) | 阻止编辑 `src/routeTree.gen.ts`、`src/shared/api/generated/`、`.env`、`package-lock.json` |
+| 自动格式化 | `PostToolUse` (Edit\|Write) | 每次文件编辑后自动运行 `biome check --write` |
+| 上下文注入 | `SessionStart` | 会话启动及上下文压缩后注入项目规则 |
+| 边界检查 | `Stop` | 代理停止前运行 `pnpm check:boundaries` |
+| 桌面通知 | `Notification` | 代理需要输入时发送 macOS 通知 |
+
+### Codex
+
+| 钩子 | 事件 | 作用 |
+| --- | --- | --- |
+| pnpm 强制 | `PreToolUse` (Bash) | 阻止 `npm`、`yarn`、`bun` 安装命令 |
+| 上下文注入 | `SessionStart` | 会话启动时注入项目规则 |
+| 边界检查 | `Stop` | 代理停止前运行 `pnpm check:boundaries` |
+
+脚手架阶段可通过 `--hooks --hooks-agents claude`、`--hooks --hooks-agents codex` 或 `--hooks --hooks-agents claude,codex` 选择代理。`full` 预设默认为两个代理同时启用钩子。
 
 ## 🗺️ 项目结构
 

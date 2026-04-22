@@ -4,11 +4,13 @@ const featureLabels = {
   playwright: 'Playwright end-to-end tests',
   pages: 'GitHub Pages build support',
   agents: 'Codex and Claude Code agent assets',
+  hooks: 'AI agent hooks (pnpm enforcement, context injection, boundary checks)',
   lintFileNaming: 'kebab-case file naming check script',
   lintMaxLines: 'Per-file line limit check script',
 };
 
-function readmeTemplate({ appName, packageName, featureList, commandLines }) {
+function readmeTemplate({ appName, packageName, featureList, commandLines, hooksSection }) {
+  const hooksBlock = hooksSection ? `\n${hooksSection}\n` : '';
   return `# ${appName}
 
 This project was scaffolded with \`create-tanvite\`.
@@ -22,7 +24,7 @@ ${featureList.map((item) => `- ${item}`).join('\n')}
 \`\`\`bash
 ${commandLines.join('\n')}
 \`\`\`
-
+${hooksBlock}
 ## Project Notes
 
 - Package name: \`${packageName}\`
@@ -61,6 +63,8 @@ const messages = {
   promptAppTitle: 'App title',
   promptPreset: 'Starter preset',
   promptMaxLines: 'Max lines per file (100-1000, inclusive)',
+  promptHooksAgents: 'Which agents should receive hooks?',
+  hooksAgentsLabels: { claude: 'Claude Code', codex: 'Codex' },
   errorMaxLinesRange: 'Please enter an integer between 100 and 1000 (inclusive).',
   presetLabels: { minimal: 'minimal', full: 'full' },
   promptOverwrite: (dir) => `Directory ${dir} is not empty. Continue anyway?`,
@@ -73,6 +77,7 @@ const messages = {
     playwright: 'Include Playwright end-to-end tests?',
     pages: 'Include GitHub Pages-compatible build support?',
     agents: 'Include Codex and Claude Code agent assets?',
+    hooks: 'Include AI agent hooks (Claude Code / Codex)?',
     lintFileNaming: 'Include kebab-case file naming check script?',
     lintMaxLines: 'Include per-file line limit check script?',
   },
@@ -108,6 +113,46 @@ const messages = {
     fileNamingHeaderComment: '/** Match biome.json / check-max-lines ignore list */',
     routeFileComment:
       '/**\n * kebab-case naming rule:\n * - lowercase letters, digits, hyphens\n * - allows leading double underscore (TanStack Router convention, e.g. __root.tsx)\n * - allows .d suffix (e.g. vite-env.d.ts)\n * - allows compound suffixes such as .msw / .test / .spec\n */',
+  },
+
+  hooks: {
+    enforcePnpmBlocked: 'Blocked: This project uses pnpm exclusively. Use pnpm instead.',
+    protectFilesBlocked: (file) => `Blocked: ${file} is a generated/protected file. Fix the source instead.`,
+    protectFilesPatterns: ['src/routeTree.gen.ts', 'src/shared/api/generated/', '.env', 'package-lock.json'],
+    contextHeader: '[TanVite Project Rules]',
+    contextRules: [
+      'Package manager: pnpm only (never npm/yarn/bun)',
+      'Formatter/Linter: Biome (never Prettier/ESLint)',
+      'Generated files: src/routeTree.gen.ts and src/shared/api/generated/ are auto-generated — do not hand-edit',
+      'Import boundaries: shared < entities < features < widgets < routes < app (enforced by check:boundaries)',
+      'Verification: run `pnpm check` after code changes; `pnpm test:run && pnpm build` after runtime changes',
+      'Commit style: conventional commits enforced by commitlint',
+    ],
+    stopBoundaryFail: 'Import boundary check failed. Run pnpm check:boundaries to see violations.',
+    notificationTitle: 'Claude Code',
+    notificationBody: 'Claude Code needs your attention',
+    readmeSection: {
+      heading: '## Agent Hooks',
+      claude: {
+        label: '### Claude Code',
+        items: [
+          '**pnpm enforcement** (`PreToolUse`): blocks `npm`, `yarn`, `bun` install commands.',
+          '**File protection** (`PreToolUse`): blocks edits to generated/protected files (`src/routeTree.gen.ts`, `src/shared/api/generated/`, `.env`, `package-lock.json`).',
+          '**Auto-format** (`PostToolUse`): runs `biome check --write` after every file edit.',
+          '**Context injection** (`SessionStart`): injects project rules on session start and after context compaction.',
+          '**Boundary check** (`Stop`): runs `pnpm check:boundaries` before the agent stops — prevents violations from being left unfixed.',
+          '**Desktop notification** (`Notification`): sends a macOS notification when the agent needs input.',
+        ],
+      },
+      codex: {
+        label: '### Codex',
+        items: [
+          '**pnpm enforcement** (`PreToolUse`): blocks `npm`, `yarn`, `bun` install commands.',
+          '**Context injection** (`SessionStart`): injects project rules on session start.',
+          '**Boundary check** (`Stop`): runs `pnpm check:boundaries` before the agent stops.',
+        ],
+      },
+    },
   },
 };
 

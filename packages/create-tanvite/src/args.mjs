@@ -6,6 +6,7 @@ export function parseArgs(argv) {
     packageName: '',
     lang: '',
     maxLines: '',
+    hooksAgents: '',
     with: [],
     toggles: {},
     positionals: [],
@@ -45,6 +46,12 @@ export function parseArgs(argv) {
 
     if (value === '--max-lines' || value === '--max-line' || value === '--lint-max-lines-value') {
       parsed.maxLines = argv[index + 1] ?? '';
+      index += 1;
+      continue;
+    }
+
+    if (value === '--hooks-agents') {
+      parsed.hooksAgents = argv[index + 1] ?? '';
       index += 1;
       continue;
     }

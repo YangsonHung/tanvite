@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 export async function writeStarterDocs(targetDir, context) {
-  const { appName, packageName, features, messages } = context;
+  const { appName, packageName, features, hooksAgents, messages } = context;
 
   const featureList = [...messages.baseFeatures];
 
@@ -12,6 +12,7 @@ export async function writeStarterDocs(targetDir, context) {
     'playwright',
     'pages',
     'agents',
+    'hooks',
     'lintFileNaming',
     'lintMaxLines',
   ]) {
@@ -29,8 +30,31 @@ export async function writeStarterDocs(targetDir, context) {
   if (features.lintFileNaming) commandLines.push('pnpm check:file-naming');
   if (features.lintMaxLines) commandLines.push('pnpm check:max-lines');
 
-  const readme = messages.readmeTemplate({ appName, packageName, featureList, commandLines });
+  const hooksSection = buildHooksSection(hooksAgents, messages);
+
+  const readme = messages.readmeTemplate({ appName, packageName, featureList, commandLines, hooksSection });
   await fs.writeFile(path.join(targetDir, 'README.md'), `${readme}\n`, 'utf8');
+}
+
+function buildHooksSection(hooksAgents, messages) {
+  if (!hooksAgents || hooksAgents.length === 0) return null;
+
+  const section = messages.hooks.readmeSection;
+  const blocks = [section.heading];
+
+  if (hooksAgents.includes('claude')) {
+    const { label, items } = section.claude;
+    blocks.push(label);
+    blocks.push(...items.map((item) => `- ${item}`));
+  }
+
+  if (hooksAgents.includes('codex')) {
+    const { label, items } = section.codex;
+    blocks.push(label);
+    blocks.push(...items.map((item) => `- ${item}`));
+  }
+
+  return blocks.join('\n');
 }
 
 export async function writeAgentFiles(targetDir, features, messages) {

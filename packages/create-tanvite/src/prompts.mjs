@@ -58,6 +58,60 @@ export async function promptInteger(label, defaultValue, options = {}) {
   }
 }
 
+export async function promptMultiSelect(label, choices, defaultSelected, displayMap = {}) {
+  const defaultSet = new Set(defaultSelected);
+
+  console.log(label);
+  for (let i = 0; i < choices.length; i += 1) {
+    const choice = choices[i];
+    const display = displayMap[choice] ?? choice;
+    const marker = defaultSet.has(choice) ? '*' : ' ';
+    console.log(`  ${marker} ${i + 1}) ${display}`);
+  }
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  const answer = await rl.question('> [comma-separated numbers or names]: ');
+  rl.close();
+  const trimmed = answer.trim();
+
+  if (!trimmed) {
+    return [...defaultSelected];
+  }
+
+  const tokens = trimmed
+    .split(/[,\s]+/)
+    .map((t) => t.trim())
+    .filter(Boolean);
+
+  const selected = new Set();
+
+  for (const token of tokens) {
+    const numeric = Number.parseInt(token, 10);
+    if (Number.isInteger(numeric) && numeric >= 1 && numeric <= choices.length) {
+      selected.add(choices[numeric - 1]);
+      continue;
+    }
+
+    if (choices.includes(token)) {
+      selected.add(token);
+      continue;
+    }
+
+    const lower = token.toLowerCase();
+    for (const choice of choices) {
+      if ((displayMap[choice] ?? '').toLowerCase() === lower) {
+        selected.add(choice);
+        break;
+      }
+    }
+  }
+
+  return choices.filter((c) => selected.has(c));
+}
+
 export async function promptChoice(label, choices, defaultValue, displayMap = {}) {
   const defaultIndex = Math.max(0, choices.indexOf(defaultValue));
   const defaultNumber = defaultIndex + 1;

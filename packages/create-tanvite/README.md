@@ -40,14 +40,15 @@ orchestration only.
 src/
 ├── index.mjs           # Orchestrator. Wires modules together via run(argv).
 ├── args.mjs            # CLI flag parsing (parseArgs). No I/O, no prompts.
-├── prompts.mjs         # Interactive readline prompts (text / yes-no / choice / integer).
-├── features.mjs        # featureKeys, presetDefaults, resolveFeatures, resolveMaxLinesLimit.
+├── prompts.mjs         # Interactive readline prompts (text / yes-no / choice / multi-select / integer).
+├── features.mjs        # featureKeys, presetDefaults, resolveFeatures, resolveMaxLinesLimit, resolveHooksAgents.
 ├── paths.mjs           # Filesystem entry: templateDir, restoreDotfiles, ensureTargetDirectory.
 ├── tokens.mjs          # applyTokens: replace __PACKAGE_NAME__ etc. in templates.
 ├── prune.mjs           # applyFeaturePruning + no-OpenAPI fallback sources.
 ├── package-json.mjs    # writePackageJson, writeEnvExample, lint-script wiring into `check`.
 ├── docs.mjs            # writeStarterDocs (README) + writeAgentFiles (AGENTS, CLAUDE).
 ├── husky.mjs           # writeHuskyHooks: regenerates .husky/pre-commit & commit-msg.
+├── agent-hooks.mjs     # writeAgentHooks: generates .claude/settings.json, .codex/hooks.json, and hook scripts.
 ├── lint-checks.mjs     # Renders optional check-file-naming / check-max-lines scripts.
 ├── utils.mjs           # Pure helpers: sanitizePackageName, toTitleCase, unsetKeys.
 ├── i18n/
@@ -71,14 +72,16 @@ the CLI must respect the conventions listed there.
 | `--title <name>` | App title displayed in the generated UI. |
 | `--package-name <name>` | Override the inferred package name. |
 | `--with feat1,feat2` | Force-enable features. |
-| `--<feature>` / `--no-<feature>` | Toggle individual features. Supported: `openspec`, `openapi`, `playwright`, `pages`, `agents`, `lint-file-naming`, `lint-max-lines`. |
+| `--<feature>` / `--no-<feature>` | Toggle individual features. Supported: `openspec`, `openapi`, `playwright`, `pages`, `agents`, `hooks`, `lint-file-naming`, `lint-max-lines`. |
 | `--max-lines <N>` | Per-file line limit for the `lint-max-lines` check. Integer between `100` and `1000` (inclusive). Default: `300`. |
+| `--hooks-agents <claude,codex>` | Which agents receive hooks (requires `--hooks`). Comma-separated. Default in `-y` mode: `claude,codex`. |
 
 Examples:
 
 ```bash
 npm create tanvite@latest my-app -- --lang zh-CN --preset full
 npm create tanvite@latest my-app -- -y --lang en --preset minimal --lint-file-naming --lint-max-lines
+npm create tanvite@latest my-app -- -y --preset minimal --hooks --hooks-agents claude
 ```
 
 The generated `CLAUDE.md` always contains a single `@AGENTS.md` reference, so
