@@ -93,6 +93,7 @@ const messages = {
 
   yesHint: 'Y/n',
   noHint: 'y/N',
+  multiSelectHint: '逗号分隔的编号或名称',
 
   scaffoldedSummary: ({ appName, dirRel }) => `已在 ${dirRel} 中生成 ${appName}`,
   nextStepsHeader: '后续步骤：',

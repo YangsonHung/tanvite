@@ -120,7 +120,8 @@ export async function resolveHooksAgents(parsed, features, messages) {
     messages.promptHooksAgents,
     HOOKS_AGENT_OPTIONS,
     HOOKS_AGENT_OPTIONS,
-    messages.hooksAgentsLabels
+    messages.hooksAgentsLabels,
+    messages
   );
 }
 

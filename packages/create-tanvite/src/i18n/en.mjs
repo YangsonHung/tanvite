@@ -93,6 +93,7 @@ const messages = {
 
   yesHint: 'Y/n',
   noHint: 'y/N',
+  multiSelectHint: 'comma-separated numbers or names',
 
   scaffoldedSummary: ({ appName, dirRel }) => `Scaffolded ${appName} in ${dirRel}`,
   nextStepsHeader: 'Next steps:',

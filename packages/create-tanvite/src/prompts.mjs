@@ -58,7 +58,7 @@ export async function promptInteger(label, defaultValue, options = {}) {
   }
 }
 
-export async function promptMultiSelect(label, choices, defaultSelected, displayMap = {}) {
+export async function promptMultiSelect(label, choices, defaultSelected, displayMap = {}, messages) {
   const defaultSet = new Set(defaultSelected);
 
   console.log(label);
@@ -73,7 +73,8 @@ export async function promptMultiSelect(label, choices, defaultSelected, display
     input: process.stdin,
     output: process.stdout,
   });
-  const answer = await rl.question('> [comma-separated numbers or names]: ');
+  const hint = messages?.multiSelectHint ?? 'comma-separated numbers or names';
+  const answer = await rl.question(`> [${hint}]: `);
   rl.close();
   const trimmed = answer.trim();
 
