@@ -45,7 +45,7 @@ export async function promptMultiSelect(label, choices, defaultSelected, display
 
 新增内容：
 - `features.hooks`: `'Include AI agent hooks (Claude Code / Codex)?'`
-- `featureLabels.hooks`: `'AI agent hooks (pnpm enforcement, context injection, boundary checks)'`
+- `featureLabels.hooks`: `'AI agent hooks (pnpm enforcement, context injection, FSD checks)'`
 - `promptHooksAgents`: `'Which agents should receive hooks?'`
 - `hooksAgentsLabels`: `{ claude: 'Claude Code', codex: 'Codex' }`
 - `hooks` 对象（类比 `lintScripts`），包含所有生成脚本中的用户可见字符串：
@@ -53,7 +53,7 @@ export async function promptMultiSelect(label, choices, defaultSelected, display
   - `protectFilesBlocked(file)`: 阻止编辑受保护文件的提示语
   - `protectFilesPatterns`: 受保护路径模式数组
   - `contextHeader` + `contextRules`: 注入上下文的标题和规则列表
-  - `stopBoundaryFail`: 边界检查失败提示
+  - `stopBoundaryFail`: FSD 检查失败提示
   - `notificationTitle` + `notificationBody`: macOS 通知标题和正文
 
 ### 5. `i18n/zh-CN.mjs` — 中文镜像

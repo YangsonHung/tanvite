@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  plugins: [tanstackRouter(), react()],
+  plugins: [tanstackRouter({ routesDirectory: './src/app/routes' }), react()],
   test: {
     // 使用 jsdom 模拟浏览器环境
     environment: 'jsdom',

@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
     root: __dirname,
     base: isPagesBuild ? '__PAGES_BASE_PATH__' : '/',
     cacheDir: path.resolve(__dirname, 'node_modules/.vite'),
-    plugins: [tanstackRouter(), react(), tailwindcss()],
+    plugins: [tanstackRouter({ routesDirectory: './src/app/routes' }), react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

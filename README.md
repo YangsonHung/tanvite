@@ -75,8 +75,8 @@ yarn create tanvite@latest my-app --hooks --hooks-agents claude,codex
 ### 🧭 Next Steps
 
 1. Replace the landing copy and branding.
-2. Add or remove routes under `src/routes`.
-3. Move reusable screen blocks into `src/widgets` and shared runtime logic into `src/shared`.
+2. Add or remove TanStack route entries under `src/app/routes`.
+3. Compose route-facing pages in `src/pages`, then move reusable screen blocks into `src/widgets` and shared runtime logic into `src/shared`.
 4. Keep the existing testing and CI setup as the project baseline.
 
 ## 🛠️ Maintainers Only
@@ -116,7 +116,8 @@ npm view create-tanvite version dist-tags --json --registry=https://registry.npm
 - Playwright for end-to-end tests
 - MSW and Prism for browser-level mocks and standalone mock server workflows
 - Husky + lint-staged + commitlint for commit workflow enforcement
-- AI agent hooks for Claude Code and Codex — pnpm enforcement, file protection, auto-format, context injection, boundary checks, and desktop notifications
+- Steiger-powered FSD structure and import-boundary checks
+- AI agent hooks for Claude Code and Codex — pnpm enforcement, file protection, auto-format, context injection, FSD checks, and desktop notifications
 
 ## 🧩 Tech Stack
 
@@ -239,7 +240,7 @@ When the `hooks` feature is enabled via `create-tanvite`, the generated project 
 | File protection | `PreToolUse` (Edit\|Write) | Blocks edits to `src/routeTree.gen.ts`, `src/shared/api/generated/`, `.env`, `package-lock.json` |
 | Auto-format | `PostToolUse` (Edit\|Write) | Runs `biome check --write` after every file edit |
 | Context injection | `SessionStart` | Injects project rules on session start and after context compaction |
-| Boundary check | `Stop` | Runs `pnpm check:boundaries` before the agent stops |
+| FSD check | `Stop` | Runs Steiger through `pnpm check:boundaries` before the agent stops |
 | Desktop notification | `Notification` | Sends a macOS notification when the agent needs input |
 
 ### Codex
@@ -248,7 +249,7 @@ When the `hooks` feature is enabled via `create-tanvite`, the generated project 
 | --- | --- | --- |
 | pnpm enforcement | `PreToolUse` (Bash) | Blocks `npm`, `yarn`, `bun` install commands |
 | Context injection | `SessionStart` | Injects project rules on session start |
-| Boundary check | `Stop` | Runs `pnpm check:boundaries` before the agent stops |
+| FSD check | `Stop` | Runs Steiger through `pnpm check:boundaries` before the agent stops |
 
 Select agents during scaffolding with `--hooks --hooks-agents claude`, `--hooks --hooks-agents codex`, or `--hooks --hooks-agents claude,codex`. The `full` preset enables hooks for both agents by default.
 
@@ -256,24 +257,24 @@ Select agents during scaffolding with `--hooks --hooks-agents claude`, `--hooks 
 
 ```text
 src/
-├── index.css
-├── main.tsx
 ├── routeTree.gen.ts
 ├── app/
 │   ├── main.tsx
 │   ├── providers/
+│   ├── routes/
+│   │   ├── __root.tsx
+│   │   └── index.tsx
 │   ├── router.tsx
 │   └── styles/
 ├── entities/
 ├── features/
-├── routes/
-│   ├── __root.tsx
-│   └── index.tsx
+├── pages/
+│   └── home/
 ├── shared/
 │   ├── api/
 │   ├── i18n/
 │   ├── lib/
-│   ├── types/
+│   ├── model/
 │   └── ui/
 ├── widgets/
 │   └── starter-home/
@@ -354,6 +355,8 @@ For regular production deployment, use `pnpm build`.
 - Track requirement and behavior changes in `openspec/changes` before implementation work grows
 - Keep `.agents/skills`, `.claude/skills`, and `.claude/commands/opsx` versioned with the project so Codex and Claude Code stay aligned on the same workflows
 - Point `OPENAPI_SCHEMA_URL` at your backend spec before running `pnpm openapi:generate`
+- Keep FSD layers as `app/pages/widgets/features/entities/shared`; `processes` is intentionally omitted because it is deprecated
+- Run `pnpm check:boundaries` to validate the FSD structure with Steiger
 - Generated API artifacts live under `src/shared/api/generated`
 - Keep shared query defaults in `src/shared/api/query-client.ts`
 - Use `src/shared/lib/utils.ts` for the `cn()` helper

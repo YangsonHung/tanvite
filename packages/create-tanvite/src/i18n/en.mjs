@@ -4,7 +4,7 @@ const featureLabels = {
   playwright: 'Playwright end-to-end tests',
   pages: 'GitHub Pages build support',
   agents: 'Codex and Claude Code agent assets',
-  hooks: 'AI agent hooks (pnpm enforcement, context injection, boundary checks)',
+  hooks: 'AI agent hooks (pnpm enforcement, context injection, FSD checks)',
   lintFileNaming: 'kebab-case file naming check script',
   lintMaxLines: 'Per-file line limit check script',
 };
@@ -28,7 +28,8 @@ ${hooksBlock}
 ## Project Notes
 
 - Package name: \`${packageName}\`
-- Keep route entries under \`src/routes\`
+- Keep TanStack route entries under \`src/app/routes\`
+- Compose pages under \`src/pages\`
 - Move reusable screen blocks into \`src/widgets\`
 - Keep app-wide runtime logic under \`src/shared\`
 - Regenerate the TanStack Router tree with \`pnpm routes:generate\`
@@ -45,7 +46,7 @@ Project instructions for Codex, Claude Code, and other AI coding agents.
 - Always use pnpm for scripts and package management.
 - Prefer editing source files over generated files.
 - Regenerate \`src/routeTree.gen.ts\` instead of editing it by hand.
-- Keep route entries in \`src/routes\`, reusable UI in \`src/widgets\`, and shared runtime logic in \`src/shared\`.
+- Keep TanStack route entries in \`src/app/routes\`, page composition in \`src/pages\`, reusable UI in \`src/widgets\`, and shared runtime logic in \`src/shared\`.
 - Keep changes focused and verify with the smallest useful command set.
 
 ## Verification Commands
@@ -87,7 +88,7 @@ const messages = {
   baseFeatures: [
     'React 19 + TypeScript + Vite 8',
     'TanStack Router + TanStack Query',
-    'Route-FSD starter structure',
+    'Complete FSD starter structure without processes',
     'Tailwind CSS v4 + Biome 2 + Vitest',
   ],
 
@@ -118,18 +119,24 @@ const messages = {
 
   hooks: {
     enforcePnpmBlocked: 'Blocked: This project uses pnpm exclusively. Use pnpm instead.',
-    protectFilesBlocked: (file) => `Blocked: ${file} is a generated/protected file. Fix the source instead.`,
-    protectFilesPatterns: ['src/routeTree.gen.ts', 'src/shared/api/generated/', '.env', 'package-lock.json'],
+    protectFilesBlocked: (file) =>
+      `Blocked: ${file} is a generated/protected file. Fix the source instead.`,
+    protectFilesPatterns: [
+      'src/routeTree.gen.ts',
+      'src/shared/api/generated/',
+      '.env',
+      'package-lock.json',
+    ],
     contextHeader: '[TanVite Project Rules]',
     contextRules: [
       'Package manager: pnpm only (never npm/yarn/bun)',
       'Formatter/Linter: Biome (never Prettier/ESLint)',
       'Generated files: src/routeTree.gen.ts and src/shared/api/generated/ are auto-generated — do not hand-edit',
-      'Import boundaries: shared < entities < features < widgets < routes < app (enforced by check:boundaries)',
+      'FSD boundaries: shared < entities < features < widgets < pages < app (enforced by Steiger via check:boundaries)',
       'Verification: run `pnpm check` after code changes; `pnpm test:run && pnpm build` after runtime changes',
       'Commit style: conventional commits enforced by commitlint',
     ],
-    stopBoundaryFail: 'Import boundary check failed. Run pnpm check:boundaries to see violations.',
+    stopBoundaryFail: 'FSD check failed. Run pnpm check:boundaries to see Steiger violations.',
     notificationTitle: 'Claude Code',
     notificationBody: 'Claude Code needs your attention',
     readmeSection: {
@@ -141,7 +148,7 @@ const messages = {
           '**File protection** (`PreToolUse`): blocks edits to generated/protected files (`src/routeTree.gen.ts`, `src/shared/api/generated/`, `.env`, `package-lock.json`).',
           '**Auto-format** (`PostToolUse`): runs `biome check --write` after every file edit.',
           '**Context injection** (`SessionStart`): injects project rules on session start and after context compaction.',
-          '**Boundary check** (`Stop`): runs `pnpm check:boundaries` before the agent stops — prevents violations from being left unfixed.',
+          '**FSD check** (`Stop`): runs `pnpm check:boundaries` before the agent stops — prevents Steiger violations from being left unfixed.',
           '**Desktop notification** (`Notification`): sends a macOS notification when the agent needs input.',
         ],
       },
@@ -150,7 +157,7 @@ const messages = {
         items: [
           '**pnpm enforcement** (`PreToolUse`): blocks `npm`, `yarn`, `bun` install commands.',
           '**Context injection** (`SessionStart`): injects project rules on session start.',
-          '**Boundary check** (`Stop`): runs `pnpm check:boundaries` before the agent stops.',
+          '**FSD check** (`Stop`): runs `pnpm check:boundaries` before the agent stops.',
         ],
       },
     },

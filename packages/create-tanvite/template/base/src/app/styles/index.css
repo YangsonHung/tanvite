@@ -2,7 +2,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @source "../../app/**/*.{ts,tsx}";
-@source "../../routes/**/*.{ts,tsx}";
+@source "../../pages/**/*.{ts,tsx}";
 @source "../../widgets/**/*.{ts,tsx}";
 @source "../../features/**/*.{ts,tsx}";
 @source "../../entities/**/*.{ts,tsx}";

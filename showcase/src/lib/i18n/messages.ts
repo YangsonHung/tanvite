@@ -30,16 +30,18 @@ export const showcaseMessages = {
       snapshotLabel: 'Project Snapshot',
       snapshotTitle: 'File layout that stays legible as the app grows',
       snapshotBody:
-        'The published scaffolder, starter template, Route-FSD app layers, and generated contracts are separated clearly, so starter users get a curated app while maintainers keep the full repository context.',
+        'The published scaffolder, starter template, complete FSD app layers, and generated contracts are separated clearly, so starter users get a curated app while maintainers keep the full repository context.',
       codePreview: `src/
 ├── app/
 │   ├── main.tsx
 │   ├── providers/
+│   ├── routes/
+│   │   ├── __root.tsx
+│   │   └── index.tsx
 │   ├── router.tsx
 │   └── styles/
-├── routes/
-│   ├── __root.tsx
-│   └── index.tsx
+├── pages/
+│   └── home/
 ├── widgets/
 │   └── starter-home/
 ├── shared/
@@ -109,8 +111,8 @@ pnpm dev`,
         },
         item5: {
           label: 'Quality',
-          title: 'Biome 2 + Playwright',
-          body: 'Linting, formatting, unit tests, E2E checks, Route-FSD boundary checks, and mock flows are already scripted.',
+          title: 'Biome 2 + Steiger + Playwright',
+          body: 'Linting, formatting, unit tests, E2E checks, Steiger-powered FSD checks, and mock flows are already scripted.',
         },
       },
       workflow: {
@@ -120,7 +122,7 @@ pnpm dev`,
         },
         item2: {
           title: 'Specify and build',
-          body: 'Track changes in openspec/, reuse Codex skills from .agents/skills, keep Claude Code assets in .claude/skills and .claude/commands/opsx, add route entries under src/routes, grow reusable UI through widgets and shared slices, and regenerate API clients from OpenAPI.',
+          body: 'Track changes in openspec/, reuse Codex skills from .agents/skills, keep Claude Code assets in .claude/skills and .claude/commands/opsx, add route entries under src/app/routes, compose pages under src/pages, grow reusable UI through widgets and shared slices, and regenerate API clients from OpenAPI.',
         },
         item3: {
           title: 'Verify and ship',
@@ -174,7 +176,7 @@ pnpm dev`,
           point2:
             'OpenSpec in spec-driven mode, .agents/skills for Codex, and .claude/skills for Claude Code',
           point3:
-            'Codex and Claude Code support on top of TanStack Router, TanStack Query, Route-FSD, Orval, MSW, Prism, Biome 2, Vitest, and Playwright',
+            'Codex and Claude Code support on top of TanStack Router, TanStack Query, complete FSD without processes, Orval, MSW, Prism, Biome 2, Steiger, Vitest, and Playwright',
         },
         workflow: {
           title: 'Spec and agent workflow',
@@ -226,16 +228,18 @@ pnpm dev`,
       snapshotLabel: '项目快照',
       snapshotTitle: '随着项目变大依然清晰可读的文件结构',
       snapshotBody:
-        '已发布的脚手架、starter 模板、Route-FSD 应用层次和生成产物分层清晰，让 starter 使用者拿到整理后的应用骨架，同时维护者继续保有完整仓库上下文。',
+        '已发布的脚手架、starter 模板、完整 FSD 应用层次和生成产物分层清晰，让 starter 使用者拿到整理后的应用骨架，同时维护者继续保有完整仓库上下文。',
       codePreview: `src/
 ├── app/
 │   ├── main.tsx
 │   ├── providers/
+│   ├── routes/
+│   │   ├── __root.tsx
+│   │   └── index.tsx
 │   ├── router.tsx
 │   └── styles/
-├── routes/
-│   ├── __root.tsx
-│   └── index.tsx
+├── pages/
+│   └── home/
 ├── widgets/
 │   └── starter-home/
 ├── shared/
@@ -305,8 +309,8 @@ pnpm dev`,
         },
         item5: {
           label: '质量',
-          title: 'Biome 2 + Playwright',
-          body: 'Lint、格式化、单测、E2E、Route-FSD 边界检查与 mock 工作流都已经脚本化。',
+          title: 'Biome 2 + Steiger + Playwright',
+          body: 'Lint、格式化、单测、E2E、基于 Steiger 的 FSD 检查与 mock 工作流都已经脚本化。',
         },
       },
       workflow: {
@@ -316,7 +320,7 @@ pnpm dev`,
         },
         item2: {
           title: '规格到实现',
-          body: '在 openspec/ 中跟踪变更，复用 .agents/skills 里的 Codex 技能，维护 .claude/skills 与 .claude/commands/opsx 里的 Claude Code 资产，在 src/routes 下扩展路由入口，并通过 widgets 和 shared 分层沉淀复用代码。',
+          body: '在 openspec/ 中跟踪变更，复用 .agents/skills 里的 Codex 技能，维护 .claude/skills 与 .claude/commands/opsx 里的 Claude Code 资产，在 src/app/routes 下扩展路由入口，在 src/pages 下组合页面，并通过 widgets 和 shared 分层沉淀复用代码。',
         },
         item3: {
           title: '验证与交付',
@@ -368,7 +372,7 @@ pnpm dev`,
           point2:
             'spec-driven 模式的 OpenSpec、面向 Codex 的 .agents/skills 与面向 Claude Code 的 .claude/skills',
           point3:
-            '在 TanStack Router、TanStack Query、Route-FSD、Orval、MSW、Prism、Biome 2、Vitest 和 Playwright 之上支持 Codex 与 Claude Code',
+            '在 TanStack Router、TanStack Query、不含 processes 的完整 FSD、Orval、MSW、Prism、Biome 2、Steiger、Vitest 和 Playwright 之上支持 Codex 与 Claude Code',
         },
         workflow: {
           title: '规格与技能工作流',

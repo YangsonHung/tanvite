@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-export async function writeAgentHooks(targetDir, features, hooksAgents, messages) {
+export async function writeAgentHooks(targetDir, _features, hooksAgents, messages) {
   if (!hooksAgents) return;
 
   const writes = [];
@@ -238,7 +238,8 @@ function renderCodexSettings() {
           hooks: [
             {
               type: 'command',
-              command: 'bash "$(git rev-parse --show-toplevel)"/.codex/hooks/stop-boundaries-check.sh',
+              command:
+                'bash "$(git rev-parse --show-toplevel)"/.codex/hooks/stop-boundaries-check.sh',
               timeout: 30,
             },
           ],

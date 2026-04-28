@@ -32,7 +32,13 @@ export async function writeStarterDocs(targetDir, context) {
 
   const hooksSection = buildHooksSection(hooksAgents, messages);
 
-  const readme = messages.readmeTemplate({ appName, packageName, featureList, commandLines, hooksSection });
+  const readme = messages.readmeTemplate({
+    appName,
+    packageName,
+    featureList,
+    commandLines,
+    hooksSection,
+  });
   await fs.writeFile(path.join(targetDir, 'README.md'), `${readme}\n`, 'utf8');
 }
 

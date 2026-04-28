@@ -1,5 +1,5 @@
 import { createRouter } from '@tanstack/react-router';
-import { queryClient } from '@/shared/api/query-client';
+import { queryClient } from '@/shared/api';
 import { routeTree } from '../routeTree.gen';
 
 const routerBasepath = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';

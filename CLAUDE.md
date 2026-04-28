@@ -11,8 +11,9 @@ TanVite is a production-oriented React 19 starter with:
 - OpenSpec for spec-driven change tracking
 - `.agents/skills/` for Codex and `.claude/skills/` for Claude Code
 - TanStack Router + TanStack Query
+- Full Feature-Sliced Design layers without deprecated `processes`
 - OpenAPI / Orval / MSW / Prism
-- Biome, Vitest, Playwright
+- Biome, Steiger, Vitest, Playwright
 - GitHub Pages showcase support
 
 ## Working Rules
@@ -77,9 +78,11 @@ pnpm openapi:mock
 ## Important Paths
 
 ```text
-src/app/               App entry, providers, router wiring, global styles
-src/routes/            TanStack Router route files and page-level composition
+src/app/               App entry, providers, router wiring, app routes, global styles
+src/pages/             FSD pages layer for route-facing page composition
 src/widgets/           Reusable route-facing UI blocks
+src/features/          FSD feature slices
+src/entities/          FSD entity slices
 src/shared/            Shared runtime logic, API config, query client, utilities
 showcase/              Public showcase app (landing page, guide, site-only styles)
 packages/create-tanvite/ CLI package and curated starter template source
@@ -131,6 +134,7 @@ Run the smallest useful verification set for the change:
 - TypeScript or UI code: `pnpm build`
 - tooling/runtime changes: `pnpm test:run && pnpm build`
 - formatting/lint issues: `pnpm check`
+- FSD structure and import boundaries are checked by Steiger through `pnpm check:boundaries`.
 
 ## Deployment Notes
 

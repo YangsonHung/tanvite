@@ -75,8 +75,8 @@ yarn create tanvite@latest my-app --hooks --hooks-agents claude,codex
 ### 🧭 下一步
 
 1. 替换首页文案和品牌信息。
-2. 在 `src/routes` 下添加或删除页面路由。
-3. 把可复用页面区块沉淀到 `src/widgets`，把共享运行时能力沉淀到 `src/shared`。
+2. 在 `src/app/routes` 下添加或删除 TanStack 路由入口。
+3. 在 `src/pages` 中组合页面，再把可复用页面区块沉淀到 `src/widgets`，把共享运行时能力沉淀到 `src/shared`。
 4. 保留现有测试和 CI 作为项目基线。
 
 ## 🛠️ 仅维护者
@@ -116,7 +116,8 @@ npm view create-tanvite version dist-tags --json --registry=https://registry.npm
 - 使用 Playwright 进行 E2E 测试
 - 使用 MSW 与 Prism 提供浏览器 mock 和独立 mock server 工作流
 - 使用 Husky + lint-staged + commitlint 约束提交流程
-- AI 代理钩子（支持 Claude Code 与 Codex）— pnpm 强制、文件保护、自动格式化、上下文注入、边界检查和桌面通知
+- 基于 Steiger 的 FSD 结构和导入边界检查
+- AI 代理钩子（支持 Claude Code 与 Codex）— pnpm 强制、文件保护、自动格式化、上下文注入、FSD 检查和桌面通知
 
 ## 🧩 技术栈
 
@@ -239,7 +240,7 @@ pnpm openspec:spec:list
 | 文件保护 | `PreToolUse` (Edit\|Write) | 阻止编辑 `src/routeTree.gen.ts`、`src/shared/api/generated/`、`.env`、`package-lock.json` |
 | 自动格式化 | `PostToolUse` (Edit\|Write) | 每次文件编辑后自动运行 `biome check --write` |
 | 上下文注入 | `SessionStart` | 会话启动及上下文压缩后注入项目规则 |
-| 边界检查 | `Stop` | 代理停止前运行 `pnpm check:boundaries` |
+| FSD 检查 | `Stop` | 代理停止前通过 `pnpm check:boundaries` 运行 Steiger |
 | 桌面通知 | `Notification` | 代理需要输入时发送 macOS 通知 |
 
 ### Codex
@@ -248,7 +249,7 @@ pnpm openspec:spec:list
 | --- | --- | --- |
 | pnpm 强制 | `PreToolUse` (Bash) | 阻止 `npm`、`yarn`、`bun` 安装命令 |
 | 上下文注入 | `SessionStart` | 会话启动时注入项目规则 |
-| 边界检查 | `Stop` | 代理停止前运行 `pnpm check:boundaries` |
+| FSD 检查 | `Stop` | 代理停止前通过 `pnpm check:boundaries` 运行 Steiger |
 
 脚手架阶段可通过 `--hooks --hooks-agents claude`、`--hooks --hooks-agents codex` 或 `--hooks --hooks-agents claude,codex` 选择代理。`full` 预设默认为两个代理同时启用钩子。
 
@@ -256,24 +257,24 @@ pnpm openspec:spec:list
 
 ```text
 src/
-├── index.css
-├── main.tsx
 ├── routeTree.gen.ts
 ├── app/
 │   ├── main.tsx
 │   ├── providers/
+│   ├── routes/
+│   │   ├── __root.tsx
+│   │   └── index.tsx
 │   ├── router.tsx
 │   └── styles/
 ├── entities/
 ├── features/
-├── routes/
-│   ├── __root.tsx
-│   └── index.tsx
+├── pages/
+│   └── home/
 ├── shared/
 │   ├── api/
 │   ├── i18n/
 │   ├── lib/
-│   ├── types/
+│   ├── model/
 │   └── ui/
 ├── widgets/
 │   └── starter-home/
@@ -354,6 +355,8 @@ pnpm routes:generate
 - 在功能实现逐渐变大之前，先把需求和行为变更沉淀到 `openspec/changes`
 - 把 `.agents/skills`、`.claude/skills` 和 `.claude/commands/opsx` 一起纳入版本管理，让 Codex 和 Claude Code 始终基于同一套协作约定工作
 - 运行 `pnpm openapi:generate` 之前，先把 `OPENAPI_SCHEMA_URL` 指向你的后端契约地址
+- FSD 分层保持为 `app/pages/widgets/features/entities/shared`；`processes` 因已废弃而刻意不提供
+- 运行 `pnpm check:boundaries` 通过 Steiger 校验 FSD 结构
 - 生成的 API 产物位于 `src/shared/api/generated`
 - 在 `src/shared/api/query-client.ts` 中维护共享 Query 默认配置
 - 在 `src/shared/lib/utils.ts` 中使用 `cn()` 工具函数

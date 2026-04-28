@@ -58,7 +58,13 @@ export async function promptInteger(label, defaultValue, options = {}) {
   }
 }
 
-export async function promptMultiSelect(label, choices, defaultSelected, displayMap = {}, messages) {
+export async function promptMultiSelect(
+  label,
+  choices,
+  defaultSelected,
+  displayMap = {},
+  messages
+) {
   const defaultSet = new Set(defaultSelected);
 
   console.log(label);

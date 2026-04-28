@@ -22,6 +22,11 @@ export async function applyFeaturePruning(targetDir, features) {
 
     await fs.writeFile(path.join(targetDir, 'src/app/main.tsx'), noOpenApiMainSource(), 'utf8');
     await fs.writeFile(
+      path.join(targetDir, 'src/shared/api/index.ts'),
+      noOpenApiApiIndexSource(),
+      'utf8'
+    );
+    await fs.writeFile(
       path.join(targetDir, 'src/shared/api/config.ts'),
       noOpenApiConfigSource(),
       'utf8'
@@ -68,6 +73,12 @@ createRoot(rootElement).render(
     </AppProviders>
   </StrictMode>
 );
+`;
+}
+
+function noOpenApiApiIndexSource() {
+  return `export { apiBaseUrl } from './config';
+export { queryClient } from './query-client';
 `;
 }
 

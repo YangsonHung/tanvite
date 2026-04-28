@@ -19,7 +19,9 @@ export default defineConfig(({ mode }) => {
       __dirname,
       isShowcase ? 'node_modules/.vite-showcase' : 'node_modules/.vite'
     ),
-    plugins: isShowcase ? [react(), tailwindcss()] : [tanstackRouter(), react(), tailwindcss()],
+    plugins: isShowcase
+      ? [react(), tailwindcss()]
+      : [tanstackRouter({ routesDirectory: './src/app/routes' }), react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
